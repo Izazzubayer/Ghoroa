@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Ghoroa Traditional Cuisine</title>
+    
+    <!-- Local Offline-First Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Hind+Siliguri:wght@300;400;500;600;700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'g-rust': '#A8461E',
+                        'g-clay': '#D98B5F',
+                        'g-sand': '#EFE3D0',
+                        'g-espresso': '#2E2117',
+                        'g-olive': '#6E7350',
+                        'g-brass': '#A9824E'
+                    },
+                    fontFamily: {
+                        'fraunces': ['Fraunces', 'serif'],
+                        'work-sans': ['Work Sans', 'sans-serif'],
+                        'hind': ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="bg-g-espresso text-g-sand sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <span class="font-fraunces italic text-3xl">Ghoroa</span>
+                <span class="font-hind text-xl text-g-clay">ঘরোয়া</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="hover:text-g-clay text-sm font-medium">Home</a>
+                <a href="menu.html" class="text-g-clay text-sm font-medium">Menu</a>
+                <a href="admin.html" class="hover:text-g-clay text-sm font-medium text-g-clay/70">Admin Portal</a>
+                
+                <!-- Language Toggle -->
+                <button id="langToggle" class="flex items-center gap-2 border border-g-sand/40 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="ph ph-translate text-base"></i>
+                    <span id="langLabel">EN</span>
+                </button>
+
+                <!-- Cart Button Trigger -->
+                <button id="openCartBtn" class="relative bg-g-rust text-white px-5 py-2.5 rounded-full font-semibold text-sm flex items-center gap-2 hover:bg-orange-800 transition-colors">
+                    <i class="ph ph-shopping-bag text-lg"></i>
+                    <span class="lang-en">Cart</span>
+                    <span class="lang-bn">কার্ট</span>
+                    <span class="cart-count-badge bg-white text-g-rust text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="bg-g-sand/40 py-12 border-b border-g-espresso/10">
+        <div class="max-w-7xl mx-auto px-8 text-center">
+            <h1 class="text-4xl md:text-5xl text-g-espresso mb-3">
+                <span class="lang-en">Ghoroa Menu</span>
+                <span class="lang-bn">ঘরোয়া খাবারের তালিকা</span>
+            </h1>
+            <p class="text-g-espresso/70 max-w-lg mx-auto">
+                <span class="lang-en">Authentic Bangladeshi dishes prepared with generations-old recipes.</span>
+                <span class="lang-bn">প্রজন্মের পর প্রজন্ম ধরে চলে আসা ঐতিহ্যবাহী বাংলাদেশি রান্না।</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl mx-auto px-8 py-12 w-full">
+        <!-- Controls: Category Filter + Search + View Switcher (Grid vs List) -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+            <!-- Category Filter Tabs -->
+            <div id="categoryTabs" class="flex flex-wrap gap-2">
+                <button data-cat="all" class="cat-btn active">
+                    <span class="lang-en">All</span><span class="lang-bn">সবকিছু</span>
+                </button>
+                <button data-cat="breakfast" class="cat-btn">
+                    <span class="lang-en">Breakfast</span><span class="lang-bn">সকালের নাস্তা</span>
+                </button>
+                <button data-cat="mains" class="cat-btn">
+                    <span class="lang-en">Lunch & Dinner</span><span class="lang-bn">দুপুর ও রাত</span>
+                </button>
+                <button data-cat="kebabs" class="cat-btn">
+                    <span class="lang-en">Kebabs & Breads</span><span class="lang-bn">কাবাব ও নান</span>
+                </button>
+                <button data-cat="desserts" class="cat-btn">
+                    <span class="lang-en">Desserts & Drinks</span><span class="lang-bn">মিষ্টি ও পানীয়</span>
+                </button>
+                <button data-cat="flower_rice" class="cat-btn">
+                    <span class="lang-en">Tk 200 Flower Rice</span><span class="lang-bn">২০০টাকা ফুলের ভাত</span>
+                </button>
+            </div>
+
+            <!-- Right Controls: Search + View Switcher -->
+            <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-64">
+                    <input id="menuSearch" type="text" placeholder="Search dishes..." class="w-full pl-10 pr-4 py-2 rounded-full border border-g-espresso/20 bg-white text-sm focus:outline-none focus:border-g-rust">
+                    <i class="ph ph-magnifying-glass absolute left-3.5 top-2.5 text-g-espresso/50"></i>
+                </div>
+
+                <!-- View Toggle Buttons -->
+                <div class="flex items-center gap-1 bg-white p-1 rounded-lg border border-g-espresso/20">
+                    <button id="viewGridBtn" class="view-btn active" title="Grid View">
+                        <i class="ph ph-squares-four text-lg"></i>
+                    </button>
+                    <button id="viewListBtn" class="view-btn" title="List View">
+                        <i class="ph ph-list text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Container (Dynamic Grid / List Rendering) -->
+        <div id="menuContainer" class="space-y-12">
+            <!-- Injected via JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-g-espresso text-g-sand/60 py-12 mt-16 border-t border-g-brass/20">
+        <div class="max-w-7xl mx-auto px-8 text-center text-sm">
+            <p>&copy; 2026 Ghoroa Restaurant. Authentic Bangladeshi Dining.</p>
+        </div>
+    </footer>
+
+    <!-- App State & Cart Scripts -->
+    <script src="assets/js/app-state.js"></script>
+    <script src="assets/js/cart-drawer.js"></script>
+
+    <script>
+        const CATEGORY_NAMES = {
+            'breakfast': { en: 'Breakfast', bn: 'সকালের নাস্তা' },
+            'mains': { en: 'Lunch & Dinner Mains', bn: 'দুপুরের ও রাতের খাবার' },
+            'kebabs': { en: 'Kebabs, Grills & Breads', bn: 'কাবাব, তন্দুর ও নান' },
+            'desserts': { en: 'Desserts & Beverages', bn: 'মিষ্টি ও পানীয়' },
+            'flower_rice': { en: 'Tk 200 Flower Rice Special', bn: 'টাকা ২০০ ফুলের ভুনা স্পেশাল' }
+        };
+
+        let currentViewMode = localStorage.getItem('ghoroa_view_mode') || 'grid'; // 'grid' or 'list'
+
+        function renderMenu(categoryFilter = 'all', searchQuery = '') {
+            const products = window.GhoroaState.getProducts();
+            const container = document.getElementById('menuContainer');
+            
+            // Filter products
+            const filtered = products.filter(p => {
+                const matchesCat = categoryFilter === 'all' || p.category === categoryFilter;
+                const matchesSearch = p.name_en.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.name_bn.includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-16 text-g-espresso/60 font-fraunces text-xl">No items found matching your search.</div>`;
+                return;
+            }
+
+            // Group filtered items by category
+            const grouped = {};
+            filtered.forEach(p => {
+                const cat = p.category || 'mains';
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(p);
+            });
+
+            let html = '';
+
+            // Render each category section
+            Object.keys(grouped).forEach(catKey => {
+                const catTitle = CATEGORY_NAMES[catKey] || { en: catKey, bn: catKey };
+                const items = grouped[catKey];
+
+                html += `
+                <section class="space-y-6">
+                    <div class="border-b border-g-espresso/15 pb-3 flex items-baseline gap-3">
+                        <h2 class="text-3xl text-g-espresso">
+                            <span class="lang-en">${catTitle.en}</span>
+                            <span class="lang-bn">${catTitle.bn}</span>
+                        </h2>
+                        <span class="text-xs text-g-rust font-bold uppercase tracking-wider">(${items.length} items)</span>
+                    </div>
+                `;
+
+                if (currentViewMode === 'list') {
+                    // ── LIST VIEW TABLE RENDERING ────────────────────────────────
+                    html += `
+                    <div class="overflow-x-auto">
+                        <table class="menu-list-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 8%;">#</th>
+                                    <th style="width: 50%;">Item & Details</th>
+                                    <th style="width: 22%; text-align: right;">Price</th>
+                                    <th style="width: 20%; text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    items.forEach((p, idx) => {
+                        const takeawayPrice = p.takeaway || p.price;
+
+                        html += `
+                            <tr>
+                                <td class="py-4 font-semibold text-g-espresso/50 text-sm">${idx + 1}</td>
+                                <td class="py-4">
+                                    <div class="font-fraunces font-semibold text-g-espresso text-lg">
+                                        <span class="lang-en">${p.name_en}</span>
+                                        <span class="lang-bn">${p.name_bn}</span>
+                                    </div>
+                                    <div class="font-hind text-xs text-g-clay font-medium mt-0.5">
+                                        <span class="lang-en">${p.name_bn}</span>
+                                        <span class="lang-bn">${p.name_en}</span>
+                                    </div>
+                                    <div class="text-xs text-g-espresso/70 leading-relaxed mt-1">
+                                        <span class="lang-en">${p.desc_en}</span>
+                                        <span class="lang-bn">${p.desc_bn}</span>
+                                    </div>
+                                </td>
+                                <td style="text-align: right;" class="py-4">
+                                    <div class="font-fraunces font-bold text-g-rust text-xl">৳${takeawayPrice}</div>
+                                </td>
+                                <td style="text-align: right;" class="py-4">
+                                    <button class="add-to-cart-btn bg-g-sand text-g-espresso hover:bg-g-rust hover:text-white px-5 py-2 rounded-full text-xs font-semibold transition-colors inline-flex items-center gap-1.5 shadow-sm" data-id="${p.id}">
+                                        <i class="ph ph-plus text-sm"></i>
+                                        <span class="lang-en">Add to Order</span>
+                                        <span class="lang-bn">যোগ করুন</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    `;
+                } else {
+                    // ── GRID VIEW CARDS RENDERING ────────────────────────────────
+                    html += `<div class="grid grid-cols-1 md:grid-cols-3 gap-8">`;
+                    items.forEach(p => {
+                        const takeawayPrice = p.takeaway || p.price;
+
+                        html += `
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-g-espresso/5 flex flex-col justify-between">
+                            <div>
+                                <div class="h-52 overflow-hidden">
+                                    <img src="${p.image}" alt="${p.name_en}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-2xl text-g-espresso mb-2">
+                                        <span class="lang-en">${p.name_en}</span>
+                                        <span class="lang-bn">${p.name_bn}</span>
+                                    </h3>
+                                    <p class="text-g-espresso/70 text-sm mb-4 leading-relaxed">
+                                        <span class="lang-en">${p.desc_en}</span>
+                                        <span class="lang-bn">${p.desc_bn}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-6 pt-2 flex justify-between items-center border-t border-g-sand/50">
+                                <span class="font-fraunces text-2xl text-g-rust font-bold">৳${takeawayPrice}</span>
+                                <button class="add-to-cart-btn bg-g-sand text-g-espresso hover:bg-g-rust hover:text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-colors flex items-center gap-2" data-id="${p.id}">
+                                    <i class="ph ph-plus"></i>
+                                    <span class="lang-en">Add to Cart</span>
+                                    <span class="lang-bn">যোগ করুন</span>
+                                </button>
+                            </div>
+                        </div>
+                        `;
+                    });
+                    html += `</div>`;
+                }
+
+                html += `</section>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Init View Switcher & Event Handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            const gridBtn = document.getElementById('viewGridBtn');
+            const listBtn = document.getElementById('viewListBtn');
+
+            function updateViewToggleUI() {
+                if (currentViewMode === 'list') {
+                    listBtn.classList.add('active');
+                    gridBtn.classList.remove('active');
+                } else {
+                    gridBtn.classList.add('active');
+                    listBtn.classList.remove('active');
+                }
+            }
+
+            updateViewToggleUI();
+            renderMenu();
+
+            gridBtn.addEventListener('click', () => {
+                currentViewMode = 'grid';
+                localStorage.setItem('ghoroa_view_mode', 'grid');
+                updateViewToggleUI();
+                const activeCat = document.querySelector('.cat-btn.active')?.dataset.cat || 'all';
+                renderMenu(activeCat, document.getElementById('menuSearch').value);
+            });
+
+            listBtn.addEventListener('click', () => {
+                currentViewMode = 'list';
+                localStorage.setItem('ghoroa_view_mode', 'list');
+                updateViewToggleUI();
+                const activeCat = document.querySelector('.cat-btn.active')?.dataset.cat || 'all';
+                renderMenu(activeCat, document.getElementById('menuSearch').value);
+            });
+
+            // Language Toggle
+            const langToggleBtn = document.getElementById('langToggle');
+            const langLabel = document.getElementById('langLabel');
+            const body = document.body;
+
+            if (localStorage.getItem('ghoroa_lang') === 'bn') {
+                body.classList.add('lang-bn-active');
+                if (langLabel) langLabel.innerText = 'BN';
+            }
+
+            langToggleBtn.addEventListener('click', () => {
+                body.classList.toggle('lang-bn-active');
+                const isBn = body.classList.contains('lang-bn-active');
+                if (langLabel) langLabel.innerText = isBn ? 'BN' : 'EN';
+                localStorage.setItem('ghoroa_lang', isBn ? 'bn' : 'en');
+            });
+
+            // Category Filter Handlers
+            const catBtns = document.querySelectorAll('.cat-btn');
+            catBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetBtn = e.target.closest('.cat-btn');
+                    if (!targetBtn) return;
+
+                    catBtns.forEach(b => b.classList.remove('active'));
+                    targetBtn.classList.add('active');
+
+                    const cat = targetBtn.dataset.cat;
+                    renderMenu(cat, document.getElementById('menuSearch').value);
+                });
+            });
+
+            // Search Handler
+            document.getElementById('menuSearch').addEventListener('input', (e) => {
+                const activeCat = document.querySelector('.cat-btn.active')?.dataset.cat || 'all';
+                renderMenu(activeCat, e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>

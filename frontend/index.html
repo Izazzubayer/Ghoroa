@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghoroa | Traditional Bengali Cuisine</title>
+    
+    <!-- Local Offline-First Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Hind+Siliguri:wght@300;400;500;600;700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'g-rust': '#A8461E',
+                        'g-clay': '#D98B5F',
+                        'g-sand': '#EFE3D0',
+                        'g-espresso': '#2E2117',
+                        'g-olive': '#6E7350',
+                        'g-brass': '#A9824E'
+                    },
+                    fontFamily: {
+                        'fraunces': ['Fraunces', 'serif'],
+                        'work-sans': ['Work Sans', 'sans-serif'],
+                        'hind': ['Hind Siliguri', 'sans-serif']
+                    },
+                    borderRadius: {
+                        'arch': '120px 120px 0 0'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Work Sans', sans-serif;
+            color: #2E2117;
+            background-color: #FBF6EE;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fraunces', serif;
+        }
+        
+        /* Language Toggle Styles */
+        .lang-bn { display: none; font-family: 'Hind Siliguri', sans-serif; }
+        body.lang-bn-active .lang-en { display: none; }
+        body.lang-bn-active .lang-bn { display: inline-block; }
+        body.lang-bn-active h1 .lang-bn, 
+        body.lang-bn-active h2 .lang-bn, 
+        body.lang-bn-active h3 .lang-bn, 
+        body.lang-bn-active h4 .lang-bn { 
+            display: block; 
+            font-family: 'Hind Siliguri', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Custom Arch Crop */
+        .img-arch {
+            border-radius: 120px 120px 0 0;
+            object-fit: cover;
+        }
+        
+        /* Smooth Image Hover */
+        .hover-scale {
+            transition: transform 0.5s ease;
+        }
+        .group:hover .hover-scale {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="absolute top-0 w-full z-50 px-8 py-6 flex justify-between items-center text-g-sand">
+        <a href="index.html" class="flex items-center gap-3">
+            <span class="font-fraunces italic text-3xl tracking-tight">Ghoroa</span>
+            <span class="font-hind text-xl font-medium text-g-clay">ঘরোয়া</span>
+        </a>
+        <div class="hidden md:flex gap-8 font-medium text-sm tracking-wide items-center">
+            <a href="menu.html" class="hover:text-g-clay transition-colors">
+                <span class="lang-en">Menu</span>
+                <span class="lang-bn">মেনু</span>
+            </a>
+            <a href="#about" class="hover:text-g-clay transition-colors">
+                <span class="lang-en">Our Story</span>
+                <span class="lang-bn">আমাদের গল্প</span>
+            </a>
+            <a href="admin.html" class="hover:text-g-clay transition-colors text-g-clay/80">
+                <span class="lang-en">Admin Dashboard</span>
+                <span class="lang-bn">এডমিন ড্যাশবোর্ড</span>
+            </a>
+            <!-- Language Toggle Button -->
+            <button id="langToggle" class="flex items-center gap-2 border border-g-sand/40 px-3 py-1 rounded-full hover:bg-g-sand/10 transition-colors ml-4">
+                <i class="ph ph-translate text-lg"></i>
+                <span id="langLabel" class="font-semibold text-xs tracking-widest">EN</span>
+            </button>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="openCartBtn" class="bg-g-rust text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-orange-800 transition-colors flex items-center gap-2">
+                <i class="ph ph-shopping-bag text-lg"></i>
+                <span class="lang-en">Cart</span>
+                <span class="lang-bn">কার্ট</span>
+                <span class="cart-count-badge bg-white text-g-rust text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-[90vh] bg-g-espresso overflow-hidden flex items-center">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-g-espresso/60 z-10"></div>
+            <img src="assets/images/hero_bg.png" alt="Bangladeshi Feast" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+            <div class="max-w-2xl" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="text-5xl md:text-7xl text-white leading-tight mb-6 tracking-tight">
+                    <span class="lang-en">Authentic Bengali <br> <span class="italic text-g-clay font-light">Flavours at Home</span></span>
+                    <span class="lang-bn text-5xl md:text-7xl">ঘরে বসে খাঁটি <br> <span class="text-g-clay font-light">বাঙালির স্বাদ</span></span>
+                </h1>
+                <p class="text-g-sand/80 text-lg md:text-xl mb-10 leading-relaxed max-w-lg font-light">
+                    <span class="lang-en">Experience the rich, aromatic heritage of traditional Bangladeshi cuisine, prepared with generations-old recipes and delivered fresh to your door.</span>
+                    <span class="lang-bn text-lg">ঐতিহ্যবাহী বাংলাদেশি খাবারের স্বাদ উপভোগ করুন, যা প্রজন্মের পর প্রজন্ম ধরে চলে আসা রেসিপিতে তৈরি এবং তাজা অবস্থায় আপনার দোরগোড়ায় পৌঁছে দেওয়া হয়।</span>
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 bg-g-rust text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-orange-800 transition-colors">
+                    <span class="lang-en">View Menu</span>
+                    <span class="lang-bn">মেনু দেখুন</span> 
+                    <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Section (Arch Design) -->
+    <section class="py-24 px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+            <!-- Arch Image -->
+            <div class="lg:w-1/2 relative" data-aos="fade-right" data-aos-duration="1000">
+                <div class="absolute -inset-4 bg-g-sand rounded-arch -z-10 translate-y-8 translate-x-4"></div>
+                <img src="assets/images/feature_arch.png" alt="Traditional Thali" class="w-full h-[600px] img-arch shadow-2xl">
+                <!-- Overlapping Card -->
+                <div class="absolute bottom-10 -right-8 bg-g-espresso text-g-sand p-8 rounded-lg shadow-xl max-w-xs hidden md:block border border-g-brass/20" data-aos="fade-up" data-aos-delay="300">
+                    <i class="ph-fill ph-leaf text-3xl text-g-olive mb-4"></i>
+                    <h4 class="text-xl mb-2">
+                        <span class="lang-en">Fresh Ingredients</span>
+                        <span class="lang-bn">তাজা উপাদান</span>
+                    </h4>
+                    <p class="text-sm font-light leading-relaxed">
+                        <span class="lang-en">Sourced daily from local markets to ensure the most authentic taste in every bite.</span>
+                        <span class="lang-bn">প্রতিটি লোকমায় খাঁটি স্বাদ নিশ্চিত করতে প্রতিদিন স্থানীয় বাজার থেকে সংগ্রহ করা হয়।</span>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Text Content -->
+            <div class="lg:w-1/2" data-aos="fade-left" data-aos-duration="1000">
+                <span class="text-g-rust font-semibold tracking-widest uppercase text-sm mb-4 block">
+                    <span class="lang-en">Our Story</span>
+                    <span class="lang-bn">আমাদের গল্প</span>
+                </span>
+                <h2 class="text-4xl md:text-5xl text-g-espresso mb-6 leading-tight">
+                    <span class="lang-en">A Legacy of <br> Culinary Excellence</span>
+                    <span class="lang-bn">রন্ধনশিল্পে আমাদের <br> ঐতিহ্য</span>
+                </h2>
+                <p class="text-g-espresso/70 text-lg leading-relaxed mb-8">
+                    <span class="lang-en">Since our founding, Ghoroa has been synonymous with the true taste of Bengal. We believe that good food is the foundation of genuine happiness, and every dish we serve is a testament to the rich culinary traditions of our ancestors.</span>
+                    <span class="lang-bn">আমাদের প্রতিষ্ঠার শুরু থেকেই, ঘরোয়া মানেই বাংলার আসল স্বাদ। আমরা বিশ্বাস করি ভালো খাবারই হলো প্রকৃত সুখের ভিত্তি, এবং আমাদের পরিবেশন করা প্রতিটি খাবার আমাদের পূর্বপুরুষদের সমৃদ্ধ রন্ধন ঐতিহ্যের প্রমাণ।</span>
+                </p>
+                <div class="grid grid-cols-2 gap-8 mb-10">
+                    <div>
+                        <h4 class="text-3xl text-g-clay mb-2">
+                            <span class="lang-en">25+</span>
+                            <span class="lang-bn">২৫+</span>
+                        </h4>
+                        <p class="text-sm text-g-espresso/60 uppercase tracking-wide font-semibold">
+                            <span class="lang-en">Years of Service</span>
+                            <span class="lang-bn">বছরের সেবা</span>
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-3xl text-g-clay mb-2">
+                            <span class="lang-en">10k+</span>
+                            <span class="lang-bn">১০ হাজার+</span>
+                        </h4>
+                        <p class="text-sm text-g-espresso/60 uppercase tracking-wide font-semibold">
+                            <span class="lang-en">Happy Customers</span>
+                            <span class="lang-bn">সন্তুষ্ট গ্রাহক</span>
+                        </p>
+                    </div>
+                </div>
+                <a href="#" class="inline-flex border-b-2 border-g-rust text-g-rust font-semibold pb-1 hover:text-g-espresso hover:border-g-espresso transition-colors">
+                    <span class="lang-en">Read Full Story</span>
+                    <span class="lang-bn">পুরো গল্পটি পড়ুন</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlights (3 Columns) -->
+    <section class="py-24 bg-g-sand/30">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-g-rust font-semibold tracking-widest uppercase text-sm mb-4 block">
+                    <span class="lang-en">Our Signatures</span>
+                    <span class="lang-bn">আমাদের বিশেষত্ব</span>
+                </span>
+                <h2 class="text-4xl md:text-5xl text-g-espresso">
+                    <span class="lang-en">Customer Favourites</span>
+                    <span class="lang-bn">গ্রাহকদের পছন্দের</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="100">
+                    <div class="overflow-hidden h-64">
+                        <img src="assets/images/dish_1.png" alt="Beef Bhuna" class="w-full h-full object-cover hover-scale">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl text-g-espresso mb-2">
+                            <span class="lang-en">Beef Bhuna</span>
+                            <span class="lang-bn">গরুর মাংস ভুনা</span>
+                        </h3>
+                        <p class="text-g-espresso/70 mb-6 text-sm leading-relaxed">
+                            <span class="lang-en">Slow-cooked, spicy beef curry with a rich, dark gravy and aromatic spices.</span>
+                            <span class="lang-bn">ধীর আঁচে রান্না করা মশলাদার গরুর মাংসের কারি, গাঢ় ঝোল এবং সুগন্ধি মশলায় ভরপুর।</span>
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-fraunces text-xl text-g-rust font-semibold">
+                                <span class="lang-en">৳450</span>
+                                <span class="lang-bn">৳৪৫০</span>
+                            </span>
+                            <button class="add-to-cart-btn w-10 h-10 rounded-full bg-g-sand flex items-center justify-center text-g-rust group-hover:bg-g-rust group-hover:text-white transition-colors" data-id="beef-bhuna">
+                                <i class="ph ph-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="200">
+                    <div class="overflow-hidden h-64">
+                        <img src="assets/images/dish_2.png" alt="Prawn Malai Curry" class="w-full h-full object-cover hover-scale">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl text-g-espresso mb-2">
+                            <span class="lang-en">Prawn Malai Curry</span>
+                            <span class="lang-bn">চিংড়ি মালাই কারি</span>
+                        </h3>
+                        <p class="text-g-espresso/70 mb-6 text-sm leading-relaxed">
+                            <span class="lang-en">Jumbo prawns cooked in a creamy, mildly spiced coconut milk gravy.</span>
+                            <span class="lang-bn">নারকেলের দুধে রান্না করা গলদা চিংড়ি, হালকা মশলায় প্রস্তুত ক্রিমি কারি।</span>
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-fraunces text-xl text-g-rust font-semibold">
+                                <span class="lang-en">৳650</span>
+                                <span class="lang-bn">৳৬৫০</span>
+                            </span>
+                            <button class="add-to-cart-btn w-10 h-10 rounded-full bg-g-sand flex items-center justify-center text-g-rust group-hover:bg-g-rust group-hover:text-white transition-colors" data-id="prawn-malai">
+                                <i class="ph ph-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow" data-aos="fade-up" data-aos-delay="300">
+                    <div class="overflow-hidden h-64">
+                        <img src="assets/images/dish_3.png" alt="Kacchi Biryani" class="w-full h-full object-cover hover-scale">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl text-g-espresso mb-2">
+                            <span class="lang-en">Kacchi Biryani</span>
+                            <span class="lang-bn">কাচ্চি বিরিয়ানি</span>
+                        </h3>
+                        <p class="text-g-espresso/70 mb-6 text-sm leading-relaxed">
+                            <span class="lang-en">Traditional Dhaka-style biryani with tender mutton, potatoes, and fragrant basmati.</span>
+                            <span class="lang-bn">নরম খাসির মাংস, আলু এবং সুগন্ধি বাসমতী চালের ঐতিহ্যবাহী ঢাকাইয়া স্টাইলের বিরিয়ানি।</span>
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-fraunces text-xl text-g-rust font-semibold">
+                                <span class="lang-en">৳550</span>
+                                <span class="lang-bn">৳৫৫০</span>
+                            </span>
+                            <button class="add-to-cart-btn w-10 h-10 rounded-full bg-g-sand flex items-center justify-center text-g-rust group-hover:bg-g-rust group-hover:text-white transition-colors" data-id="kacchi-biryani">
+                                <i class="ph ph-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="menu.html" class="inline-flex border border-g-espresso text-g-espresso px-8 py-3 rounded-md font-semibold hover:bg-g-espresso hover:text-white transition-colors">
+                    <span class="lang-en">View Full Menu</span>
+                    <span class="lang-bn">সম্পূর্ণ মেনু দেখুন</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community / Feedback Dual Pane -->
+    <section class="max-w-7xl mx-auto px-8 py-24">
+        <div class="bg-g-espresso rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="md:w-1/2 p-12 lg:p-20 flex flex-col justify-center relative">
+                <i class="ph-fill ph-quotes text-6xl text-g-clay/20 absolute top-12 left-12"></i>
+                <h2 class="text-3xl md:text-4xl text-g-sand mb-6">
+                    <span class="lang-en">"The best biryani outside of Old Dhaka."</span>
+                    <span class="lang-bn">"পুরান ঢাকার বাইরে সেরা বিরিয়ানি।"</span>
+                </h2>
+                <p class="text-g-sand/70 mb-8 leading-relaxed">
+                    <span class="lang-en">We pride ourselves on community feedback. Thousands of families trust Ghoroa for their weekend feasts and special occasions.</span>
+                    <span class="lang-bn">আমরা গ্রাহকদের মতামতের মূল্যায়ন করি। হাজারো পরিবার তাদের ছুটির দিনের ভোজ এবং বিশেষ অনুষ্ঠানের জন্য ঘরোয়াকে বিশ্বাস করে।</span>
+                </p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-g-clay rounded-full flex items-center justify-center text-white font-bold">AS</div>
+                    <div>
+                        <p class="text-white font-semibold">
+                            <span class="lang-en">Aminul Sadik</span>
+                            <span class="lang-bn">আমিনুল সাদিক</span>
+                        </p>
+                        <p class="text-g-sand/60 text-sm">
+                            <span class="lang-en">Local Food Critic</span>
+                            <span class="lang-bn">স্থানীয় ফুড ক্রিটিক</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <img src="assets/images/community_bg.png" alt="Restaurant Interior" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#1A120C] text-g-sand/60 py-16">
+        <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-g-sand/10 pb-12">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="font-fraunces italic text-2xl tracking-tight text-white">Ghoroa</span>
+                    <span class="font-hind text-lg font-medium text-g-clay">ঘরোয়া</span>
+                </div>
+                <p class="text-sm leading-relaxed mb-6">
+                    <span class="lang-en">Delivering the authentic taste of Bengali cuisine straight to your doorstep since 1998.</span>
+                    <span class="lang-bn">১৯৯৮ সাল থেকে খাঁটি বাঙালি খাবারের স্বাদ সরাসরি আপনার দরজায় পৌঁছে দিচ্ছি।</span>
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-g-sand hover:text-white transition-colors"><i class="ph-fill ph-facebook-logo text-2xl"></i></a>
+                    <a href="#" class="text-g-sand hover:text-white transition-colors"><i class="ph-fill ph-instagram-logo text-2xl"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-semibold mb-6">
+                    <span class="lang-en">Quick Links</span>
+                    <span class="lang-bn">প্রয়োজনীয় লিংক</span>
+                </h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-g-clay transition-colors">
+                        <span class="lang-en">Our Menu</span><span class="lang-bn">আমাদের মেনু</span>
+                    </a></li>
+                    <li><a href="#" class="hover:text-g-clay transition-colors">
+                        <span class="lang-en">About Us</span><span class="lang-bn">আমাদের সম্পর্কে</span>
+                    </a></li>
+                    <li><a href="#" class="hover:text-g-clay transition-colors">
+                        <span class="lang-en">Delivery Zones</span><span class="lang-bn">ডেলিভারি এলাকা</span>
+                    </a></li>
+                    <li><a href="#" class="hover:text-g-clay transition-colors">
+                        <span class="lang-en">Contact</span><span class="lang-bn">যোগাযোগ</span>
+                    </a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-6">
+                    <span class="lang-en">Contact Us</span>
+                    <span class="lang-bn">যোগাযোগ করুন</span>
+                </h4>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start gap-3"><i class="ph-fill ph-map-pin text-g-clay mt-1"></i> <span class="lang-en">123 Mirpur Road, Dhaka 1205</span><span class="lang-bn">১২৩ মিরপুর রোড, ঢাকা ১২০৫</span></li>
+                    <li class="flex items-center gap-3"><i class="ph-fill ph-phone text-g-clay"></i> <span class="lang-en">+880 1711 223344</span><span class="lang-bn">+৮৮০ ১৭১১ ২২৩৩৪৪</span></li>
+                    <li class="flex items-center gap-3"><i class="ph-fill ph-envelope text-g-clay"></i> hello@ghoroa.com</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-semibold mb-6">
+                    <span class="lang-en">Opening Hours</span>
+                    <span class="lang-bn">খোলার সময়</span>
+                </h4>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex justify-between border-b border-g-sand/10 pb-2">
+                        <span class="lang-en">Mon - Thu</span><span class="lang-bn">সোম - বৃহস্পতি</span> 
+                        <span class="lang-en">11:00 AM - 10:30 PM</span><span class="lang-bn">১১:০০ - রাত ১০:৩০</span>
+                    </li>
+                    <li class="flex justify-between border-b border-g-sand/10 pb-2">
+                        <span class="lang-en">Friday</span><span class="lang-bn">শুক্রবার</span> 
+                        <span class="lang-en">02:00 PM - 11:00 PM</span><span class="lang-bn">০২:০০ - রাত ১১:০০</span>
+                    </li>
+                    <li class="flex justify-between border-b border-g-sand/10 pb-2">
+                        <span class="lang-en">Sat - Sun</span><span class="lang-bn">শনি - রবি</span> 
+                        <span class="lang-en">11:00 AM - 11:00 PM</span><span class="lang-bn">১১:০০ - রাত ১১:০০</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-8 pt-8 text-sm text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; 2026 Ghoroa Restaurant. All rights reserved.</p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition-colors">
+                    <span class="lang-en">Privacy Policy</span><span class="lang-bn">গোপনীয়তা নীতি</span>
+                </a>
+                <a href="#" class="hover:text-white transition-colors">
+                    <span class="lang-en">Terms of Service</span><span class="lang-bn">পরিষেবার শর্তাবলী</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App State & Cart Drawer Scripts -->
+    <script src="assets/js/app-state.js"></script>
+    <script src="assets/js/cart-drawer.js"></script>
+
+    <!-- Initialize AOS Animation & Language Toggle -->
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+        });
+
+        // Language Toggle Logic
+        const langToggleBtn = document.getElementById('langToggle');
+        const langLabel = document.getElementById('langLabel');
+        const body = document.body;
+
+        // Check local storage for preference
+        if (localStorage.getItem('ghoroa_lang') === 'bn') {
+            body.classList.add('lang-bn-active');
+            langLabel.innerText = 'BN';
+        }
+
+        langToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('lang-bn-active');
+            
+            if (body.classList.contains('lang-bn-active')) {
+                langLabel.innerText = 'BN';
+                localStorage.setItem('ghoroa_lang', 'bn');
+            } else {
+                langLabel.innerText = 'EN';
+                localStorage.setItem('ghoroa_lang', 'en');
+            }
+        });
+    </script>
+</body>
+</html>

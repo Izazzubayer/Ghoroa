@@ -1,0 +1,363 @@
+# Translation of ghoroa-core in Bangla
+# This file is distributed under the same license as the ghoroa-core package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ghoroa-core 1.0.0\n"
+"Report-Msgid-Bugs-To: https://ghoroa.com\n"
+"POT-Creation-Date: 2026-07-23\n"
+"PO-Revision-Date: 2026-07-23\n"
+"Last-Translator: Ghoroa Team\n"
+"Language-Team: Bangla\n"
+"Language: bn_BD\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Ghoroa Core"
+msgstr "ঘরোয়া কোর"
+
+msgid "requires WooCommerce to be installed and active."
+msgstr "WooCommerce ইনস্টল এবং সক্রিয় থাকতে হবে।"
+
+msgid "Ghoroa Rider"
+msgstr "ঘরোয়া রাইডার"
+
+# Order Statuses
+msgid "New Order"
+msgstr "নতুন অর্ডার"
+
+msgid "Confirmed"
+msgstr "নিশ্চিত"
+
+msgid "Preparing"
+msgstr "প্রস্তুতি চলছে"
+
+msgid "Ready"
+msgstr "প্রস্তুত"
+
+msgid "Out for Delivery"
+msgstr "ডেলিভারিতে আছে"
+
+msgid "Delivered"
+msgstr "পৌঁছে গেছে"
+
+msgid "Completed"
+msgstr "সম্পন্ন"
+
+msgid "Cancelled"
+msgstr "বাতিল"
+
+msgid "Rejected"
+msgstr "প্রত্যাখ্যাত"
+
+msgid "Failed Delivery"
+msgstr "ডেলিভারি ব্যর্থ"
+
+# Checkout
+msgid "Order Type"
+msgstr "অর্ডারের ধরন"
+
+msgid "Delivery"
+msgstr "ডেলিভারি"
+
+msgid "Pickup from Restaurant"
+msgstr "রেস্তোরাঁ থেকে নিয়ে যাওয়া"
+
+msgid "Delivery Address"
+msgstr "ডেলিভারি ঠিকানা"
+
+msgid "House / Flat no., Road, Block..."
+msgstr "বাড়ি / ফ্ল্যাট নং, রোড, ব্লক..."
+
+msgid "Area"
+msgstr "এলাকা"
+
+msgid "— Select area —"
+msgstr "— এলাকা বেছে নিন —"
+
+msgid "Special Instructions"
+msgstr "বিশেষ নির্দেশনা"
+
+msgid "Allergies, spice level, knock instead of ring..."
+msgstr "অ্যালার্জি, মসলার মাত্রা, বেল না বাজিয়ে দরজায় নক করুন..."
+
+msgid "First Name"
+msgstr "প্রথম নাম"
+
+msgid "Last Name"
+msgstr "শেষ নাম"
+
+msgid "Mobile Number"
+msgstr "মোবাইল নম্বর"
+
+msgid "Email (optional)"
+msgstr "ইমেইল (ঐচ্ছিক)"
+
+msgid "Please enter your delivery address."
+msgstr "অনুগ্রহ করে আপনার ডেলিভারি ঠিকানা লিখুন।"
+
+msgid "Please select your delivery area."
+msgstr "অনুগ্রহ করে আপনার ডেলিভারি এলাকা বেছে নিন।"
+
+msgid "Please enter your mobile number."
+msgstr "অনুগ্রহ করে আপনার মোবাইল নম্বর লিখুন।"
+
+msgid "Delivery Fee"
+msgstr "ডেলিভারি চার্জ"
+
+msgid "Ghoroa Order Details"
+msgstr "ঘরোয়া অর্ডারের বিবরণ"
+
+msgid "Order Type"
+msgstr "অর্ডারের ধরন"
+
+msgid "Delivery Area"
+msgstr "ডেলিভারি এলাকা"
+
+msgid "Delivery Address"
+msgstr "ডেলিভারি ঠিকানা"
+
+msgid "Delivery Fee (BDT)"
+msgstr "ডেলিভারি চার্জ (টাকা)"
+
+msgid "Payment Method"
+msgstr "পেমেন্ট পদ্ধতি"
+
+# Dashboard
+msgid "Today's Revenue"
+msgstr "আজকের আয়"
+
+msgid "orders completed"
+msgstr "অর্ডার সম্পন্ন"
+
+msgid "Pending"
+msgstr "অপেক্ষমাণ"
+
+msgid "awaiting action"
+msgstr "ব্যবস্থার অপেক্ষায়"
+
+msgid "Out for Delivery"
+msgstr "ডেলিভারিতে আছে"
+
+msgid "with riders now"
+msgstr "এখন রাইডারের সাথে"
+
+msgid "Cancelled"
+msgstr "বাতিল"
+
+msgid "today"
+msgstr "আজ"
+
+msgid "Today's Orders"
+msgstr "আজকের অর্ডার"
+
+msgid "Popular Today"
+msgstr "আজকের জনপ্রিয়"
+
+msgid "No orders yet today. The kitchen is ready."
+msgstr "আজ এখনো কোনো অর্ডার নেই। রান্নাঘর প্রস্তুত।"
+
+msgid "Accept"
+msgstr "গ্রহণ করুন"
+
+msgid "Start Preparing"
+msgstr "প্রস্তুতি শুরু করুন"
+
+msgid "Mark Ready"
+msgstr "প্রস্তুত চিহ্নিত করুন"
+
+msgid "Out for Delivery"
+msgstr "ডেলিভারিতে পাঠান"
+
+msgid "Delivered"
+msgstr "পৌঁছে দেওয়া হয়েছে"
+
+msgid "Cancel"
+msgstr "বাতিল করুন"
+
+msgid "Pickup"
+msgstr "পিকআপ"
+
+msgid "— assign —"
+msgstr "— নিয়োগ করুন —"
+
+# Analytics
+msgid "Revenue"
+msgstr "আয়"
+
+msgid "Avg Order Value"
+msgstr "গড় অর্ডার মূল্য"
+
+msgid "per order"
+msgstr "প্রতি অর্ডারে"
+
+msgid "Cancel Rate"
+msgstr "বাতিলের হার"
+
+msgid "cancelled"
+msgstr "বাতিল"
+
+msgid "Returning Customers"
+msgstr "পুনরায় অর্ডারকারী"
+
+msgid "all-time"
+msgstr "সর্বকালীন"
+
+msgid "Today"
+msgstr "আজ"
+
+msgid "This Week"
+msgstr "এই সপ্তাহ"
+
+msgid "This Month"
+msgstr "এই মাস"
+
+msgid "Daily Breakdown"
+msgstr "দৈনিক বিবরণ"
+
+msgid "Popular Items"
+msgstr "জনপ্রিয় আইটেম"
+
+msgid "orders"
+msgstr "অর্ডার"
+
+# Delivery Zones
+msgid "Delivery Zones"
+msgstr "ডেলিভারি জোন"
+
+msgid "Active Zones"
+msgstr "সক্রিয় জোন"
+
+msgid "Zone Name"
+msgstr "জোনের নাম"
+
+msgid "Covered Areas"
+msgstr "অন্তর্ভুক্ত এলাকা"
+
+msgid "Flat Delivery Fee (BDT)"
+msgstr "নির্দিষ্ট ডেলিভারি চার্জ (টাকা)"
+
+msgid "Add Zone"
+msgstr "জোন যোগ করুন"
+
+msgid "Edit Zone"
+msgstr "জোন সম্পাদনা"
+
+msgid "Update Zone"
+msgstr "জোন আপডেট"
+
+msgid "Zone saved successfully."
+msgstr "জোন সফলভাবে সংরক্ষিত হয়েছে।"
+
+msgid "Zone name is required."
+msgstr "জোনের নাম প্রয়োজন।"
+
+# Customers
+msgid "Customers"
+msgstr "গ্রাহক"
+
+msgid "Customer Records"
+msgstr "গ্রাহকের রেকর্ড"
+
+msgid "Auto-populated from completed orders. Notes are editable inline."
+msgstr "সম্পন্ন অর্ডার থেকে স্বয়ংক্রিয়ভাবে পূরণ হয়। নোট সরাসরি সম্পাদনযোগ্য।"
+
+msgid "Customer"
+msgstr "গ্রাহক"
+
+msgid "Orders"
+msgstr "অর্ডার"
+
+msgid "Avg. Frequency"
+msgstr "গড় কেনার ব্যবধান"
+
+msgid "Last Order"
+msgstr "শেষ অর্ডার"
+
+msgid "Notes"
+msgstr "নোট"
+
+msgid "Every %d days"
+msgstr "প্রতি %d দিনে"
+
+msgid "Loyal"
+msgstr "নিয়মিত"
+
+msgid "Guest"
+msgstr "অতিথি"
+
+msgid "Add a note…"
+msgstr "একটি নোট যোগ করুন…"
+
+msgid "Save"
+msgstr "সংরক্ষণ করুন"
+
+# Menu availability
+msgid "Available Today"
+msgstr "আজ উপলব্ধ"
+
+msgid "Uncheck to hide this item from the menu without deleting it."
+msgstr "মুছে না ফেলে মেনু থেকে লুকাতে আনচেক করুন।"
+
+msgid "Mark as Available (Ghoroa)"
+msgstr "উপলব্ধ হিসেবে চিহ্নিত করুন (ঘরোয়া)"
+
+msgid "Mark as Unavailable (Ghoroa)"
+msgstr "অনুপলব্ধ হিসেবে চিহ্নিত করুন (ঘরোয়া)"
+
+# Bilingual
+msgid "Ghoroa — Bangla Translation"
+msgstr "ঘরোয়া — বাংলা অনুবাদ"
+
+msgid "Name (Bangla)"
+msgstr "নাম (বাংলা)"
+
+msgid "Description (Bangla)"
+msgstr "বিবরণ (বাংলা)"
+
+msgid "Language switcher"
+msgstr "ভাষা পরিবর্তক"
+
+# Notifications / Emails
+msgid "Ghoroa — Order Confirmed"
+msgstr "ঘরোয়া — অর্ডার নিশ্চিত"
+
+msgid "Sent to the customer when their order is confirmed by the kitchen."
+msgstr "রান্নাঘর অর্ডার নিশ্চিত করলে গ্রাহককে পাঠানো হয়।"
+
+msgid "We've got your order."
+msgstr "আমরা আপনার অর্ডার পেয়েছি।"
+
+msgid "Your Ghoroa order is confirmed 🍽️"
+msgstr "আপনার ঘরোয়া অর্ডার নিশ্চিত হয়েছে 🍽️"
+
+msgid "Ghoroa — Out for Delivery"
+msgstr "ঘরোয়া — ডেলিভারিতে রওনা"
+
+msgid "Sent when the rider picks up the order."
+msgstr "রাইডার অর্ডার নেওয়ার পর পাঠানো হয়।"
+
+msgid "On the way to you."
+msgstr "আপনার দিকে আসছে।"
+
+msgid "Your Ghoroa order is on its way 🛵"
+msgstr "আপনার ঘরোয়া অর্ডার আসছে 🛵"
+
+msgid "%1$s is on the way — should be with you in about 20 minutes."
+msgstr "%1$s আসছেন — আনুমানিক ২০ মিনিটের মধ্যে পৌঁছাবেন।"
+
+msgid "your rider"
+msgstr "আপনার রাইডার"
+
+msgid "Unassigned"
+msgstr "নিয়োগহীন"
+
+msgid "— Unassigned —"
+msgstr "— নিয়োগহীন —"
+
+msgid "Status updated by Ghoroa dashboard."
+msgstr "ঘরোয়া ড্যাশবোর্ড থেকে স্ট্যাটাস আপডেট হয়েছে।"
+
+msgid "Status updated via Ghoroa dashboard."
+msgstr "ঘরোয়া ড্যাশবোর্ড থেকে স্ট্যাটাস আপডেট হয়েছে।"

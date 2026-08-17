@@ -1,0 +1,14 @@
+{
+  "name": "gharowa-deck",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export:pdf": "node export-pdf.mjs deck.html GHOROA_Proposal.pdf"
+  },
+  "dependencies": {
+    "puppeteer": "^24.22.0"
+  },
+  "devDependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}
