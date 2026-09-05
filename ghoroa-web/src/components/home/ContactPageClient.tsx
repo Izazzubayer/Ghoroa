@@ -31,8 +31,6 @@ import { Stepper } from '@/components/watermelon/stepper';
 import { contactCopy } from '@/lib/contact-copy';
 import { localePrefix, type Locale, type LocationItem, type Settings } from '@/lib/cms';
 
-const channelLabel =
-  'font-body text-xs font-medium uppercase tracking-[0.14em] text-muted';
 const visitLabel =
   'font-body text-xs font-medium uppercase tracking-[0.14em] text-muted';
 
@@ -68,6 +66,13 @@ function waHref(settings: Settings) {
   return `https://wa.me/${digits}`;
 }
 
+/** Normalize BD numbers so Call/WhatsApp display the same (+880…). */
+function displayPhone(raw: string) {
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return raw;
+  return digits.startsWith('880') ? `+${digits}` : raw.startsWith('+') ? raw : `+${digits}`;
+}
+
 function mohakhaliAddress(settings: Settings) {
   return settings.address?.toLowerCase().includes('mohakhali')
     ? settings.address
@@ -98,6 +103,34 @@ export function ContactPageClient({
   const address = mohakhaliAddress(settings);
   const mapSrc = mapsEmbedSrc(address, locations[0]?.map_embed);
   const slots = timeSlots(locale);
+  const phoneDisplay = displayPhone(settings.phone);
+  const whatsappDisplay = displayPhone(settings.whatsapp || settings.phone);
+  const channels = [
+    {
+      key: 'call',
+      href: `tel:${settings.phone.replace(/\s/g, '')}`,
+      label: copy.call,
+      value: phoneDisplay,
+      icon: Phone,
+      external: false,
+    },
+    {
+      key: 'whatsapp',
+      href: waHref(settings),
+      label: copy.whatsapp,
+      value: whatsappDisplay,
+      icon: MessageCircle,
+      external: true,
+    },
+    {
+      key: 'email',
+      href: `mailto:${settings.email}`,
+      label: copy.email,
+      value: settings.email,
+      icon: Mail,
+      external: false,
+    },
+  ] as const;
   const [pending, setPending] = useState(false);
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState('');
@@ -189,127 +222,106 @@ export function ContactPageClient({
         className="grain relative bg-parchment py-20 text-ink lg:py-28"
         aria-labelledby="contact-form-title"
       >
-        <div className="mx-auto grid max-w-[82rem] gap-16 px-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:px-10">
-          <Reveal>
+        <div className="mx-auto grid max-w-[82rem] items-start gap-16 px-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch lg:gap-20 lg:px-10">
+          <Reveal className="flex h-full flex-col">
             <Eyebrow tone="terracotta">{copy.channelsEyebrow}</Eyebrow>
             <h2 className="display mt-4 text-[clamp(1.7rem,3vw,2.4rem)] leading-[1.12]">
               {copy.channelsTitle}
             </h2>
-            <ul className="mt-10 space-y-6">
-              <li>
-                <a
-                  href={`tel:${settings.phone.replace(/\s/g, '')}`}
-                  className="group flex items-start gap-4"
-                >
-                  <Phone className="mt-1 h-5 w-5 shrink-0 text-forest" strokeWidth={1.6} aria-hidden />
-                  <span>
-                    <span className={channelLabel}>
-                      {copy.call}
-                    </span>
-                    <span className="font-numeral mt-1 block text-lg text-ink transition-colors group-hover:text-forest">
-                      {settings.phone}
-                    </span>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={waHref(settings)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-start gap-4"
-                >
-                  <MessageCircle className="mt-1 h-5 w-5 shrink-0 text-forest" strokeWidth={1.6} aria-hidden />
-                  <span>
-                    <span className={channelLabel}>
-                      {copy.whatsapp}
-                    </span>
-                    <span className="font-numeral mt-1 block text-lg text-ink transition-colors group-hover:text-forest">
-                      {settings.whatsapp || settings.phone}
-                    </span>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${settings.email}`} className="group flex items-start gap-4">
-                  <Mail className="mt-1 h-5 w-5 shrink-0 text-forest" strokeWidth={1.6} aria-hidden />
-                  <span>
-                    <span className={channelLabel}>
-                      {copy.email}
-                    </span>
-                    <span className="mt-1 block text-lg text-ink transition-colors group-hover:text-forest">
-                      {settings.email}
-                    </span>
-                  </span>
-                </a>
-              </li>
+            <ul className="mt-8 space-y-3.5">
+              {channels.map((channel) => {
+                const Icon = channel.icon;
+                return (
+                  <li key={channel.key}>
+                    <a
+                      href={channel.href}
+                      {...(channel.external
+                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                        : {})}
+                      className="group grid grid-cols-[1rem_6.5rem_minmax(0,1fr)] items-center gap-x-3 focus-visible:outline-none"
+                    >
+                      <Icon
+                        className="size-3.5 text-forest transition-colors group-hover:text-ink"
+                        strokeWidth={1.6}
+                        aria-hidden
+                      />
+                      <span className="font-body text-[0.7rem] font-medium uppercase tracking-[0.12em] text-muted">
+                        {channel.label}
+                      </span>
+                      <span className="font-body justify-self-end text-right text-[0.95rem] tabular-nums text-ink break-all transition-colors group-hover:text-forest">
+                        {channel.value}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
 
-            <div className="mt-14 border-t border-ink/12 pt-10">
-              <Eyebrow tone="terracotta">{copy.visitEyebrow}</Eyebrow>
-              <h3 className="display mt-4 text-[1.5rem] text-forest">{copy.visitTitle}</h3>
-              <dl className="mt-6 space-y-5">
+            <div className="mt-8 flex min-h-0 flex-1 flex-col">
+              <div className="flex flex-wrap items-end justify-between gap-3">
                 <div>
-                  <dt className={visitLabel}>
-                    {copy.hours}
-                  </dt>
-                  <dd className="mt-1 text-[0.95rem] leading-[1.7] text-muted">{settings.hours}</dd>
+                  <Eyebrow tone="terracotta">{copy.visitEyebrow}</Eyebrow>
+                  <h3 className="display mt-2 text-[1.35rem] text-forest">{copy.visitTitle}</h3>
                 </div>
-                <div>
-                  <dt className={visitLabel}>
-                    {copy.address}
-                  </dt>
-                  <dd className="mt-1 text-[0.95rem] leading-[1.7] text-muted">{address}</dd>
-                </div>
-              </dl>
-              <a
-                href={mapsHref(address)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 text-[0.9rem] text-forest underline-offset-4 hover:underline"
-              >
-                <MapPin className="h-4 w-4 text-forest" strokeWidth={1.6} aria-hidden />
-                {copy.directions}
-              </a>
+                <a
+                  href={mapsHref(address)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-[0.85rem] text-forest underline-offset-4 hover:underline"
+                >
+                  <MapPin className="h-4 w-4" strokeWidth={1.6} aria-hidden />
+                  {copy.directions}
+                </a>
+              </div>
 
-              <div className="mt-8 overflow-hidden border border-ink/12">
+              {locations.length > 0 ? (
+                <div className="mt-4">
+                  <p className={visitLabel}>{copy.locationsTitle}</p>
+                  <ul className="mt-2 space-y-1.5">
+                    {locations.slice(0, 3).map((loc) => (
+                      <li key={loc.id} className="text-[0.85rem] leading-[1.55] text-muted">
+                        <span className="font-medium text-forest">{loc.name}</span>
+                        <span className="mx-1.5 text-ink/30">·</span>
+                        {loc.address}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={`${prefix}/locations`}
+                    className="mt-2 inline-block text-[0.85rem] text-forest underline-offset-4 hover:underline"
+                  >
+                    {copy.locationsCta}
+                  </Link>
+                </div>
+              ) : null}
+
+              <div className="mt-4 min-h-[16rem] flex-1 overflow-hidden border border-ink/12 lg:min-h-0">
                 <iframe
                   title={locale === 'bn' ? 'ঘরোয়ার মানচিত্র' : 'Ghoroa on the map'}
                   src={mapSrc}
-                  className="aspect-4/3 w-full grayscale-[20%] contrast-[1.05]"
+                  className="h-full min-h-[16rem] w-full grayscale-[20%] contrast-[1.05] lg:min-h-full"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen
                 />
               </div>
 
-              {locations.length > 0 ? (
-                <div className="mt-10">
-                  <p className={visitLabel}>
-                    {copy.locationsTitle}
-                  </p>
-                  <ul className="mt-4 space-y-3">
-                    {locations.slice(0, 3).map((loc) => (
-                      <li key={loc.id} className="text-[0.9rem] leading-[1.6] text-muted">
-                        <p className="font-medium text-forest">{loc.name}</p>
-                        <p>{loc.address}</p>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href={`${prefix}/locations`}
-                    className="mt-4 inline-block text-[0.9rem] text-forest underline-offset-4 hover:underline"
-                  >
-                    {copy.locationsCta}
-                  </Link>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <p className={visitLabel}>{copy.hours}</p>
+                  <p className="mt-1 text-[0.9rem] leading-[1.6] text-muted">{settings.hours}</p>
                 </div>
-              ) : null}
+                <div>
+                  <p className={visitLabel}>{copy.address}</p>
+                  <p className="mt-1 text-[0.9rem] leading-[1.6] text-muted">{address}</p>
+                </div>
+              </div>
             </div>
           </Reveal>
 
-          <Reveal delay={0.08}>
-            <form onSubmit={onSubmit} aria-labelledby="contact-form-title">
-              <Card className="bg-parchment text-ink ring-ink/12 [--card-spacing:--spacing(6)] sm:[--card-spacing:--spacing(8)]">
+          <Reveal delay={0.08} className="h-full">
+            <form onSubmit={onSubmit} className="h-full" aria-labelledby="contact-form-title">
+              <Card className="h-full bg-parchment text-ink ring-ink/12 [--card-spacing:--spacing(6)] sm:[--card-spacing:--spacing(8)]">
                 <CardHeader className="border-b border-ink/10">
                   <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted">
                     {copy.formEyebrow}
@@ -429,7 +441,7 @@ export function ContactPageClient({
                   </FieldGroup>
                 </CardContent>
 
-                <CardFooter className="justify-start border-ink/10 bg-transparent">
+                <CardFooter className="mt-auto justify-start border-ink/10 bg-transparent">
                   <Button type="submit" disabled={pending} size="cta">
                     {pending
                       ? locale === 'bn'
