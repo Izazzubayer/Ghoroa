@@ -1,5 +1,5 @@
 /**
- * Contrast guard for the forest/gold palette (ported from design/prototype-react).
+ * Contrast guard for the forest / terracotta-red accent palette.
  *
  * Run: node ghoroa-theme/tools/check-contrast.mjs
  */
@@ -50,14 +50,15 @@ const t = {
   cream: palette.cream,
   parchment: palette.parchment,
   terracotta: palette.terracotta,
+  terracottaDeep: palette['terracotta-deep'],
   muted: palette.muted,
   ink: palette.ink,
 };
 
 const PAIRS = [
-  ['gold on dark', t.gold, t.dark, 4.5],
-  ['gold-deep on dark', t.goldDeep, t.dark, 4.5],
-  ['gold on forest', t.gold, t.forest, 4.5],
+  ['accent on dark', t.gold, t.dark, 4.5],
+  ['accent-deep on dark', t.goldDeep, t.dark, 4.5],
+  ['accent on forest', t.gold, t.forest, 4.5],
   ['cream on dark', t.cream, t.dark, 4.5],
   ['cream on forest-deep', t.cream, t.forestDeep, 4.5],
   ['cream/70 on dark (menu notes)', over(t.cream, t.dark, 0.7), t.dark, 4.5],
@@ -66,8 +67,15 @@ const PAIRS = [
   ['muted on parchment', t.muted, t.parchment, 4.5],
   ['ink on parchment', t.ink, t.parchment, 4.5],
   ['cream on forest (button)', t.cream, t.forest, 4.5],
-  ['forest on gold (button hover)', t.forest, t.gold, 4.5],
-  ['gold on forest-deep (footer links)', t.gold, t.forestDeep, 4.5],
+  ['cream on terracotta (CTA)', t.cream, t.terracotta, 4.5],
+  ['cream on terracotta-deep (CTA hover)', t.cream, t.terracottaDeep, 4.5],
+  ['accent on forest-deep (footer links)', t.gold, t.forestDeep, 4.5],
+];
+
+/* Must stay *below* AA — do not use these as text on dark without a brighter token. */
+const FORBIDDEN = [
+  ['accent/70 on dark (use full accent)', over(t.gold, t.dark, 0.7), t.dark, 4.5],
+  ['accent-deep/70 on dark', over(t.goldDeep, t.dark, 0.7), t.dark, 4.5],
 ];
 
 let failed = 0;
@@ -79,6 +87,14 @@ for (const [label, fg, bg, min] of PAIRS) {
   const ok = value >= min;
   if (!ok) failed += 1;
   console.log(`  ${ok ? 'ok  ' : 'FAIL'}  ${value.toFixed(2)}:1 (min ${min})  ${label}`);
+}
+
+console.log('\nForbidden pairs (must stay under AA — faded accents)\n');
+for (const [label, fg, bg, min] of FORBIDDEN) {
+  const value = ratio(fg, bg);
+  const ok = value < min;
+  if (!ok) failed += 1;
+  console.log(`  ${ok ? 'ok  ' : 'FAIL'}  ${value.toFixed(2)}:1 (must be < ${min})  ${label}`);
 }
 
 console.log(

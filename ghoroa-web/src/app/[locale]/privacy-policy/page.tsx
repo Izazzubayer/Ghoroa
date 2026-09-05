@@ -23,7 +23,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
   const { settings } = await loadHomeData(locale);
   return (
     <div>
-      <Nav locale={locale} />
+      <Nav locale={locale} orderNow={settings.order_now} />
       <main className="pt-28 px-5 py-16 lg:px-10">
         <article className="mx-auto max-w-3xl">
           <h1 className="display text-4xl text-cream">{locale === 'bn' ? 'প্রাইভেসি পলিসি' : 'Privacy Policy'}</h1>

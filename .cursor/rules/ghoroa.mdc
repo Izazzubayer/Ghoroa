@@ -51,12 +51,15 @@ elsewhere.**
 
 - Fonts: Rottering (display) · Montserrat (body) · Hind Siliguri (BN), self-hosted.
 - The site is **dark forest-based** (`#080d09` / `#062e1b`), not sand/rust.
-- `gold #ECB174` for accents, CTAs, nav highlights. `parchment #F2E9DA` for light bands.
+- Accent is **terracotta red**: solid CTAs `terracotta #a13828` + cream text; on-dark
+  text/outline accents use lighter reds (`#e07a68` / `#d46050`, still named `gold` /
+  `gold-deep` in tokens for class compatibility). `parchment #F2E9DA` for light bands.
 - `docs/brand/Ghoroa_Brand_Guidelines.html` (rust/sand) is print collateral — **not**
   the web palette. Numerals never use Rottering (no digit glyphs).
 
 ### Palette rules the contrast maths forces
 
+- Raw `terracotta #a13828` is **not** AA as small text on dark — fills only (cream on top).
 - Menu price leader uses `cream/15` on dark — decorative, not text.
 - Parchment sections reset to `ink` / `muted` / `terracotta` via `.has-parchment-background-color`.
 - Run `node ghoroa-theme/tools/check-contrast.mjs` after token changes.
@@ -81,3 +84,11 @@ Elementor, max 5–8 plugins.
 
 Approved marks under `ghoroa-theme/assets/images/ghoroa-logo*`.
 **Do not invent or redesign logos.** Polish only, and only from an approved asset.
+
+## Frontend UI components (ghoroa-web)
+
+Use **Watermelon UI MCP only** for blocks/components/animated UI
+(`search` → `get_component` → `npx shadcn add https://registry.watermelon.sh/r/…`).
+Do not invent toggle/switch/accordion/nav chrome from scratch when a Watermelon
+entry exists. Brand-adapt after install (forest/gold). shadcn MCP is disabled —
+existing `src/components/ui/*` primitives stay; new interactive UI comes from Watermelon.

@@ -63,7 +63,7 @@ export function Signatures({
             {locale === 'bn' ? 'ঐতিহ্য, যত্নে পরিবেশিত।' : 'Tradition, thoughtfully served.'}
           </h2>
           <Ornament className="mt-5" />
-          <p className="mt-6 max-w-md text-[0.9rem] leading-[1.75] text-cream/75">
+          <p className="mt-6 max-w-md text-[0.9rem] leading-[1.75] text-cream/85">
             {locale === 'bn'
               ? 'আমরা লেখা খাঁটি খাবার।  দাম খাঁটি ৳  টেবিলে।'
               : 'A short list of the dishes we are known for. Prices shown are eat-in, in taka.'}
@@ -78,7 +78,7 @@ export function Signatures({
                   <h3 id={`course-${ci}`} className="display text-[1.35rem] text-gold">
                     {course.heading}
                   </h3>
-                  <span lang="bn" className="font-bn text-[0.8rem] text-cream/60">
+                  <span lang="bn" className="font-bn text-cream/90">
                     {course.bn}
                   </span>
                 </header>
@@ -91,10 +91,10 @@ export function Signatures({
                         <span aria-hidden className="h-px flex-1 translate-y-[-2px] bg-cream/15" />
                         <span className="text-[0.85rem] tabular-nums text-gold-deep">{item.price}</span>
                       </div>
-                      <p lang="bn" className="font-bn mt-1 text-[0.8rem] text-gold/70">
+                      <p lang="bn" className="font-bn mt-1 text-gold">
                         {item.bn}
                       </p>
-                      <p className="mt-1.5 max-w-[26ch] text-[0.78rem] leading-[1.65] text-cream/70">{item.note}</p>
+                      <p className="mt-1.5 max-w-[26ch] text-[0.78rem] leading-[1.65] text-cream/85">{item.note}</p>
                     </li>
                   ))}
                 </ul>

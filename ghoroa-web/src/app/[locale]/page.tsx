@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import { createMetadata } from '@/lib/seo';
-import { SiteFooter } from '@/components/layout';
-import { Nav } from '@/components/layout';
-import { loadHomeData } from '@/components/home/page-data';
+import { HomePage } from '@/components/home/page-data';
 import type { Locale } from '@/lib/cms';
 
 export function generateStaticParams() {
@@ -22,5 +20,3 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
   if (locale !== 'en' && locale !== 'bn') return null;
   return <HomePage locale={locale} />;
 }
-
-import { HomePage } from '@/components/home/page-data';

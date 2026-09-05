@@ -23,7 +23,7 @@ export default async function LocationsPage({ params }: { params: Promise<{ loca
   const { locations, settings } = await loadHomeData(locale);
   return (
     <div>
-      <Nav locale={locale} />
+      <Nav locale={locale} orderNow={settings.order_now} />
       <main className="pt-28 px-5 py-16 lg:px-10">
         <article className="mx-auto max-w-3xl">
           <h1 className="display text-4xl text-cream">{locale === 'bn' ? 'লোকেশন' : 'Locations'}</h1>
@@ -32,7 +32,7 @@ export default async function LocationsPage({ params }: { params: Promise<{ loca
               <li key={loc.id} className="border-b border-gold-deep/20 pb-4">
                 <h2 className="display text-xl text-gold">{loc.name}</h2>
                 <p className="mt-1 text-cream/85">{loc.address}</p>
-                <p className="text-sm text-cream/70">{loc.phone}</p>
+                <p className="text-sm text-cream/85">{loc.phone}</p>
               </li>
             ))}
           </ul>

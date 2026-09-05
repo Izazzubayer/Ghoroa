@@ -23,11 +23,11 @@ export default async function MenuPage({ params }: { params: Promise<{ locale: s
   const { menu, settings } = await loadHomeData(locale);
   return (
     <div>
-      <Nav locale={locale} />
+      <Nav locale={locale} orderNow={settings.order_now} />
       <main className="pt-28 px-5 py-16 lg:px-10">
         <div className="mx-auto max-w-[82rem]">
           <h1 className="display text-4xl text-cream">{locale === 'bn' ? 'মেনু' : 'Menu'}</h1>
-          <p className="mt-4 text-cream/75">{settings.tagline}</p>
+          <p className="mt-4 text-cream/85">{settings.tagline}</p>
           <div className="mt-10 grid gap-x-8 gap-y-10 lg:grid-cols-2">
             {Object.entries(menu.groups).map(([slug, items]) => (
               <section key={slug}>

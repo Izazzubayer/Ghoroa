@@ -14,7 +14,7 @@ export function Story({
   ];
 
   return (
-    <section id="story" className="grain relative overflow-hidden bg-parchment py-24 text-ink lg:py-32" aria-labelledby="story-title">
+    <section id="story" data-nav-contrast="light" className="grain relative overflow-hidden bg-parchment py-24 text-ink lg:py-32" aria-labelledby="story-title">
       <div className="mx-auto grid max-w-[82rem] items-center gap-14 px-5 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24 lg:px-10">
         <div>
           <Reveal>
@@ -61,7 +61,7 @@ export function Story({
 
           <Reveal delay={0.15}>
             <div className="mt-9">
-              <GoldButton href={`${locale === 'bn' ? '/bn' : '/en'}#menu`} variant="solid">
+              <GoldButton href={`${locale === 'bn' ? '/bn' : '/en'}#menu`} variant="primary">
                 {locale === 'bn' ? 'মেনু দেখুন' : 'Discover our story'}
               </GoldButton>
             </div>

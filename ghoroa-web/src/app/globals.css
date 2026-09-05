@@ -1,6 +1,11 @@
 /* Ghoroa web design tokens — mirrors design/prototype-react theme. */
 @import 'tailwindcss';
+/* Lenis needs scroll-behavior:auto to own the scroll; its stylesheet sets that. */
 @import 'lenis/dist/lenis.css';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @font-face {
   font-family: 'Rottering';
@@ -14,29 +19,25 @@
   font-weight: 400;
   font-display: swap;
 }
-@font-face {
-  font-family: 'Hind Siliguri';
-  src: local('Hind Siliguri'), local('Noto Sans Bengali');
-  font-weight: 400;
-  font-display: swap;
-}
 
 @theme {
   --color-dark: #080d09;
   --color-forest: #062e1b;
   --color-forest-deep: #0d2016;
   --color-olive: #4c5030;
-  --color-gold: #ecb174;
-  --color-gold-deep: #c5a059;
+  /* Accent = terracotta red. Light variants keep AA on dark; solid fill uses terracotta. */
+  --color-gold: #e07a68;
+  --color-gold-deep: #d46050;
   --color-cream: #e8dac6;
   --color-parchment: #f2e9da;
   --color-terracotta: #a13828;
+  --color-terracotta-deep: #7f2c20;
   --color-ink: #1a1814;
   --color-muted: #55523f;
 
   --font-display: 'Rottering', 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Montserrat', system-ui, sans-serif;
-  --font-bn: 'Hind Siliguri', system-ui, sans-serif;
+  --font-bn: 'Noto Serif Bengali', serif;
 }
 
 html {
@@ -51,9 +52,198 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Link defaults — Tailwind may not apply instantly; keep them usable. */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* No global a:hover color — it sat after Tailwind and broke hover:text-forest on gold CTAs. */
+
+/* Force-apply the dark base so FOUC is less ugly while Tailwind loads. */
+.bg-dark {
+  background-color: var(--color-dark);
+}
+.text-cream {
+  color: var(--color-cream);
+}
+.text-forest {
+  color: var(--color-forest);
+}
+.bg-parchment {
+  background-color: var(--color-parchment);
+}
+.bg-gold {
+  background-color: var(--color-gold);
+}
+.text-gold {
+  color: var(--color-gold);
+}
+.hover\:bg-gold:hover {
+  background-color: var(--color-gold);
+}
+.hover\:bg-gold-deep:hover {
+  background-color: var(--color-gold-deep);
+}
+.hover\:text-forest:hover {
+  color: var(--color-forest);
+}
+.hover\:text-gold:hover {
+  color: var(--color-gold);
+}
+.hover\:bg-forest-deep:hover {
+  background-color: var(--color-forest-deep);
+}
+
+/* Locale toggle sits on parchment — never inherit nav cream link colors. */
+[role='group'][aria-label='Language'] a,
+[role='group'][aria-label='ভাষা'] a {
+  color: var(--color-forest);
+}
+[role='group'][aria-label='Language'] a:hover,
+[role='group'][aria-label='ভাষা'] a:hover {
+  color: var(--color-forest);
+}
+[role='group'][aria-label='Language'] a[aria-current='true'],
+[role='group'][aria-label='ভাষা'] a[aria-current='true'] {
+  background-color: var(--color-terracotta);
+  color: var(--color-cream);
+}
+
+.bg-terracotta {
+  background-color: var(--color-terracotta);
+}
+.text-terracotta {
+  color: var(--color-terracotta);
+}
+.hover\:bg-terracotta:hover {
+  background-color: var(--color-terracotta);
+}
+.hover\:bg-terracotta-deep:hover {
+  background-color: var(--color-terracotta-deep);
+}
+
 .display {
   font-family: var(--font-display);
   letter-spacing: -0.015em;
+}
+
+.font-bn {
+  font-family: var(--font-bn);
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 500;
+  font-variation-settings: 'wdth' 92.5;
+  /* Indic matras need more room than Latin chrome sizes allow */
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Bangla locale: Noto Serif Bengali for body, headings, nav — everything. */
+html.locale-bn,
+html.locale-bn body,
+html.locale-bn .display,
+html.locale-bn .font-body,
+html.locale-bn .font-bn,
+html.locale-bn .font-sans,
+html.locale-bn button,
+html.locale-bn input,
+html.locale-bn textarea,
+html.locale-bn select {
+  font-family: 'Noto Serif Bengali', serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 500;
+  font-variation-settings: 'wdth' 92.5;
+}
+
+/*
+  Scale the whole BN locale up — Latin “luxury” sizes (0.62–0.8rem ≈ 10–13px)
+  are unreadable for Bengali and fail practical WCAG readability.
+*/
+html.locale-bn {
+  font-size: 112.5%; /* 18px if the browser root is 16px */
+}
+
+html.locale-bn body {
+  line-height: 1.75;
+}
+
+/*
+  English “luxury tracking” / uppercase blows up Bengali — matras disconnect
+  and look like letter-by-letter. Kill tracking + forced uppercase on BN.
+*/
+html.locale-bn,
+html.locale-bn body,
+html.locale-bn * {
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
+
+html.locale-bn .uppercase {
+  text-transform: none !important;
+}
+
+html.locale-bn .display,
+html.locale-bn h1,
+html.locale-bn h2,
+html.locale-bn h3,
+html.locale-bn h4 {
+  letter-spacing: normal !important;
+  line-height: 1.45 !important;
+  font-weight: 600;
+  overflow: visible;
+}
+
+/* Lift micro type that was designed for tracked Latin caps */
+html.locale-bn [class*='text-[0.62rem]'],
+html.locale-bn [class*='text-[0.65rem]'],
+html.locale-bn [class*='text-[0.68rem]'],
+html.locale-bn [class*='text-[0.7rem]'],
+html.locale-bn [class*='text-[0.72rem]'],
+html.locale-bn [class*='text-[0.78rem]'],
+html.locale-bn [class*='text-[0.8rem]'] {
+  font-size: 1rem !important;
+  line-height: 1.65 !important;
+}
+
+html.locale-bn [class*='text-[0.85rem]'],
+html.locale-bn [class*='text-[0.88rem]'],
+html.locale-bn [class*='text-[0.9rem]'],
+html.locale-bn [class*='text-[0.95rem]'],
+html.locale-bn .text-sm {
+  font-size: 1.0625rem !important;
+  line-height: 1.75 !important;
+}
+
+/*
+  Faded accent reds fail AA on dark (gold/70 ≈ 3.7:1). Use full accent / cream.
+*/
+html.locale-bn .text-gold\/70,
+html.locale-bn .text-gold\/60,
+html.locale-bn .text-gold-deep\/70,
+.font-bn.text-gold\/70,
+[lang='bn'].text-gold\/70 {
+  color: var(--color-gold) !important;
+}
+
+html.locale-bn .text-cream\/70,
+html.locale-bn .text-cream\/80,
+.font-bn.text-cream\/80,
+[lang='bn'].text-cream\/80 {
+  color: color-mix(in srgb, var(--color-cream) 92%, transparent) !important;
+}
+
+/* Latin-only chrome (EN/BN toggle) may keep tight tracking + Latin size */
+html.locale-bn [data-locale-latin='true'],
+html.locale-bn [data-locale-latin='true'] * {
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  font-size: 0.62rem !important;
+  line-height: 1.2 !important;
+  font-family: var(--font-body) !important;
+  font-weight: 700 !important;
+  font-variation-settings: normal !important;
 }
 
 :focus-visible {
@@ -68,8 +258,8 @@ body {
   left: 0.75rem;
   z-index: 100;
   padding: 0.65rem 1.1rem;
-  background: var(--color-gold);
-  color: var(--color-forest);
+  background: var(--color-terracotta);
+  color: var(--color-cream);
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -91,7 +281,8 @@ body {
 }
 
 .arch {
-  border-radius: 50% 50% 6px 6px / 32% 32% 3% 3%;
+  /* Perfect semicircle dome on aspect-ratio 4/5; sharp base corners */
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -104,5 +295,126 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #080d09;
+  --foreground: #e8dac6;
+  --card: #0d2016;
+  --card-foreground: #e8dac6;
+  --popover: #0d2016;
+  --popover-foreground: #e8dac6;
+  --primary: #a13828;
+  --primary-foreground: #e8dac6;
+  --secondary: #062e1b;
+  --secondary-foreground: #e8dac6;
+  --muted: #0d2016;
+  --muted-foreground: #e8dac6;
+  --accent: #f2e9da;
+  --accent-foreground: #062e1b;
+  --destructive: #7f2c20;
+  --border: rgb(212 96 80 / 0.35);
+  --input: rgb(6 46 27 / 0.45);
+  --ring: #e07a68;
+  --chart-1: #e07a68;
+  --chart-2: #a13828;
+  --chart-3: #062e1b;
+  --chart-4: #f2e9da;
+  --chart-5: #4c5030;
+  --radius: 0px;
+  --sidebar: #080d09;
+  --sidebar-foreground: #e8dac6;
+  --sidebar-primary: #a13828;
+  --sidebar-primary-foreground: #e8dac6;
+  --sidebar-accent: #062e1b;
+  --sidebar-accent-foreground: #e8dac6;
+  --sidebar-border: rgb(212 96 80 / 0.35);
+  --sidebar-ring: #e07a68;
+}
+
+.dark {
+  --background: #080d09;
+  --foreground: #e8dac6;
+  --card: #0d2016;
+  --card-foreground: #e8dac6;
+  --popover: #0d2016;
+  --popover-foreground: #e8dac6;
+  --primary: #a13828;
+  --primary-foreground: #e8dac6;
+  --secondary: #062e1b;
+  --secondary-foreground: #e8dac6;
+  --muted: #0d2016;
+  --muted-foreground: rgb(232 218 198 / 0.85);
+  --accent: #f2e9da;
+  --accent-foreground: #062e1b;
+  --destructive: #7f2c20;
+  --border: rgb(212 96 80 / 0.35);
+  --input: rgb(6 46 27 / 0.45);
+  --ring: #e07a68;
+  --chart-1: #e07a68;
+  --chart-2: #a13828;
+  --chart-3: #062e1b;
+  --chart-4: #f2e9da;
+  --chart-5: #4c5030;
+  --sidebar: #080d09;
+  --sidebar-foreground: #e8dac6;
+  --sidebar-primary: #a13828;
+  --sidebar-primary-foreground: #e8dac6;
+  --sidebar-accent: #062e1b;
+  --sidebar-accent-foreground: #e8dac6;
+  --sidebar-border: rgb(212 96 80 / 0.35);
+  --sidebar-ring: #e07a68;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
   }
 }

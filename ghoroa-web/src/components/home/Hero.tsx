@@ -16,8 +16,9 @@ export function Hero({
   menu: { groups: Record<string, unknown[]>; categories: Record<string, { en: string; bn: string }> };
 }) {
   const reduced = useReducedMotion();
-  const tag = locale === 'bn' ? 'বাংলাদেশের ঐতিহ্যবাহী রেস্টুরেন্ট' : 'Bangladeshi heritage restaurant';
-  const words = locale === 'bn' ? ['ঐতিহ্যের স্বাদ।', 'আজকের দিনের খাবার।'] : ['Authentic flavours.', 'Timeless tradition.'];
+  const isBn = locale === 'bn';
+  const tag = isBn ? 'বাংলাদেশের ঐতিহ্যবাহী রেস্টুরেন্ট' : 'Bangladeshi heritage restaurant';
+  const words = isBn ? ['ঐতিহ্যের স্বাদ।', 'আজকের দিনের খাবার।'] : ['Authentic flavours.', 'Timeless tradition.'];
 
   return (
     <section id="home" className="relative isolate min-h-[100svh] overflow-hidden" aria-labelledby="hero-title">
@@ -44,19 +45,29 @@ export function Hero({
             initial={reduced ? undefined : { opacity: 0, y: 14 }}
             animate={reduced ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold-deep"
+            className={`flex items-center gap-3 text-[0.68rem] font-semibold text-gold-deep ${
+              isBn ? 'tracking-normal normal-case' : 'uppercase tracking-[0.28em]'
+            }`}
           >
-            <span aria-hidden className="h-px w-10 bg-gold-deep/60" />
+            <span aria-hidden className="h-px w-10 shrink-0 bg-gold-deep/60" />
             {tag}
           </motion.p>
 
-          <h1 id="hero-title" className="display mt-6 text-[clamp(2.6rem,7vw,5.2rem)] font-normal leading-[0.98] text-cream">
+          <h1
+            id="hero-title"
+            className={`display mt-6 text-[clamp(2.6rem,7vw,5.2rem)] font-normal text-cream ${
+              isBn ? 'leading-[1.4]' : 'leading-[0.98]'
+            }`}
+          >
             {words.map((line, i) => (
-              <span key={line} className="block overflow-hidden">
+              <span
+                key={line}
+                className={`block ${isBn ? 'overflow-visible py-1' : 'overflow-hidden'}`}
+              >
                 <motion.span
                   className="block"
-                  initial={reduced ? undefined : { y: '110%' }}
-                  animate={reduced ? undefined : { y: 0 }}
+                  initial={reduced ? undefined : isBn ? { opacity: 0, y: 16 } : { y: '110%' }}
+                  animate={reduced ? undefined : isBn ? { opacity: 1, y: 0 } : { y: 0 }}
                   transition={{ duration: 1, delay: 0.25 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {line}
@@ -70,45 +81,30 @@ export function Hero({
             animate={reduced ? undefined : { opacity: 1 }}
             transition={{ duration: 0.9, delay: 0.7 }}
           >
-            <svg aria-hidden width="150" height="12" viewBox="0 0 150 12" fill="none" className="mt-8 text-gold-deep">
-              <path d="M0 11h56" stroke="currentColor" strokeWidth="1" opacity=".5" />
-              <path d="M94 11h56" stroke="currentColor" strokeWidth="1" opacity=".5" />
-              <path d="M63 11a12 12 0 0 1 24 0" stroke="currentColor" strokeWidth="1" />
-              <path d="M75 1.5l2.6 3.4-2.6 3.4-2.6-3.4z" fill="currentColor" />
-            </svg>
+            <span
+              aria-hidden
+              className="mt-8 inline-flex items-center gap-2 text-gold-deep"
+            >
+              <span className="h-px w-8 bg-current opacity-50" />
+              <span className="h-1.5 w-1.5 rounded-full bg-current" />
+              <span className="h-px w-8 bg-current opacity-50" />
+            </span>
 
             <p className="mt-6 max-w-md text-[0.95rem] leading-[1.75] text-cream/90">
               {settings.tagline}
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
-              <GoldButton href="#menu">{locale === 'bn' ? 'মেনু দেখুন' : 'Explore our menu'}</GoldButton>
-              <a
-                href="#story"
-                className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-cream/70 underline-offset-8 transition-colors hover:text-gold hover:underline"
-              >
-                {locale === 'bn' ? 'আমাদের গল্প' : 'Our story'}
-              </a>
+              <GoldButton href="#menu" variant="primary">
+                {isBn ? 'মেনু দেখুন' : 'Explore our menu'}
+              </GoldButton>
+              <GoldButton href="#story" variant="secondary">
+                {isBn ? 'আমাদের গল্প' : 'Our story'}
+              </GoldButton>
             </div>
           </motion.div>
         </div>
       </div>
-
-      <motion.div
-        aria-hidden
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-gold-deep lg:flex"
-        initial={reduced ? undefined : { opacity: 0 }}
-        animate={reduced ? undefined : { opacity: 1 }}
-        transition={{ delay: 1.4 }}
-      >
-        <span className="text-[0.6rem] uppercase tracking-[0.3em]">Scroll</span>
-        <motion.span
-          className="block h-10 w-px bg-gradient-to-b from-gold-deep to-transparent"
-          animate={reduced ? undefined : { scaleY: [0.4, 1, 0.4] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ transformOrigin: 'top' }}
-        />
-      </motion.div>
     </section>
   );
 }

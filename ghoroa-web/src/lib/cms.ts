@@ -200,3 +200,9 @@ export function pickAddress(item: LocationItem, locale: Locale): string {
 export function localePrefix(locale: Locale): string {
   return locale === 'bn' ? '/bn' : '/en';
 }
+
+/** Same page, other locale — e.g. /en/menu → /bn/menu */
+export function swapLocalePath(pathname: string, locale: Locale): string {
+  const rest = pathname.replace(/^\/(en|bn)/, '') || '';
+  return `${localePrefix(locale)}${rest}`;
+}

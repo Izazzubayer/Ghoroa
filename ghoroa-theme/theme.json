@@ -18,11 +18,12 @@
         { "slug": "forest", "color": "#062e1b", "name": "Forest (primary)" },
         { "slug": "forest-deep", "color": "#0d2016", "name": "Forest Deep" },
         { "slug": "olive", "color": "#4c5030", "name": "Olive (accent)" },
-        { "slug": "gold", "color": "#ecb174", "name": "Gold" },
-        { "slug": "gold-deep", "color": "#c5a059", "name": "Gold Deep" },
+        { "slug": "gold", "color": "#e07a68", "name": "Accent (red, on dark)" },
+        { "slug": "gold-deep", "color": "#d46050", "name": "Accent Deep" },
         { "slug": "cream", "color": "#e8dac6", "name": "Cream (text on dark)" },
         { "slug": "parchment", "color": "#f2e9da", "name": "Parchment (light band)" },
-        { "slug": "terracotta", "color": "#a13828", "name": "Terracotta (eyebrow)" },
+        { "slug": "terracotta", "color": "#a13828", "name": "Terracotta (CTA fill)" },
+        { "slug": "terracotta-deep", "color": "#7f2c20", "name": "Terracotta Deep (hover)" },
         { "slug": "ink", "color": "#1a1814", "name": "Ink (text on light)" },
         { "slug": "muted", "color": "#55523f", "name": "Muted" }
       ]

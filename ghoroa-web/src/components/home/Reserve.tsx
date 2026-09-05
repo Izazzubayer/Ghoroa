@@ -26,26 +26,6 @@ export function Reserve({
       className="relative isolate overflow-hidden bg-[radial-gradient(120%_90%_at_50%_0%,#123524_0%,#0b1d13_45%,#080d09_100%)] py-28 lg:py-36"
       aria-labelledby="reserve-title"
     >
-      <svg
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 -translate-x-1/2 text-gold-deep opacity-20"
-        width="760"
-        height="420"
-        viewBox="0 0 760 420"
-        fill="none"
-      >
-        {[0, 1, 2, 3].map((i) => (
-          <path
-            key={i}
-            d={`M${80 + i * 52} 420V${200 - i * 34}a${300 - i * 52} ${300 - i * 52} 0 0 1 ${600 - i * 104} 0V420`}
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity={1 - i * 0.2}
-          />
-        ))}
-      </svg>
-      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-dark to-transparent" />
-
       <div className="mx-auto flex max-w-3xl flex-col items-center px-5 text-center">
         <Reveal className="flex flex-col items-center">
           <Eyebrow>{locale === 'bn' ? 'রিজার্ভেশন' : 'Reservations'}</Eyebrow>

@@ -1,18 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import { localePrefix } from '@/lib/cms';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
+const fieldClass =
+  'rounded-none border-gold-deep/30 bg-forest/30 px-4 py-3 text-cream placeholder:text-cream/50 focus-visible:border-gold focus-visible:ring-gold/40';
 
 export function ContactForm({
   locale,
-  settings,
 }: {
   locale: 'en' | 'bn';
   settings: { phone: string; email: string };
 }) {
-  const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle');
-  const [error, setError] = useState('');
-
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -29,67 +31,45 @@ export function ContactForm({
       }),
     });
     if (res.ok) {
-      setStatus('ok');
-      setError('');
+      toast.success(
+        locale === 'bn' ? 'ধন্যবাদ — আমরা ২৪ ঘণ্টার মধ্যে লিখব।' : 'Thanks — we will reply within 24 hours.',
+      );
       form.reset();
     } else {
-      setStatus('err');
-      setError('validation');
+      toast.error(
+        locale === 'bn' ? 'ফর্মটি যাচাই করে আবার চেষ্টা করুন।' : 'Please check your form and try again.',
+      );
     }
   }
 
+  const labels =
+    locale === 'bn'
+      ? { name: 'নাম', email: 'ইমেইল', phone: 'ফোন', message: 'বার্তা', send: 'পাঠান' }
+      : { name: 'Name', email: 'Email', phone: 'Phone', message: 'Message', send: 'Send' };
+
   return (
-    <form onSubmit={onSubmit} className="mt-10 space-y-4">
-      <label className="block">
-        <span className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">Name</span>
-        <input
-          name="name"
-          required
-          className="mt-1 w-full border border-gold-deep/30 bg-forest/30 px-4 py-3 text-cream"
-        />
-      </label>
-      <label className="block">
-        <span className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">Email</span>
-        <input
-          name="email"
-          type="email"
-          required
-          className="mt-1 w-full border border-gold-deep/30 bg-forest/30 px-4 py-3 text-cream"
-        />
-      </label>
-      <label className="block">
-        <span className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">Phone</span>
-        <input
-          name="phone"
-          required
-          className="mt-1 w-full border border-gold-deep/30 bg-forest/30 px-4 py-3 text-cream"
-        />
-      </label>
-      <label className="block">
-        <span className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">Message</span>
-        <textarea
-          name="message"
-          required
-          rows={5}
-          className="mt-1 w-full border border-gold-deep/30 bg-forest/30 px-4 py-3 text-cream"
-        />
-      </label>
-      <button
-        type="submit"
-        className="border border-gold-deep/70 px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-gold"
-      >
-        {locale === 'bn' ? 'পাঠান' : 'Send'}
-      </button>
-      {status === 'ok' && (
-        <p className="text-sm text-gold">
-          {locale === 'bn' ? 'ধন্যবাদ — আমরা ২৪ ঘণ্টা লিখব।' : 'Thanks — we will reply within 24 hours.'}
-        </p>
-      )}
-      {status === 'err' && (
-        <p className="text-sm text-terracotta">
-          {locale === 'bn' ? 'ফর্ম  লিখতে  লিখতে  লিখতে  লিখতে  লিখতে  লিখতে  লিখতে' : 'Please check your form and try again.'}
-        </p>
-      )}
+    <form onSubmit={onSubmit} className="mt-10">
+      <FieldGroup className="gap-4">
+        <Field>
+          <FieldLabel className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">{labels.name}</FieldLabel>
+          <Input name="name" required className={fieldClass} />
+        </Field>
+        <Field>
+          <FieldLabel className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">{labels.email}</FieldLabel>
+          <Input name="email" type="email" required className={fieldClass} />
+        </Field>
+        <Field>
+          <FieldLabel className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">{labels.phone}</FieldLabel>
+          <Input name="phone" required className={fieldClass} />
+        </Field>
+        <Field>
+          <FieldLabel className="text-[0.62rem] uppercase tracking-[0.2em] text-gold-deep">{labels.message}</FieldLabel>
+          <Textarea name="message" required rows={5} className={fieldClass} />
+        </Field>
+        <Button type="submit" variant="primary" size="cta">
+          {labels.send}
+        </Button>
+      </FieldGroup>
     </form>
   );
 }

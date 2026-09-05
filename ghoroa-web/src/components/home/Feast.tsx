@@ -16,15 +16,6 @@ export function Feast({ locale }: { locale: 'en' | 'bn' }) {
 
   return (
     <section id="feast" className="relative overflow-hidden bg-forest py-24 lg:py-32" aria-labelledby="feast-title">
-      <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full text-gold-deep opacity-[0.07]">
-        <defs>
-          <pattern id="arches" width="72" height="72" patternUnits="userSpaceOnUse">
-            <path d="M36 66V30a18 18 0 0 1 0 0 18 18 0 0 1 0 0zM6 66V36a30 30 0 0 1 60 0v30" fill="none" stroke="currentColor" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#arches)" />
-      </svg>
-
       <div className="relative mx-auto grid max-w-[82rem] items-center gap-14 px-5 lg:grid-cols-2 lg:gap-20 lg:px-10">
         <Reveal className="order-2 lg:order-1">
           <Eyebrow>{locale === 'bn' ? 'উপহার' : 'The feast'}</Eyebrow>
@@ -39,9 +30,7 @@ export function Feast({ locale }: { locale: 'en' | 'bn' }) {
           <ul className="mt-8 space-y-3">
             {bullets.map((line) => (
               <li key={line} className="flex items-start gap-3 text-[0.88rem] text-cream/80">
-                <svg aria-hidden width="7" height="7" viewBox="0 0 8 8" className="mt-1.5 shrink-0 text-gold" fill="currentColor">
-                  <path d="M4 0l4 4-4 4-4-4z" />
-                </svg>
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
                 {line}
               </li>
             ))}

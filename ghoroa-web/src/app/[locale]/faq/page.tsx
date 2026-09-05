@@ -23,7 +23,7 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
   const { settings, faqs } = await loadHomeData(locale);
   return (
     <div>
-      <Nav locale={locale} />
+      <Nav locale={locale} orderNow={settings.order_now} />
       <main className="pt-28">
         <FaqSection locale={locale} items={faqs} />
       </main>

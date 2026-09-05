@@ -2,6 +2,7 @@
 
 // Source: Watermelon UI `card-split-accordian` — Ghoroa forest/gold palette.
 import { useId, useState, type FC, type ReactNode } from 'react';
+import { Plus } from 'lucide-react';
 import { motion, MotionConfig, useReducedMotion, type Transition } from 'motion/react';
 
 export interface AccordionItemData {
@@ -99,9 +100,7 @@ const AccordionItem: FC<{
             </span>
 
             <motion.span animate={{ rotate: isOpen ? 45 : 0 }} className="shrink-0 text-gold-deep">
-              <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 1v14M1 8h14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-              </svg>
+              <Plus className="h-4 w-4" strokeWidth={1.75} aria-hidden />
             </motion.span>
           </button>
         </h3>
