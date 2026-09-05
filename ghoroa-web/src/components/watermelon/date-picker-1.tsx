@@ -43,9 +43,8 @@ export function DatePicker1({
   const dateLocale = locale === 'bn' ? bn : enUS;
   const label = value
     ? value.toLocaleDateString(locale === 'bn' ? 'bn-BD' : 'en-GB', {
-        weekday: 'short',
         day: 'numeric',
-        month: 'long',
+        month: 'short',
         year: 'numeric',
       })
     : placeholder;
@@ -56,16 +55,16 @@ export function DatePicker1({
         type="button"
         id={id}
         className={cn(
-          'flex h-11 w-full items-center justify-between border border-gold-deep/30 bg-forest/40 px-4 text-left text-sm outline-none transition-colors hover:border-gold-deep/60 focus-visible:border-gold focus-visible:ring-3 focus-visible:ring-gold/40',
+          'flex h-11 w-full min-w-0 items-center justify-between gap-2 overflow-hidden border border-forest/35 bg-forest/40 px-4 text-left text-sm outline-none transition-colors hover:border-forest/60 focus-visible:border-forest focus-visible:outline-none focus-visible:ring-0',
           className,
         )}
       >
-        <span className={value ? 'font-numeral' : 'opacity-70'}>{label}</span>
-        <ChevronDownIcon className="size-4 text-current" aria-hidden />
+        <span className={cn('min-w-0 truncate', !value && 'opacity-70')}>{label}</span>
+        <ChevronDownIcon className="size-4 shrink-0 text-current" aria-hidden />
       </PopoverTrigger>
       {open ? (
         <PopoverContent
-          className="w-auto overflow-hidden rounded-none border border-gold-deep/40 bg-forest-deep p-0 text-cream shadow-none"
+          className="w-auto overflow-hidden rounded-none border border-forest/40 bg-forest-deep p-0 text-cream shadow-none"
           align="start"
         >
           <Calendar

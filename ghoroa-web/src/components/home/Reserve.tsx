@@ -56,7 +56,7 @@ export function Reserve({
           <h2 id="reserve-title" className="display mt-5 text-[clamp(2rem,4.2vw,3.4rem)] font-normal leading-[1.08] text-ink">
             {locale === 'bn' ? 'টেবিলে আসুন।' : 'Join us at the table.'}
           </h2>
-          <Ornament surface="light" className="mt-6" />
+          <Ornament surface="light" className="mx-auto mt-6" />
           <p className="mt-6 max-w-lg text-[0.95rem] leading-[1.8] text-muted">
             {locale === 'bn'
               ? 'আপনি টেবিলে ঢুকবেন।  ৬+ অথবা  রিজার্ভেশন  লিখুন।'

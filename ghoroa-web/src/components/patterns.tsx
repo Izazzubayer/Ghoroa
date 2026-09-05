@@ -75,12 +75,12 @@ export function PatternRule({
 }) {
   if (variant === 'rule') {
     return (
-      <span aria-hidden className={cn('mx-auto block h-7 w-full max-w-sm', className)}>
+      <span aria-hidden className={cn('block h-7 w-48 max-w-full', className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={bands.rule}
           alt=""
-          className="h-full w-full object-contain mix-blend-screen"
+          className="h-full w-full object-contain object-left mix-blend-screen"
           loading="lazy"
           decoding="async"
         />
@@ -88,7 +88,7 @@ export function PatternRule({
     );
   }
   return (
-    <span aria-hidden className={cn('mx-auto flex justify-center', className)}>
+    <span aria-hidden className={cn('flex justify-start', className)}>
       <PatternMotif
         name={variant}
         size={44}

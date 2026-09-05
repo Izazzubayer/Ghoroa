@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 
 export interface StepperProps {
+  id?: string;
   value?: number;
   defaultValue?: number;
   min?: number;
@@ -44,6 +45,7 @@ const digitVariants = {
 };
 
 export function Stepper({
+  id,
   value,
   defaultValue = 0,
   min = 0,
@@ -87,8 +89,8 @@ export function Stepper({
   };
 
   return (
-    <div className="flex w-full">
-      <div className="flex h-12 w-full items-center justify-between border-2 border-forest bg-cream px-1">
+    <div id={id} className="flex w-full">
+      <div className="flex h-8 w-full items-center justify-between gap-1 rounded-lg border border-ink/20 bg-cream px-0.5">
         <motion.button
           type="button"
           whileTap={{ scale: 0.92 }}
@@ -96,14 +98,14 @@ export function Stepper({
           onClick={() => step(-1)}
           disabled={current <= min}
           aria-label={decreaseLabel}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center bg-forest text-cream disabled:opacity-40"
+          className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-ink transition-colors hover:bg-ink/5 disabled:opacity-40"
         >
           <HiMinus className="h-4 w-4" />
         </motion.button>
 
-        <div className="relative flex h-8 min-w-8 items-center justify-center font-numeral text-2xl text-ink">
+        <div className="font-body relative flex h-7 min-w-8 items-center justify-center text-sm tabular-nums text-ink">
           {digits.map((digit, index) => (
-            <div key={`${index}-${len}`} className="relative h-8 w-4">
+            <div key={`${index}-${len}`} className="relative h-7 w-3.5">
               <AnimatePresence mode="popLayout" initial={false} custom={direction}>
                 <motion.span
                   key={nextTicks[index]}
@@ -129,7 +131,7 @@ export function Stepper({
           onClick={() => step(1)}
           disabled={current >= max}
           aria-label={increaseLabel}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center bg-gold text-forest disabled:opacity-40"
+          className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-ink transition-colors hover:bg-ink/5 disabled:opacity-40"
         >
           <HiPlus className="h-4 w-4" />
         </motion.button>

@@ -4,22 +4,63 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
-import { Mail, MapPin, MessageCircle, Phone, UtensilsCrossed } from 'lucide-react';
+import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { Eyebrow, GoldButton, Ornament, Reveal } from '@/components/primitives';
-import { PatternEdge, PatternMotif } from '@/components/patterns';
+import { PatternEdge } from '@/components/patterns';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { DatePicker1 } from '@/components/watermelon/date-picker-1';
 import { Stepper } from '@/components/watermelon/stepper';
 import { contactCopy } from '@/lib/contact-copy';
 import { localePrefix, type Locale, type LocationItem, type Settings } from '@/lib/cms';
 
-const LUNCH = ['12:00', '12:30', '13:00', '13:30'];
-const DINNER = ['19:00', '19:30', '20:00', '20:30', '21:00'];
+const channelLabel =
+  'font-body text-xs font-medium uppercase tracking-[0.14em] text-muted';
+const visitLabel =
+  'font-body text-xs font-medium uppercase tracking-[0.14em] text-muted';
 
-const field =
-  'h-12 w-full rounded-none border-2 border-forest bg-cream px-3 text-ink placeholder:text-muted';
+/** Cream controls on parchment — forest border on focus, no outline halo. */
+const control =
+  'font-body border-ink/20 bg-cream text-ink shadow-none placeholder:text-muted outline-none focus-visible:border-forest focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0';
+
+/** Time menu: forest + cream selection (no gold). */
+const timeMenu =
+  'border border-forest/40 bg-forest-deep text-cream shadow-lg ring-0';
+const timeOption =
+  'rounded-sm text-cream data-highlighted:bg-cream data-highlighted:text-forest focus:bg-cream focus:text-forest data-selected:bg-cream/20 data-selected:text-cream data-selected:data-highlighted:bg-cream data-selected:data-highlighted:text-forest';
+
+/** Half-hour slots for dining reservations (11:00–22:30), 12-hour labels. */
+function timeSlots(locale: Locale) {
+  const slots: { value: string; label: string }[] = [];
+  for (let mins = 11 * 60; mins <= 22 * 60 + 30; mins += 30) {
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    const value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    const label = new Date(2000, 0, 1, h, m).toLocaleTimeString(
+      locale === 'bn' ? 'bn-BD' : 'en-US',
+      { hour: 'numeric', minute: '2-digit', hour12: true },
+    );
+    slots.push({ value, label });
+  }
+  return slots;
+}
 
 function waHref(settings: Settings) {
   if (settings.order_now?.includes('wa.me')) return settings.order_now;
@@ -37,40 +78,10 @@ function mapsHref(address: string) {
   return `https://maps.google.com/?q=${encodeURIComponent(address)}`;
 }
 
-function TimeSlots({
-  label,
-  times,
-  value,
-  onChange,
-}: {
-  label: string;
-  times: string[];
-  value: string;
-  onChange: (t: string) => void;
-}) {
-  return (
-    <fieldset>
-      <legend className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-muted">{label}</legend>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {times.map((t) => {
-          const on = value === t;
-          return (
-            <button
-              key={t}
-              type="button"
-              aria-pressed={on}
-              onClick={() => onChange(on ? '' : t)}
-              className={`font-numeral h-10 min-w-16 border-2 px-3 text-[0.95rem] ${
-                on ? 'border-gold bg-gold text-forest' : 'border-forest bg-cream text-ink hover:border-gold'
-              }`}
-            >
-              {t}
-            </button>
-          );
-        })}
-      </div>
-    </fieldset>
-  );
+/** Prefer CMS embed URL; otherwise a q= embed for the address. */
+function mapsEmbedSrc(address: string, embedUrl?: string) {
+  if (embedUrl?.startsWith('http')) return embedUrl;
+  return `https://maps.google.com/maps?q=${encodeURIComponent(address)}&z=16&output=embed`;
 }
 
 export function ContactPageClient({
@@ -85,6 +96,8 @@ export function ContactPageClient({
   const copy = contactCopy(locale);
   const prefix = localePrefix(locale);
   const address = mohakhaliAddress(settings);
+  const mapSrc = mapsEmbedSrc(address, locations[0]?.map_embed);
+  const slots = timeSlots(locale);
   const [pending, setPending] = useState(false);
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState('');
@@ -110,37 +123,8 @@ export function ContactPageClient({
           time: 'Time',
           guests: 'Guests',
           message: 'Message',
-          send: 'Send',
+          send: 'Send enquiry',
         };
-
-  const channels = [
-    {
-      href: `tel:${settings.phone.replace(/\s/g, '')}`,
-      label: copy.call,
-      value: settings.phone,
-      Icon: Phone,
-    },
-    {
-      href: waHref(settings),
-      label: copy.whatsapp,
-      value: settings.whatsapp || settings.phone,
-      Icon: MessageCircle,
-      external: true,
-    },
-    {
-      href: `mailto:${settings.email}`,
-      label: copy.email,
-      value: settings.email,
-      Icon: Mail,
-    },
-    {
-      href: settings.order_now,
-      label: copy.order,
-      value: locale === 'bn' ? 'WhatsApp অর্ডার' : 'WhatsApp order',
-      Icon: UtensilsCrossed,
-      external: true,
-    },
-  ];
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -183,162 +167,286 @@ export function ContactPageClient({
   }
 
   return (
-    <main className="bg-forest">
-      <section className="grain relative overflow-hidden bg-forest pt-28 pb-16 lg:pt-32 lg:pb-20">
-        <PatternMotif
-          name="rosette-2"
-          size={88}
-          className="pointer-events-none absolute -right-4 top-24 opacity-25 lg:right-12"
-        />
-        <div className="relative mx-auto max-w-[82rem] px-5 lg:px-10">
-          <Reveal>
+    <main>
+      <section className="relative overflow-hidden bg-dark pt-28 pb-16 lg:pt-32 lg:pb-20">
+        <div className="mx-auto max-w-[82rem] px-5 lg:px-10">
+          <Reveal className="max-w-2xl">
             <Eyebrow tone="gold">{copy.eyebrow}</Eyebrow>
-            <h1 className="display mt-5 max-w-2xl text-[clamp(2.4rem,5vw,4rem)] font-normal leading-[1.08] text-cream">
+            <h1 className="display mt-5 text-[clamp(2.4rem,5vw,4rem)] font-normal leading-[1.08] text-cream">
               {copy.title}
             </h1>
             <Ornament tone="gold" className="mt-6" />
-            <p className="mt-6 max-w-lg text-[1.05rem] leading-[1.8] text-cream">{copy.lead}</p>
+            <p className="mt-6 text-[1.05rem] leading-[1.8] text-cream/90">{copy.lead}</p>
           </Reveal>
+        </div>
+        <div className="absolute inset-x-0 bottom-0">
+          <PatternEdge name="leaf" height={28} opacity={0.65} />
+        </div>
+      </section>
 
-          <Reveal delay={0.06}>
-            <ul className="mt-12 grid gap-px overflow-hidden border border-gold-deep bg-gold-deep sm:grid-cols-2 lg:grid-cols-4">
-              {channels.map(({ href, label, value, Icon, external }) => (
-                <li key={label} className="bg-forest-deep">
-                  <a
-                    href={href}
-                    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="flex h-full flex-col gap-3 px-5 py-6 text-cream transition-colors hover:bg-forest"
-                  >
-                    <Icon className="h-5 w-5 text-terracotta" strokeWidth={1.6} aria-hidden />
-                    <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold">{label}</span>
-                    <span className="font-numeral text-[0.95rem] leading-snug">{value}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <div className="mt-10 grid gap-8 border-t border-gold-deep/40 pt-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-              <div>
-                <Eyebrow tone="gold">{copy.visitEyebrow}</Eyebrow>
-                <h2 className="display mt-4 text-[clamp(1.6rem,3vw,2.2rem)] text-cream">{copy.visitTitle}</h2>
-                <dl className="mt-6 space-y-5">
-                  <div>
-                    <dt className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold">{copy.hours}</dt>
-                    <dd className="mt-1 text-[0.95rem] text-cream">{settings.hours}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold">{copy.address}</dt>
-                    <dd className="mt-1 text-[0.95rem] leading-[1.6] text-cream">{address}</dd>
-                  </div>
-                </dl>
+      <section
+        data-nav-contrast="light"
+        className="grain relative bg-parchment py-20 text-ink lg:py-28"
+        aria-labelledby="contact-form-title"
+      >
+        <div className="mx-auto grid max-w-[82rem] gap-16 px-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:px-10">
+          <Reveal>
+            <Eyebrow tone="terracotta">{copy.channelsEyebrow}</Eyebrow>
+            <h2 className="display mt-4 text-[clamp(1.7rem,3vw,2.4rem)] leading-[1.12]">
+              {copy.channelsTitle}
+            </h2>
+            <ul className="mt-10 space-y-6">
+              <li>
                 <a
-                  href={mapsHref(address)}
+                  href={`tel:${settings.phone.replace(/\s/g, '')}`}
+                  className="group flex items-start gap-4"
+                >
+                  <Phone className="mt-1 h-5 w-5 shrink-0 text-forest" strokeWidth={1.6} aria-hidden />
+                  <span>
+                    <span className={channelLabel}>
+                      {copy.call}
+                    </span>
+                    <span className="font-numeral mt-1 block text-lg text-ink transition-colors group-hover:text-forest">
+                      {settings.phone}
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={waHref(settings)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex items-center gap-2 text-[0.9rem] text-gold hover:underline"
+                  className="group flex items-start gap-4"
                 >
-                  <MapPin className="h-4 w-4" strokeWidth={1.6} aria-hidden />
-                  {copy.directions}
+                  <MessageCircle className="mt-1 h-5 w-5 shrink-0 text-forest" strokeWidth={1.6} aria-hidden />
+                  <span>
+                    <span className={channelLabel}>
+                      {copy.whatsapp}
+                    </span>
+                    <span className="font-numeral mt-1 block text-lg text-ink transition-colors group-hover:text-forest">
+                      {settings.whatsapp || settings.phone}
+                    </span>
+                  </span>
                 </a>
+              </li>
+              <li>
+                <a href={`mailto:${settings.email}`} className="group flex items-start gap-4">
+                  <Mail className="mt-1 h-5 w-5 shrink-0 text-forest" strokeWidth={1.6} aria-hidden />
+                  <span>
+                    <span className={channelLabel}>
+                      {copy.email}
+                    </span>
+                    <span className="mt-1 block text-lg text-ink transition-colors group-hover:text-forest">
+                      {settings.email}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            </ul>
 
-                {locations.length > 0 ? (
-                  <div className="mt-10">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold">{copy.locationsTitle}</p>
-                    <ul className="mt-4 space-y-4">
-                      {locations.map((loc) => (
-                        <li key={loc.id} className="text-[0.9rem] leading-[1.6] text-cream">
-                          <p className="font-medium">{loc.name}</p>
-                          <p>{loc.address}</p>
-                          {loc.phone ? (
-                            <a href={`tel:${loc.phone.replace(/\s/g, '')}`} className="font-numeral text-gold hover:underline">
-                              {loc.phone}
-                            </a>
-                          ) : null}
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href={`${prefix}/locations`} className="mt-4 inline-block text-gold hover:underline">
-                      {copy.locationsCta}
-                    </Link>
-                  </div>
-                ) : (
-                  <p className="mt-8 text-[0.9rem] text-cream">{copy.locationsEmpty}</p>
-                )}
+            <div className="mt-14 border-t border-ink/12 pt-10">
+              <Eyebrow tone="terracotta">{copy.visitEyebrow}</Eyebrow>
+              <h3 className="display mt-4 text-[1.5rem] text-forest">{copy.visitTitle}</h3>
+              <dl className="mt-6 space-y-5">
+                <div>
+                  <dt className={visitLabel}>
+                    {copy.hours}
+                  </dt>
+                  <dd className="mt-1 text-[0.95rem] leading-[1.7] text-muted">{settings.hours}</dd>
+                </div>
+                <div>
+                  <dt className={visitLabel}>
+                    {copy.address}
+                  </dt>
+                  <dd className="mt-1 text-[0.95rem] leading-[1.7] text-muted">{address}</dd>
+                </div>
+              </dl>
+              <a
+                href={mapsHref(address)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 text-[0.9rem] text-forest underline-offset-4 hover:underline"
+              >
+                <MapPin className="h-4 w-4 text-forest" strokeWidth={1.6} aria-hidden />
+                {copy.directions}
+              </a>
+
+              <div className="mt-8 overflow-hidden border border-ink/12">
+                <iframe
+                  title={locale === 'bn' ? 'ঘরোয়ার মানচিত্র' : 'Ghoroa on the map'}
+                  src={mapSrc}
+                  className="aspect-4/3 w-full grayscale-[20%] contrast-[1.05]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
               </div>
 
-              <form onSubmit={onSubmit} className="relative overflow-hidden bg-parchment p-7 text-ink sm:p-9">
-                <div className="absolute inset-x-0 top-0">
-                  <PatternEdge name="diamond" surface="light" height={18} opacity={0.9} />
+              {locations.length > 0 ? (
+                <div className="mt-10">
+                  <p className={visitLabel}>
+                    {copy.locationsTitle}
+                  </p>
+                  <ul className="mt-4 space-y-3">
+                    {locations.slice(0, 3).map((loc) => (
+                      <li key={loc.id} className="text-[0.9rem] leading-[1.6] text-muted">
+                        <p className="font-medium text-forest">{loc.name}</p>
+                        <p>{loc.address}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={`${prefix}/locations`}
+                    className="mt-4 inline-block text-[0.9rem] text-forest underline-offset-4 hover:underline"
+                  >
+                    {copy.locationsCta}
+                  </Link>
                 </div>
-                <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-terracotta">
-                  {copy.formEyebrow}
-                </p>
-                <h2 className="display mt-3 text-[clamp(1.7rem,3vw,2.3rem)] leading-[1.15]">{copy.formTitle}</h2>
-                <p className="mt-3 text-[0.95rem] leading-[1.7] text-muted">{copy.formLead}</p>
-
-                <div className="mt-8 grid gap-5">
-                  <label className="grid gap-1.5 text-[0.85rem] font-medium text-ink">
-                    {l.name}
-                    <Input name="name" required autoComplete="name" className={field} />
-                  </label>
-                  <label className="grid gap-1.5 text-[0.85rem] font-medium text-ink">
-                    {l.phone}
-                    <Input name="phone" type="tel" required autoComplete="tel" className={field} />
-                  </label>
-                  <label className="grid gap-1.5 text-[0.85rem] font-medium text-ink">
-                    {l.email}
-                    <Input name="email" type="email" required autoComplete="email" className={field} />
-                  </label>
-
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <div className="grid gap-1.5 text-[0.85rem] font-medium text-ink">
-                      {l.date}
-                      <DatePicker1
-                        locale={locale}
-                        value={date}
-                        onChange={setDate}
-                        placeholder={copy.pickDate}
-                        className="h-12 border-2 border-forest bg-cream px-3 text-ink"
-                      />
-                    </div>
-                    <div className="grid gap-1.5 text-[0.85rem] font-medium text-ink">
-                      {l.guests}
-                      <Stepper
-                        value={guests}
-                        min={1}
-                        max={20}
-                        onChange={setGuests}
-                        decreaseLabel={copy.guestsDec}
-                        increaseLabel={copy.guestsInc}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid gap-4">
-                    <p className="text-[0.85rem] font-medium text-ink">{l.time}</p>
-                    <TimeSlots label={copy.lunch} times={LUNCH} value={time} onChange={setTime} />
-                    <TimeSlots label={copy.dinner} times={DINNER} value={time} onChange={setTime} />
-                  </div>
-
-                  <label className="grid gap-1.5 text-[0.85rem] font-medium text-ink">
-                    {l.message}
-                    <Textarea name="message" required rows={5} minLength={10} className={`${field} min-h-32`} />
-                  </label>
-                  <Button type="submit" disabled={pending} size="cta" className="justify-self-start">
-                    {l.send}
-                  </Button>
-                </div>
-              </form>
+              ) : null}
             </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <form onSubmit={onSubmit} aria-labelledby="contact-form-title">
+              <Card className="bg-parchment text-ink ring-ink/12 [--card-spacing:--spacing(6)] sm:[--card-spacing:--spacing(8)]">
+                <CardHeader className="border-b border-ink/10">
+                  <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted">
+                    {copy.formEyebrow}
+                  </p>
+                  <CardTitle
+                    id="contact-form-title"
+                    className="display mt-1 text-[clamp(1.7rem,3vw,2.3rem)] font-normal leading-[1.15]"
+                  >
+                    {copy.formTitle}
+                  </CardTitle>
+                  <CardDescription className="text-[0.95rem] leading-[1.7] text-muted">
+                    {copy.formLead}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                  <FieldGroup>
+                    <Field>
+                      <FieldLabel htmlFor="contact-name">{l.name}</FieldLabel>
+                      <Input
+                        id="contact-name"
+                        name="name"
+                        required
+                        autoComplete="name"
+                        className={control}
+                      />
+                    </Field>
+
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <Field>
+                        <FieldLabel htmlFor="contact-phone">{l.phone}</FieldLabel>
+                        <Input
+                          id="contact-phone"
+                          name="phone"
+                          type="tel"
+                          required
+                          autoComplete="tel"
+                          className={control}
+                        />
+                      </Field>
+                      <Field>
+                        <FieldLabel htmlFor="contact-email">{l.email}</FieldLabel>
+                        <Input
+                          id="contact-email"
+                          name="email"
+                          type="email"
+                          required
+                          autoComplete="email"
+                          className={control}
+                        />
+                      </Field>
+                    </div>
+
+                    <div className="grid gap-5 sm:grid-cols-3">
+                      <Field>
+                        <FieldLabel htmlFor="contact-date">{l.date}</FieldLabel>
+                        <DatePicker1
+                          id="contact-date"
+                          locale={locale}
+                          value={date}
+                          onChange={setDate}
+                          placeholder={copy.pickDate}
+                          className={`${control} h-8 rounded-lg px-2.5 text-sm hover:border-forest/50`}
+                        />
+                      </Field>
+                      <Field>
+                        <FieldLabel htmlFor="contact-time">{l.time}</FieldLabel>
+                        <Select
+                          items={slots}
+                          value={time || null}
+                          onValueChange={(value) => setTime(value ?? '')}
+                        >
+                          <SelectTrigger
+                            id="contact-time"
+                            className={`${control} w-full`}
+                          >
+                            <SelectValue placeholder={copy.pickTime} />
+                          </SelectTrigger>
+                          <SelectContent align="start" className={timeMenu}>
+                            {slots.map((slot) => (
+                              <SelectItem
+                                key={slot.value}
+                                value={slot.value}
+                                className={timeOption}
+                              >
+                                {slot.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </Field>
+                      <Field>
+                        <FieldLabel htmlFor="contact-guests">{l.guests}</FieldLabel>
+                        <Stepper
+                          id="contact-guests"
+                          value={guests}
+                          min={1}
+                          max={20}
+                          onChange={setGuests}
+                          decreaseLabel={copy.guestsDec}
+                          increaseLabel={copy.guestsInc}
+                        />
+                      </Field>
+                    </div>
+
+                    <Field>
+                      <FieldLabel htmlFor="contact-message">{l.message}</FieldLabel>
+                      <Textarea
+                        id="contact-message"
+                        name="message"
+                        required
+                        rows={4}
+                        minLength={10}
+                        className={`${control} min-h-28`}
+                      />
+                    </Field>
+                  </FieldGroup>
+                </CardContent>
+
+                <CardFooter className="justify-start border-ink/10 bg-transparent">
+                  <Button type="submit" disabled={pending} size="cta">
+                    {pending
+                      ? locale === 'bn'
+                        ? 'পাঠানো হচ্ছে…'
+                        : 'Sending…'
+                      : l.send}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </form>
           </Reveal>
         </div>
       </section>
 
-      <section className="bg-forest-deep py-12" aria-label={copy.faqCta}>
-        <div className="mx-auto flex max-w-[82rem] flex-col items-start gap-4 px-5 sm:flex-row sm:items-center sm:justify-between lg:px-10">
-          <p className="text-[1rem] text-cream">{copy.faqLead}</p>
+      <section className="bg-dark py-14" aria-label={copy.faqCta}>
+        <div className="mx-auto flex max-w-[82rem] flex-col items-start gap-6 px-5 sm:flex-row sm:items-center sm:justify-between lg:px-10">
+          <p className="max-w-md text-[1rem] leading-[1.7] text-cream/90">{copy.faqLead}</p>
           <GoldButton href={`${prefix}/faq`}>{copy.faqCta}</GoldButton>
         </div>
       </section>

@@ -243,9 +243,18 @@ html.locale-bn [data-locale-latin='true'] * {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-forest);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Form fields use a border change only — no outer outline halo. */
+[data-slot='input']:focus-visible,
+[data-slot='textarea']:focus-visible,
+[data-slot='select-trigger']:focus-visible,
+[data-slot='popover-trigger']:focus-visible {
+  outline: none;
+  outline-offset: 0;
 }
 
 .skip-link {

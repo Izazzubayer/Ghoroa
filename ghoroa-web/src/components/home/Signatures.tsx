@@ -82,7 +82,7 @@ export function Signatures({
           <h2 id="sig-title" className="display mt-5 text-[clamp(1.9rem,3.6vw,3rem)] font-normal text-cream">
             {locale === 'bn' ? 'ঐতিহ্য, যত্নে পরিবেশিত।' : 'Tradition, thoughtfully served.'}
           </h2>
-          <Ornament tone="gold" className="mt-5" />
+          <Ornament tone="gold" className="mx-auto mt-5" />
           <p className="mt-6 max-w-md text-[0.9rem] leading-[1.75] text-cream/85">
             {locale === 'bn'
               ? 'আমরা লেখা খাঁটি খাবার।  দাম খাঁটি ৳  টেবিলে।'

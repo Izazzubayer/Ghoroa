@@ -111,7 +111,7 @@ export function FaqSection({
           >
             {locale === 'bn' ? 'প্রশ্ন, উত্তর।' : 'Questions, answered.'}
           </h2>
-          <Ornament tone="gold" className="mt-5" />
+          <Ornament tone="gold" className="mx-auto mt-5" />
           <p className="mt-6 max-w-md text-[0.95rem] leading-[1.75] text-cream/85">
             {locale === 'bn'
               ? 'রিজার্ভেশন, অর্ডার, এবং টেবিল নিয়ে সাধারণ প্রশ্ন।'

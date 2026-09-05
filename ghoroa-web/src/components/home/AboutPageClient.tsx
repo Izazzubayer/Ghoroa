@@ -129,7 +129,7 @@ export function AboutPageClient({
             <h2 id="chapters-title" className="display mt-5 text-[clamp(1.9rem,3.5vw,2.8rem)] text-cream">
               {locale === 'bn' ? 'যে পথে ঘরোয়া এসেছে।' : 'The road from Motijheel.'}
             </h2>
-            <Ornament tone="gold" className="mt-5" />
+            <Ornament tone="gold" className="mx-auto mt-5" />
           </Reveal>
           <Reveal delay={0.08}>
             <StoryPosterTour steps={posters} />
