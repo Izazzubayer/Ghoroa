@@ -1,0 +1,83 @@
+---
+alwaysApply: true
+---
+
+# Ghoroa — project context
+
+## Phase 1 (signed agreement)
+
+- Marketing website only: brand, menus, bilingual content, SEO.
+- No cart, checkout, kitchen dashboard, or WooCommerce ordering.
+- Operations (ordering/POS/KDS) = **Rosuii SaaS in Phase 2** — configured, not built here.
+
+## The deliverable
+
+| Path | Role |
+|---|---|
+| `ghoroa-web/` | **Production frontend** — Next.js App Router on Vercel |
+| `ghoroa-core/` | Presence plugin — CPTs + public REST (`/ghoroa/v1`) |
+| `ghoroa-theme/` | WordPress block theme — **non-production fallback** |
+| `design/prototype-react/` | Design reference (Vite/React). **Never deployed.** |
+| `design/prototype-static/` | Older static prototype. Reference only. |
+| `docs/` | Scope, brand, contract |
+| `docs/archive/ghoroa-core-commerce-superseded/` | Dead Woo code — **never reload** |
+
+## Headless
+
+- Content is edited in WordPress. Next fetches `/wp-json/ghoroa/v1/*`.
+- Publish → Next `/api/revalidate` with signed secret.
+- Locale routes: `/en` and `/bn`.
+- Contact form on `/contact/` only (no cart, POS, or online ordering).
+
+Content lives in the CMS, never hardcoded in templates. The client must be able to
+change a price without a developer — that requirement outranks visual convenience.
+
+## Locked IA (matches the signed agreement)
+
+Nav: **Home · Menu · About · Locations · Contact**
+Header button: **Order Now** → WhatsApp/phone now, Rosuii URL in Phase 2.
+Footer: FAQ · Privacy · Terms + hours/phone/WhatsApp/socials.
+
+Reservations is the enquiry form on `/contact/`, **not** a page. Online Order is a
+CTA, **not** a page — the agreement says "No online ordering".
+
+Stable URLs (Phase 2 depends on these): `/menu/`, `/about/`, `/contact/`,
+`/locations/`, `/faq/`, `/privacy-policy/`, `/terms/`.
+
+## Brand — `ghoroa-theme/theme.json` is the only token source
+
+Ported from `design/prototype-react/` (forest/gold dark theme). **Never hardcode hex
+elsewhere.**
+
+- Fonts: Rottering (display) · Montserrat (body) · Hind Siliguri (BN), self-hosted.
+- The site is **dark forest-based** (`#080d09` / `#062e1b`), not sand/rust.
+- `gold #ECB174` for accents, CTAs, nav highlights. `parchment #F2E9DA` for light bands.
+- `docs/brand/Ghoroa_Brand_Guidelines.html` (rust/sand) is print collateral — **not**
+  the web palette. Numerals never use Rottering (no digit glyphs).
+
+### Palette rules the contrast maths forces
+
+- Menu price leader uses `cream/15` on dark — decorative, not text.
+- Parchment sections reset to `ink` / `muted` / `terracotta` via `.has-parchment-background-color`.
+- Run `node ghoroa-theme/tools/check-contrast.mjs` after token changes.
+
+## Checks — run both after touching the theme or plugin
+
+```
+php  ghoroa-core/tests/test-menu-list.php
+node ghoroa-theme/tools/check-contrast.mjs
+```
+
+## Custom code budget
+
+Exactly **one** custom block: `ghoroa/menu-list`, because core blocks cannot lay out
+"name … leader … price" from post meta. Its editor UI is plain `wp.*` JS with no build
+step — do not introduce a bundler into the plugin.
+
+Everything else is core blocks, patterns, and `theme.json`. No page builders, no
+Elementor, max 5–8 plugins.
+
+## Logo
+
+Approved marks under `ghoroa-theme/assets/images/ghoroa-logo*`.
+**Do not invent or redesign logos.** Polish only, and only from an approved asset.

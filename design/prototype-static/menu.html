@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — Ghoroa, Dhaka</title>
+  <meta name="description" content="Full Ghoroa menu — breakfast, lunch, dinner, kebabs, and Tk 200 flower rice. Authentic Dhaka prices.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="icon" href="assets/images/ghoroa-logo-wordmark.svg" type="image/svg+xml">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="font-body antialiased menu-page">
+
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header id="siteNav" class="site-nav nav-dark">
+    <div class="nav-inner">
+      <a href="index.html" class="site-logo-link" aria-label="Ghoroa home">
+        <img
+          src="assets/images/ghoroa-logo-wordmark-on-dark.svg"
+          alt="Ghoroa"
+          class="site-logo logo-compact"
+          width="148"
+          height="30"
+        >
+      </a>
+      <ul class="nav-links" aria-label="Primary">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#story">Our Story</a></li>
+        <li><a href="menu.html" class="is-active">Menu</a></li>
+        <li><a href="index.html#reservations">Reservations</a></li>
+      </ul>
+      <a class="nav-cta" href="tel:+8801711223344">Book a table</a>
+      <button id="menuToggle" type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobileDrawer" aria-label="Open menu">
+        <i class="ph ph-list text-lg"></i>
+      </button>
+    </div>
+  </header>
+
+  <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
+    <div class="mobile-drawer-backdrop" data-close-menu></div>
+    <nav class="mobile-drawer-panel" aria-label="Mobile">
+      <a href="index.html" data-close-menu>Home</a>
+      <a href="index.html#story" data-close-menu>Our Story</a>
+      <a href="menu.html" data-close-menu>Menu</a>
+      <a href="index.html#reservations" data-close-menu>Reservations</a>
+      <a href="tel:+8801711223344" data-close-menu>Book a table</a>
+    </nav>
+  </div>
+
+  <main id="main">
+    <header class="menu-header">
+      <div class="menu-header-inner">
+        <div>
+          <h1 class="menu-title">
+            <span class="lang-en">The full menu.</span>
+            <span class="lang-bn">সম্পূর্ণ মেনু।</span>
+          </h1>
+          <p class="menu-subtitle">
+            <span class="lang-en">Transcribed from Ghoroa's printed menu. Prices shown are takeaway unless noted.</span>
+            <span class="lang-bn">মুদ্রিত মেনু অনুযায়ী। দামগুলো সাধারণত টেকঅ্যাওয়ে।</span>
+          </p>
+          <p class="menu-price-note">
+            <span class="lang-en">Eat-in prices differ on some items</span>
+            <span class="lang-bn">কিছু পদে এখানে খাওয়ার দাম আলাদা</span>
+          </p>
+        </div>
+        <a href="index.html" class="btn btn-outline shrink-0">
+          <i class="ph ph-arrow-left" aria-hidden="true"></i>
+          <span class="lang-en">Home</span>
+          <span class="lang-bn">হোম</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="menu-toolbar">
+      <div class="menu-toolbar-inner" style="width:min(1200px,100%);margin:0 auto;padding:1rem 1.25rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;">
+        <div class="menu-cats" role="tablist" aria-label="Menu categories">
+          <button type="button" class="menu-cat active" data-cat="all" role="tab" aria-selected="true">All</button>
+          <button type="button" class="menu-cat" data-cat="breakfast" role="tab" aria-selected="false">Breakfast</button>
+          <button type="button" class="menu-cat" data-cat="mains" role="tab" aria-selected="false">Lunch & Dinner</button>
+          <button type="button" class="menu-cat" data-cat="kebabs" role="tab" aria-selected="false">Kebabs</button>
+          <button type="button" class="menu-cat" data-cat="desserts" role="tab" aria-selected="false">Desserts</button>
+          <button type="button" class="menu-cat" data-cat="flower_rice" role="tab" aria-selected="false">Flower Rice</button>
+        </div>
+        <div class="menu-search-wrap" style="width:min(280px,100%);">
+          <input id="menuSearch" type="search" class="menu-search" placeholder="Search dishes…" autocomplete="off" aria-label="Search menu">
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-body">
+      <p id="menuResults" class="menu-results" aria-live="polite" style="width:min(1200px,100%);margin:0 auto 1rem;padding:0 1.25rem;color:var(--g-muted);"></p>
+      <div id="menuContainer" style="width:min(1200px,100%);margin:0 auto;padding:0 1.25rem;"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="site-logo-link" aria-label="Ghoroa home">
+          <img
+            src="assets/images/ghoroa-logo-wordmark-on-dark.svg"
+            alt="Ghoroa"
+            class="site-logo logo-compact"
+            width="148"
+            height="30"
+          >
+        </a>
+        <p>Heritage Bengali kitchen · Dhaka</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#story">Our Story</a></li>
+          <li><a href="menu.html">Menu</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p><a href="mailto:hello@ghoroa.com">hello@ghoroa.com</a></p>
+        <p style="margin-top:0.35rem;"><a href="tel:+8801711223344">+880 1711 223344</a></p>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2026 Ghoroa · Pixel Mango prototype</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="assets/js/app-state.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/menu.js"></script>
+</body>
+</html>

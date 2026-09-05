@@ -1,0 +1,69 @@
+import { Eyebrow, GoldButton, Reveal } from './primitives'
+
+export default function Feast() {
+  return (
+    <section id="feast" className="relative overflow-hidden bg-forest py-24 lg:py-32" aria-labelledby="feast-title">
+      {/* Ornamental arch lattice, echoing the mark */}
+      <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full text-gold-deep opacity-[0.07]">
+        <defs>
+          <pattern id="arches" width="72" height="72" patternUnits="userSpaceOnUse">
+            <path d="M36 66V30a18 18 0 0 1 0 0 18 18 0 0 1 0 0zM6 66V36a30 30 0 0 1 60 0v30" fill="none" stroke="currentColor" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#arches)" />
+      </svg>
+
+      <div className="relative mx-auto grid max-w-[82rem] items-center gap-14 px-5 lg:grid-cols-2 lg:gap-20 lg:px-10">
+        <Reveal className="order-2 lg:order-1">
+          <Eyebrow>The feast</Eyebrow>
+          <h2 id="feast-title" className="display mt-5 text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.08] text-cream">
+            Cooked for a crowd,
+            <br />
+            the way Dhaka does it.
+          </h2>
+          <p className="mt-6 max-w-md text-[0.95rem] leading-[1.8] text-cream/85">
+            Kacchi biryani is sealed in the pot and baked until the rice takes the meat's perfume. Nothing about it is
+            quick, and that is exactly the point.
+          </p>
+          <ul className="mt-8 space-y-3">
+            {['Whole-cut mutton, aged chinigura rice', 'Spices ground the morning of service', 'Sealed dough lid — opened at the table'].map(
+              (line) => (
+                <li key={line} className="flex items-start gap-3 text-[0.88rem] text-cream/80">
+                  <svg aria-hidden width="7" height="7" viewBox="0 0 8 8" className="mt-1.5 shrink-0 text-gold" fill="currentColor">
+                    <path d="M4 0l4 4-4 4-4-4z" />
+                  </svg>
+                  {line}
+                </li>
+              ),
+            )}
+          </ul>
+          <div className="mt-9">
+            <GoldButton href="#menu">Browse the menu</GoldButton>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="order-1 lg:order-2">
+          <div className="relative">
+            <figure className="relative overflow-hidden border border-gold-deep/50">
+              <img
+                src="/images/hero-accent.jpg"
+                alt="Kacchi biryani plated with roast chicken and whole spices"
+                loading="lazy"
+                className="aspect-4/5 w-full object-cover"
+              />
+            </figure>
+            {/* Inset second frame, offset for depth */}
+            <figure className="absolute -bottom-8 -left-8 hidden w-40 overflow-hidden border-4 border-forest shadow-2xl shadow-dark/60 sm:block lg:-left-16 lg:w-52">
+              <img
+                src="/images/curry.jpg"
+                alt="Beef curry served in a copper karahi with fresh naan"
+                loading="lazy"
+                className="aspect-square w-full object-cover"
+              />
+            </figure>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}

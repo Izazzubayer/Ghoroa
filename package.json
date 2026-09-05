@@ -1,9 +1,15 @@
 {
-  "name": "gharowa-deck",
+  "name": "ghoroa",
   "private": true,
   "type": "module",
   "scripts": {
-    "export:pdf": "node export-pdf.mjs deck.html GHOROA_Proposal.pdf"
+    "check": "npm run check:contrast && npm run check:php",
+    "check:contrast": "node ghoroa-theme/tools/check-contrast.mjs",
+    "check:php": "php ghoroa-core/tests/test-menu-list.php",
+    "check:blocks": "node ghoroa-theme/tools/check-blocks.mjs",
+    "deck:pdf": "node docs/deck/export-pdf.mjs",
+    "design:dev": "cd design/prototype-react && npm run dev",
+    "design:build": "cd design/prototype-react && npm run build"
   },
   "dependencies": {
     "puppeteer": "^24.22.0"

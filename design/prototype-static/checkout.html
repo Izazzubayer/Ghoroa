@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Ghoroa Traditional Cuisine</title>
+    
+    <!-- Local Offline-First Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Hind+Siliguri:wght@300;400;500;600;700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'g-rust': '#A8461E',
+                        'g-clay': '#D98B5F',
+                        'g-sand': '#EFE3D0',
+                        'g-espresso': '#2E2117',
+                        'g-olive': '#6E7350',
+                        'g-brass': '#A9824E'
+                    },
+                    fontFamily: {
+                        'fraunces': ['Fraunces', 'serif'],
+                        'work-sans': ['Work Sans', 'sans-serif'],
+                        'hind': ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Work Sans', sans-serif; color: #2E2117; background-color: #FBF6EE; }
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
+        .lang-bn { display: none; font-family: 'Hind Siliguri', sans-serif; }
+        body.lang-bn-active .lang-en { display: none; }
+        body.lang-bn-active .lang-bn { display: inline-block; }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-g-espresso text-g-sand sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <span class="font-fraunces italic text-3xl">Ghoroa</span>
+                <span class="font-hind text-xl text-g-clay">ঘরোয়া</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="menu.html" class="hover:text-g-clay text-sm font-medium">Back to Menu</a>
+                <button id="langToggle" class="flex items-center gap-2 border border-g-sand/40 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="ph ph-translate text-base"></i>
+                    <span id="langLabel">EN</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-8 py-12 w-full">
+        <h1 class="text-4xl text-g-espresso mb-8">
+            <span class="lang-en">Checkout</span>
+            <span class="lang-bn">চেকআউট</span>
+        </h1>
+
+        <form id="checkoutForm" class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Form Section (8 cols) -->
+            <div class="lg:col-span-7 space-y-8">
+                <!-- Fulfillment Type -->
+                <div class="bg-white p-8 rounded-xl border border-g-espresso/10 shadow-sm space-y-6">
+                    <h3 class="text-2xl text-g-espresso border-b border-g-sand pb-4">1. Order Type</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="fulfillment-option cursor-pointer border-2 border-g-rust bg-g-sand/30 p-5 rounded-lg flex flex-col items-center gap-2 text-center">
+                            <input type="radio" name="fulfillment" value="delivery" checked class="hidden">
+                            <i class="ph ph-moped text-3xl text-g-rust"></i>
+                            <span class="font-semibold text-g-espresso">Home Delivery</span>
+                        </label>
+                        <label class="fulfillment-option cursor-pointer border-2 border-g-espresso/20 bg-white p-5 rounded-lg flex flex-col items-center gap-2 text-center">
+                            <input type="radio" name="fulfillment" value="pickup" class="hidden">
+                            <i class="ph ph-storefront text-3xl text-g-espresso"></i>
+                            <span class="font-semibold text-g-espresso">Takeaway Pickup</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Contact & Delivery Address -->
+                <div class="bg-white p-8 rounded-xl border border-g-espresso/10 shadow-sm space-y-6">
+                    <h3 class="text-2xl text-g-espresso border-b border-g-sand pb-4">2. Delivery Details</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-g-espresso mb-2">Customer Name *</label>
+                            <input type="text" id="custName" required placeholder="e.g. Tamjid Hossain" class="w-full p-3 rounded-md border border-g-espresso/20 focus:border-g-rust focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-g-espresso mb-2">Mobile Number *</label>
+                            <input type="tel" id="custPhone" required placeholder="01711XXXXXX" class="w-full p-3 rounded-md border border-g-espresso/20 focus:border-g-rust focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div id="addressSection" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-g-espresso mb-2">Delivery Area *</label>
+                            <select id="custArea" required class="w-full p-3 rounded-md border border-g-espresso/20 focus:border-g-rust focus:outline-none bg-white">
+                                <!-- Options Injected via JS -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-g-espresso mb-2">Detailed Address *</label>
+                            <textarea id="custAddress" required rows="3" placeholder="House/Flat no., Road no., Block..." class="w-full p-3 rounded-md border border-g-espresso/20 focus:border-g-rust focus:outline-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-g-espresso mb-2">Special Instructions (Optional)</label>
+                        <input type="text" id="custNotes" placeholder="Less spicy, knock door instead of ringing bell..." class="w-full p-3 rounded-md border border-g-espresso/20 focus:border-g-rust focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white p-8 rounded-xl border border-g-espresso/10 shadow-sm space-y-4">
+                    <h3 class="text-2xl text-g-espresso border-b border-g-sand pb-4">3. Payment</h3>
+                    <div class="bg-g-sand/40 p-4 rounded-lg border border-g-brass/30 flex items-center gap-4">
+                        <i class="ph ph-money text-3xl text-g-rust"></i>
+                        <div>
+                            <h4 class="font-semibold text-g-espresso">Cash on Delivery (COD)</h4>
+                            <p class="text-xs text-g-espresso/70">Please have exact change ready upon delivery.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Summary Section (5 cols) -->
+            <div class="lg:col-span-5">
+                <div class="bg-g-espresso text-g-sand p-8 rounded-xl shadow-xl sticky top-28 space-y-6 border border-g-brass/20">
+                    <h3 class="text-2xl font-fraunces border-b border-g-sand/15 pb-4">Order Summary</h3>
+                    
+                    <div id="summaryItemsList" class="space-y-4 max-h-64 overflow-y-auto pr-2 divide-y divide-g-sand/10">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <div class="border-t border-g-sand/15 pt-4 space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-g-sand/70">Items Subtotal</span>
+                            <span id="sumSubtotal" class="font-semibold">৳0</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-g-sand/70">Delivery Fee</span>
+                            <span id="sumDeliveryFee" class="font-semibold text-g-clay">৳0</span>
+                        </div>
+                        <div class="flex justify-between text-xl font-bold font-fraunces pt-2 border-t border-g-sand/15 text-white">
+                            <span>Total Payable</span>
+                            <span id="sumTotal" class="text-g-clay">৳0</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-g-rust text-white py-4 rounded-md font-semibold text-lg hover:bg-orange-800 transition-colors shadow-lg mt-6">
+                        Confirm & Place Order
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <!-- App State Scripts -->
+    <script src="assets/js/app-state.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const store = window.GhoroaState;
+            const cart = store.getCart();
+
+            if (cart.length === 0) {
+                alert('Your cart is empty. Redirecting to menu...');
+                window.location.href = 'menu.html';
+                return;
+            }
+
+            // Populate Zones Select
+            const areaSelect = document.getElementById('custArea');
+            const zones = store.getZones();
+            let areaHtml = '<option value="">-- Select Delivery Area --</option>';
+            zones.forEach(z => {
+                areaHtml += `<option value="${z.id}" data-fee="${z.fee}">${z.name_en} (৳${z.fee} fee)</option>`;
+            });
+            areaSelect.innerHTML = areaHtml;
+
+            // Render Summary Items
+            const itemsList = document.getElementById('summaryItemsList');
+            let itemsHtml = '';
+            cart.forEach(item => {
+                itemsHtml += `
+                    <div class="pt-3 first:pt-0 flex justify-between items-center text-sm">
+                        <div>
+                            <div class="font-medium text-white">${item.name_en} x${item.qty}</div>
+                            <div class="text-xs text-g-sand/60">৳${item.price} each</div>
+                        </div>
+                        <div class="font-semibold">৳${item.price * item.qty}</div>
+                    </div>
+                `;
+            });
+            itemsList.innerHTML = itemsHtml;
+
+            // Calculation Logic
+            function updateTotals() {
+                const subtotal = store.getCartSubtotal();
+                const isDelivery = document.querySelector('input[name="fulfillment"]:checked').value === 'delivery';
+                const selectedOpt = areaSelect.options[areaSelect.selectedIndex];
+                const fee = (isDelivery && selectedOpt && selectedOpt.dataset.fee) ? parseInt(selectedOpt.dataset.fee) : 0;
+
+                document.getElementById('sumSubtotal').textContent = '৳' + subtotal;
+                document.getElementById('sumDeliveryFee').textContent = isDelivery ? ('৳' + fee) : 'Free Pickup';
+                document.getElementById('sumTotal').textContent = '৳' + (subtotal + fee);
+            }
+
+            updateTotals();
+
+            // Fulfillment radio change
+            document.querySelectorAll('input[name="fulfillment"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const isDelivery = e.target.value === 'delivery';
+                    document.getElementById('addressSection').style.display = isDelivery ? 'block' : 'none';
+                    document.getElementById('custArea').required = isDelivery;
+                    document.getElementById('custAddress').required = isDelivery;
+                    
+                    document.querySelectorAll('.fulfillment-option').forEach(opt => {
+                        opt.classList.remove('border-g-rust', 'bg-g-sand/30');
+                        opt.classList.add('border-g-espresso/20', 'bg-white');
+                    });
+                    e.target.closest('.fulfillment-option').classList.add('border-g-rust', 'bg-g-sand/30');
+
+                    updateTotals();
+                });
+            });
+
+            areaSelect.addEventListener('change', updateTotals);
+
+            // Submit Form
+            document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const isDelivery = document.querySelector('input[name="fulfillment"]:checked').value === 'delivery';
+                const subtotal = store.getCartSubtotal();
+                const selectedOpt = areaSelect.options[areaSelect.selectedIndex];
+                const fee = (isDelivery && selectedOpt && selectedOpt.dataset.fee) ? parseInt(selectedOpt.dataset.fee) : 0;
+
+                const orderData = {
+                    customer: {
+                        name: document.getElementById('custName').value,
+                        phone: document.getElementById('custPhone').value,
+                        address: isDelivery ? document.getElementById('custAddress').value : 'Self Pickup',
+                        area: isDelivery ? areaSelect.value : 'pickup'
+                    },
+                    items: cart.map(i => ({ name_en: i.name_en, qty: i.qty, price: i.price })),
+                    total: subtotal + fee,
+                    fulfillment: isDelivery ? 'delivery' : 'pickup',
+                    deliveryFee: fee,
+                    notes: document.getElementById('custNotes').value
+                };
+
+                const newOrder = store.createOrder(orderData);
+                window.location.href = `order-status.html?id=${newOrder.id}`;
+            });
+        });
+    </script>
+</body>
+</html>
