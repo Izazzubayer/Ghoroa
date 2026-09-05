@@ -1,4 +1,6 @@
+import { BookOpen, ChefHat, MapPin } from 'lucide-react';
 import { ArchFrame, Eyebrow, GoldButton, Reveal } from '@/components/primitives';
+import { aboutLead } from '@/lib/about-copy';
 
 export function Story({
   locale,
@@ -8,10 +10,28 @@ export function Story({
   settings: { about: string };
 }) {
   const stats = [
-    { value: '40+', label: locale === 'bn' ? 'বছরের রেসিপি' : 'Years of recipes' },
-    { value: '117', label: locale === 'bn' ? 'মন্ত্র খাবার' : 'Dishes served' },
-    { value: '1', label: locale === 'bn' ? 'কিচেন, কোনো শর্টকাট নেই' : 'Kitchen, no shortcuts' },
+    {
+      value: '1979',
+      label: locale === 'bn' ? 'মতিঝিলে শুরু' : 'Founded in Motijheel',
+      Icon: BookOpen,
+    },
+    {
+      value: '40+',
+      label: locale === 'bn' ? 'বছরের টেবিল' : 'Years at the table',
+      Icon: MapPin,
+    },
+    {
+      value: '1',
+      label: locale === 'bn' ? 'খিচুড়ির স্বাক্ষর' : 'Khichuri, no shortcuts',
+      Icon: ChefHat,
+    },
   ];
+
+  const storyBody = settings.about?.trim() || aboutLead(locale);
+  const storySecond =
+    locale === 'bn'
+      ? 'প্রতিটি প্লেট সেই একই প্রতিজ্ঞা — তাজা মশলা, ধৈর্যের হাঁড়ি, এবং ঘরের মতো উদার পরিবেশন।'
+      : 'Every plate keeps the same promise — spices ground for the day, patience in the pot, and a table that still feels like home.';
 
   return (
     <section id="story" data-nav-contrast="light" className="grain relative overflow-hidden bg-parchment py-24 text-ink lg:py-32" aria-labelledby="story-title">
@@ -45,36 +65,34 @@ export function Story({
 
           <Reveal delay={0.1}>
             <div className="mt-7 max-w-lg space-y-4 text-[0.95rem] leading-[1.8] text-muted">
-              <p>
-                {locale === 'bn'
-                  ? 'Ghoroa Bangladeshi ঐতিহ্যের স্বাদ আপনার টেবিলে আনে। ঐতিহ্যবাহী রেসিপি ঐতিহ্য ঐতিহ্য ঐতিহ্য ঐতিহ্য ঐতিহ্য ঐতিহ্য'
-                  : settings.about ||
-                    'Ghoroa brings the soul of Bengal to your table. Inspired by traditional recipes passed down through generations, we celebrate the rich flavours, warm hospitality, and timeless culture of Bangladesh.'}
-              </p>
-              <p>
-                {locale === 'bn'
-                  ? 'প্রতিটি খাবার ঐতিহ্যের ঐতিহ্যের মতো খাঁটি মশলা, খাঁটি খামার, এবং ধৈর্যের সাথে খাঁটি খাঁটি খাঁটি খাঁটি খাঁটি খাঁটি'
-                  : 'Every dish begins the way it always has — spices ground fresh, mustard oil in the pan, and the patience to wait for the first bubble.'}
-              </p>
+              <p>{storyBody}</p>
+              <p>{storySecond}</p>
             </div>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="mt-9">
-              <GoldButton href={`${locale === 'bn' ? '/bn' : '/en'}#menu`} variant="primary">
-                {locale === 'bn' ? 'মেনু দেখুন' : 'Discover our story'}
+              <GoldButton href={`${locale === 'bn' ? '/bn' : '/en'}/about`} variant="primary">
+                {locale === 'bn' ? 'পুরো গল্প' : 'Read the full story'}
               </GoldButton>
             </div>
           </Reveal>
 
           <Reveal delay={0.2}>
             <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-ink/12 pt-8">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <dt className="sr-only">{s.label}</dt>
+              {stats.map(({ value, label, Icon }) => (
+                <div key={label}>
+                  <dt className="sr-only">{label}</dt>
                   <dd>
-                    <span className="block text-3xl font-light tracking-tight text-forest">{s.value}</span>
-                    <span className="mt-1 block text-[0.68rem] uppercase tracking-[0.14em] text-muted">{s.label}</span>
+                    <Icon
+                      aria-hidden
+                      className="mb-3 h-5 w-5 text-terracotta"
+                      strokeWidth={1.5}
+                    />
+                    <span className="font-numeral block text-3xl font-normal tracking-tight text-forest">
+                      {value}
+                    </span>
+                    <span className="mt-1 block text-[0.68rem] uppercase tracking-[0.14em] text-muted">{label}</span>
                   </dd>
                 </div>
               ))}

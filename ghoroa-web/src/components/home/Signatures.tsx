@@ -23,24 +23,31 @@ function coursesFromMenu(
 ): Course[] {
   const groups = menu.groups;
   const categories = menu.categories || {};
+  // Home signatures: three headline categories, a few plates each
+  const prefer = ['rice', 'curry', 'kebab-grill'];
   const result: Course[] = [];
 
-  // Prefer a simple grouping: each meal period becomes a course with items.
-  Object.entries(groups).forEach(([slug, items]) => {
+  for (const slug of prefer) {
+    const items = groups[slug];
+    if (!items?.length) continue;
     const name = categories[slug] || { en: slug, bn: slug };
     const heading = locale === 'bn' ? name.bn : name.en;
+    const picks = [
+      ...items.filter((it) => it.featured),
+      ...items.filter((it) => !it.featured),
+    ].slice(0, 4);
     result.push({
       heading,
-      bn: heading,
-      items: (items as MenuItem[]).map((it) => ({
+      bn: locale === 'bn' ? name.en : name.bn,
+      items: picks.map((it) => ({
         id: it.id,
-        name: it.name,
+        name: locale === 'bn' ? it.name_bn || it.name_en : it.name_en || it.name,
         bn: it.name_bn || it.name_en,
         note: locale === 'bn' ? it.desc_bn || it.desc_en : it.desc_en || it.desc_bn,
-        price: String(formatPrice(it.price_eatin) ?? '—').replace('৳', ''),
+        price: String(formatPrice(it.price_eatin ?? it.price_takeaway) ?? '—').replace('৳', ''),
       })),
     });
-  });
+  }
 
   return result.length ? result : DEFAULT_COURSES;
 }

@@ -28,6 +28,34 @@ export function Eyebrow({ children, tone = 'gold' }: { children: ReactNode; tone
   );
 }
 
+/**
+ * Rottering (`.display`) has no digit glyphs, and its personal-use build
+ * maps `&` to a “PERSONAL USE ONLY” watermark. Latin title numerals and
+ * ampersands use Cormorant Garamond; Bengali digits stay on Noto.
+ */
+export function DisplayText({ text, className = '' }: { text: string; className?: string }) {
+  const parts = text.split(/(\d+|[০-৯]+|&)/);
+  return (
+    <span className={className}>
+      {parts.map((part, i) =>
+        /^\d+$/.test(part) || part === '&' ? (
+          <span key={i} className="font-numeral tracking-normal">
+            {part}
+          </span>
+        ) : /^[০-৯]+$/.test(part) ? (
+          <span key={i} className="font-bn tracking-normal">
+            {part}
+          </span>
+        ) : (
+          <span key={i} className="display">
+            {part}
+          </span>
+        ),
+      )}
+    </span>
+  );
+}
+
 export function GoldButton({
   href,
   children,

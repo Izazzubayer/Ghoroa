@@ -41,8 +41,18 @@ export function SmoothScroll() {
     };
     document.addEventListener('click', onClick);
 
+    // Programmatic scroll (menu category tabs, etc.) — Lenis must own it.
+    const onScrollTo = (e: Event) => {
+      const { id, offset = 72 } = (e as CustomEvent<{ id: string; offset?: number }>).detail;
+      const target = document.getElementById(id);
+      if (!target) return;
+      lenis.scrollTo(target, { offset: -offset });
+    };
+    window.addEventListener('ghoroa:scrollTo', onScrollTo);
+
     return () => {
       document.removeEventListener('click', onClick);
+      window.removeEventListener('ghoroa:scrollTo', onScrollTo);
       cancelAnimationFrame(raf);
       lenis.destroy();
       lenisRef.current = null;

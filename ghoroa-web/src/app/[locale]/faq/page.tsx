@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { createMetadata } from '@/lib/seo';
-import { SiteFooter } from '@/components/layout';
-import { Nav } from '@/components/layout';
+import { SiteFooter, Nav } from '@/components/layout';
+import { FaqSection } from '@/components/home/Faq';
 import { loadHomeData } from '@/components/home/page-data';
 import type { Locale } from '@/lib/cms';
 
@@ -31,5 +31,3 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
     </div>
   );
 }
-
-import { FaqSection } from '@/components/layout';

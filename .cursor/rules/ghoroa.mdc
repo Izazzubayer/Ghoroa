@@ -49,13 +49,15 @@ Stable URLs (Phase 2 depends on these): `/menu/`, `/about/`, `/contact/`,
 Ported from `design/prototype-react/` (forest/gold dark theme). **Never hardcode hex
 elsewhere.**
 
-- Fonts: Rottering (display) · Montserrat (body) · Hind Siliguri (BN), self-hosted.
+- Fonts: Rottering (display) · Cormorant Garamond (title numerals) · Montserrat (body) ·
+  Noto Serif Bengali (BN). Numerals never use Rottering — use `.font-numeral` /
+  `DisplayText` (Cormorant Garamond) in headers and titles.
 - The site is **dark forest-based** (`#080d09` / `#062e1b`), not sand/rust.
 - Accent is **terracotta red**: solid CTAs `terracotta #a13828` + cream text; on-dark
   text/outline accents use lighter reds (`#e07a68` / `#d46050`, still named `gold` /
   `gold-deep` in tokens for class compatibility). `parchment #F2E9DA` for light bands.
 - `docs/brand/Ghoroa_Brand_Guidelines.html` (rust/sand) is print collateral — **not**
-  the web palette. Numerals never use Rottering (no digit glyphs).
+  the web palette.
 
 ### Palette rules the contrast maths forces
 

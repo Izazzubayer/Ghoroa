@@ -3,12 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, Circle } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { IconBrandInstagram, IconBrandFacebook } from '@tabler/icons-react';
 import { localePrefix, swapLocalePath, type Locale } from '@/lib/cms';
-import { SplitAccordion, type AccordionItemData } from '@/components/watermelon/card-split-accordian';
 import { LocaleBillingToggle } from '@/components/watermelon/locale-billing-toggle';
-import { Reveal } from '@/components/primitives';
 import { buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -77,6 +75,7 @@ export function Nav({
     { href: `${prefix}/menu`, label: locale === 'bn' ? 'মেনু' : 'Menu' },
     { href: orderNow, label: locale === 'bn' ? 'অনলাইন অর্ডার' : 'Order Online', external: true },
     { href: `${prefix}/about`, label: locale === 'bn' ? 'আমাদের গল্প' : 'Our Story' },
+    { href: `${prefix}/contact`, label: locale === 'bn' ? 'যোগাযোগ' : 'Contact' },
   ];
   const LINKS = links ?? defaultLinks;
 
@@ -190,46 +189,6 @@ export function Nav({
         </div>
       </div>
     </header>
-  );
-}
-
-export function FaqSection({
-  locale,
-  items,
-}: {
-  locale: Locale;
-  items: Array<{ id: number; question: string; answer: string }>;
-}) {
-  const accordion: AccordionItemData[] = items.map((item, i) => ({
-    id: i + 1,
-    title: item.question,
-    content: item.answer,
-  }));
-
-  return (
-    <section id="faq" className="relative bg-dark pb-24 lg:pb-32" aria-labelledby="faq-title">
-      <div className="mx-auto max-w-3xl px-5 lg:px-10">
-        <Reveal className="flex flex-col items-center text-center">
-          <p className="flex items-center gap-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-gold-deep">
-            <Circle className="h-1.5 w-1.5" strokeWidth={2.5} />
-            {locale === 'bn' ? 'জানুন' : 'Good to know'}
-            <Circle className="h-1.5 w-1.5" strokeWidth={2.5} />
-          </p>
-          <h2 id="faq-title" className="display mt-5 text-[clamp(1.8rem,3.4vw,2.7rem)] font-normal text-cream">
-            {locale === 'bn' ? 'প্রশ্ন, উত্তর।' : 'Questions, answered.'}
-          </h2>
-          <span aria-hidden className="mt-5 inline-flex items-center gap-2 text-gold-deep">
-            <span className="h-px w-8 bg-current opacity-50" />
-            <Circle className="h-1.5 w-1.5" strokeWidth={2.5} />
-            <span className="h-px w-8 bg-current opacity-50" />
-          </span>
-        </Reveal>
-
-        <Reveal delay={0.08} className="mt-12">
-          <SplitAccordion items={accordion} />
-        </Reveal>
-      </div>
-    </section>
   );
 }
 

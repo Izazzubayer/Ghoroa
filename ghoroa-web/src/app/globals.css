@@ -38,6 +38,8 @@
   --font-display: 'Rottering', 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Montserrat', system-ui, sans-serif;
   --font-bn: 'Noto Serif Bengali', serif;
+  /* Rottering has no digits — Cormorant Garamond for title numerals */
+  --font-numeral: 'Cormorant Garamond', 'Times New Roman', serif;
 }
 
 html {
@@ -128,6 +130,16 @@ a {
   letter-spacing: -0.015em;
 }
 
+/* Header/title numerals — Cormorant Garamond */
+.font-numeral {
+  font-family: var(--font-numeral);
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  font-variant-numeric: lining-nums;
+}
+
 .font-bn {
   font-family: var(--font-bn);
   font-optical-sizing: auto;
@@ -155,6 +167,14 @@ html.locale-bn select {
   font-style: normal;
   font-weight: 500;
   font-variation-settings: 'wdth' 92.5;
+}
+
+/* Keep Cormorant Garamond on Latin title numerals even in BN locale */
+html.locale-bn .font-numeral,
+html.locale-bn .font-numeral * {
+  font-family: var(--font-numeral) !important;
+  font-variation-settings: normal !important;
+  font-weight: 500;
 }
 
 /*

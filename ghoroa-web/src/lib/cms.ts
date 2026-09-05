@@ -3,6 +3,8 @@
  * Cache tags: menu | faq | locations | pages | settings.
  */
 
+import { fallbackMenu, menuHasItems } from '@/lib/menu-fallback';
+
 export type Locale = 'en' | 'bn';
 
 export type MenuItem = {
@@ -88,28 +90,18 @@ async function wpGet<T>(path: string, fallback: T): Promise<T> {
 }
 
 export async function fetchMenu(locale: Locale = 'en'): Promise<MenuPayload> {
-  const fallback: MenuPayload = {
-    locale,
-    categories: {
-      breakfast: { en: 'Breakfast', bn: 'সকালের নাস্তা' },
-      lunch: { en: 'Lunch', bn: 'দুপুরের খাবার' },
-      dinner: { en: 'Dinner', bn: 'বিকাল ও রাতের খাবার' },
-      juice: { en: 'Juice bar', bn: 'জুস বার' },
-      snacks: { en: 'Snacks', bn: 'নাস্তা' },
-    },
-    groups: {},
-  };
   try {
     const res = await fetch(`${wpBase()}/wp-json/ghoroa/v1/menu?locale=${locale}`, {
       next: { revalidate: 60, tags: [tag('menu', locale)] },
     });
-    if (!res.ok) return fallback;
-    const data = await res.json();
-    if (!data.groups) return fallback;
-    return data as MenuPayload;
+    if (res.ok) {
+      const data = (await res.json()) as MenuPayload;
+      if (data.groups && menuHasItems(data)) return data;
+    }
   } catch {
-    return fallback;
+    /* CMS down — use transcription fallback */
   }
+  return fallbackMenu(locale);
 }
 
 export async function fetchLocations(locale: Locale = 'en'): Promise<{ locale: Locale; locations: LocationItem[] }> {
@@ -143,12 +135,12 @@ export async function fetchSettings(): Promise<Settings> {
     phone: '+8801711223344',
     whatsapp: '8801711223344',
     hours: 'Daily · 12:00 – 23:00',
-    address: 'Gulshan 2, Dhaka',
+    address: '73, Mohakhali Wireless Gate, Dhaka 1206',
     email: 'hello@ghoroa.com',
     social: { instagram: 'https://instagram.com', facebook: 'https://facebook.com' },
     order_now: 'https://wa.me/8801711223344',
     about:
-      'Ghoroa brings the soul of Bengal to your table. Inspired by traditional recipes passed down through generations, we celebrate the rich flavours, warm hospitality, and timeless culture of Bangladesh.',
+      'Ghoroa began in Motijheel in 1979. Famous for bhuna khichuri and home-style plates, it still cooks the way Dhaka first fell in love with it.',
     tagline: 'Bangladeshi home cooking, served the way it was meant to be — unhurried, generous, and full of memory.',
   };
   try {
