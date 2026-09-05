@@ -179,7 +179,7 @@ export function CardSwipe({ items, className }: CardSwipeProps) {
             aria-label={`Show review ${i + 1}`}
             className={cn(
               'h-2 w-2 rounded-full transition-colors duration-200',
-              currentIndex === i ? 'bg-terracotta' : 'bg-ink/20 hover:bg-ink/35',
+              currentIndex === i ? 'bg-gold' : 'bg-ink/20 hover:bg-ink/35',
             )}
             onClick={() => setCurrentIndex(i)}
           />

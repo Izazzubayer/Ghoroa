@@ -1,12 +1,8 @@
 'use client';
 
 /**
- * Source: Watermelon UI `changeable-pricing-section` billing toggle
- * https://ui.watermelon.sh/animated-components/changeable-pricing-section
- * Extracted two-option spring toggle; brand-adapted for Ghoroa EN/BN.
+ * Quiet EN / বা text switch — replaces the pill billing toggle.
  */
-import { motion } from 'motion/react';
-
 export type LocaleId = 'en' | 'bn';
 
 export function LocaleBillingToggle({
@@ -22,34 +18,37 @@ export function LocaleBillingToggle({
     <div
       role="group"
       aria-label={ariaLabel}
-      data-locale-latin="true"
-      className="relative z-0 flex items-center rounded-full bg-cream/10 p-0.5 ring-1 ring-cream/15"
+      className="flex items-center gap-1.5 font-semibold"
     >
-      <motion.div
-        aria-hidden
-        className="absolute top-0.5 bottom-0.5 left-0.5 w-[calc(50%-2px)] -z-10 rounded-full bg-terracotta shadow-sm"
-        animate={{ x: value === 'en' ? 0 : '100%' }}
-        transition={{ type: 'spring', bounce: 0.35, duration: 0.55 }}
-      />
       <button
         type="button"
         aria-pressed={value === 'en'}
+        aria-current={value === 'en' ? 'true' : undefined}
+        data-locale-latin="true"
         onClick={() => onChange('en')}
-        className={`z-10 w-9 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] transition-colors ${
-          value === 'en' ? 'text-cream' : 'text-cream/70 hover:text-cream'
+        className={`text-[0.62rem] uppercase tracking-[0.18em] ${
+          value === 'en'
+            ? 'text-gold'
+            : 'text-cream/55 transition-colors hover:text-cream'
         }`}
       >
         EN
       </button>
+      <span aria-hidden className="text-[0.62rem] text-cream/30">
+        /
+      </span>
       <button
         type="button"
         aria-pressed={value === 'bn'}
+        aria-current={value === 'bn' ? 'true' : undefined}
         onClick={() => onChange('bn')}
-        className={`z-10 w-9 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] transition-colors ${
-          value === 'bn' ? 'text-cream' : 'text-cream/70 hover:text-cream'
+        className={`font-bn text-[0.8rem] leading-none ${
+          value === 'bn'
+            ? 'text-gold'
+            : 'text-cream/55 transition-colors hover:text-cream'
         }`}
       >
-        BN
+        বা
       </button>
     </div>
   );

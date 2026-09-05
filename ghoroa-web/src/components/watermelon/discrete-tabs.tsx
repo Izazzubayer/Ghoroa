@@ -73,8 +73,8 @@ export const DiscreteTabs: FC<DiscreteTabsProps> = ({
                   className={cn(
                     'flex h-11 cursor-pointer items-center gap-2 border px-3 transition-colors',
                     isActive
-                      ? 'border-terracotta bg-terracotta text-cream'
-                      : 'border-gold-deep/40 bg-forest-deep/40 text-cream/70 hover:border-gold-deep/70 hover:text-cream',
+                      ? 'border-gold bg-gold text-forest'
+                      : 'border-gold-deep/40 bg-forest-deep/40 text-cream/70 hover:border-gold hover:bg-gold hover:text-forest',
                   )}
                 >
                   <span className="flex items-center justify-center [&_svg]:h-[1.15rem] [&_svg]:w-[1.15rem]">

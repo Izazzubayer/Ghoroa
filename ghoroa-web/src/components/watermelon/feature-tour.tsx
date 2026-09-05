@@ -95,7 +95,7 @@ export function StoryPosterTour({
                   onClick={() => setIndex(i)}
                   className={cn(
                     'h-2 w-2 transition-colors',
-                    i === index ? 'bg-terracotta' : 'bg-cream/25 hover:bg-cream/45',
+                    i === index ? 'bg-gold' : 'bg-cream/25 hover:bg-cream/45',
                   )}
                 />
               ))}
@@ -105,7 +105,7 @@ export function StoryPosterTour({
                 type="button"
                 aria-label="Previous chapter"
                 onClick={() => go(index - 1)}
-                className="flex h-10 w-10 items-center justify-center border border-gold-deep/50 text-gold transition-colors hover:bg-terracotta hover:border-terracotta hover:text-cream"
+                className="flex h-10 w-10 items-center justify-center border border-gold-deep/50 text-gold transition-colors hover:bg-gold hover:border-gold hover:text-forest"
               >
                 <ChevronLeft className="h-4 w-4" strokeWidth={1.75} />
               </button>
@@ -113,7 +113,7 @@ export function StoryPosterTour({
                 type="button"
                 aria-label="Next chapter"
                 onClick={() => go(index + 1)}
-                className="flex h-10 w-10 items-center justify-center border border-gold-deep/50 text-gold transition-colors hover:bg-terracotta hover:border-terracotta hover:text-cream"
+                className="flex h-10 w-10 items-center justify-center border border-gold-deep/50 text-gold transition-colors hover:bg-gold hover:border-gold hover:text-forest"
               >
                 <ChevronRight className="h-4 w-4" strokeWidth={1.75} />
               </button>

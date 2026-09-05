@@ -1,5 +1,5 @@
 /**
- * Contrast guard for the forest / terracotta-red accent palette.
+ * Contrast guard for the forest / gold accent palette.
  *
  * Run: node ghoroa-theme/tools/check-contrast.mjs
  */
@@ -67,15 +67,15 @@ const PAIRS = [
   ['muted on parchment', t.muted, t.parchment, 4.5],
   ['ink on parchment', t.ink, t.parchment, 4.5],
   ['cream on forest (button)', t.cream, t.forest, 4.5],
-  ['cream on terracotta (CTA)', t.cream, t.terracotta, 4.5],
-  ['cream on terracotta-deep (CTA hover)', t.cream, t.terracottaDeep, 4.5],
+  ['forest on gold (CTA)', t.forest, t.gold, 4.5],
+  ['forest on gold-deep (CTA hover)', t.forest, t.goldDeep, 4.5],
   ['accent on forest-deep (footer links)', t.gold, t.forestDeep, 4.5],
 ];
 
 /* Must stay *below* AA — do not use these as text on dark without a brighter token. */
 const FORBIDDEN = [
-  ['accent/70 on dark (use full accent)', over(t.gold, t.dark, 0.7), t.dark, 4.5],
-  ['accent-deep/70 on dark', over(t.goldDeep, t.dark, 0.7), t.dark, 4.5],
+  ['accent/50 on dark (use full accent)', over(t.gold, t.dark, 0.5), t.dark, 4.5],
+  ['accent-deep/60 on dark', over(t.goldDeep, t.dark, 0.6), t.dark, 4.5],
 ];
 
 let failed = 0;

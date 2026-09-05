@@ -1,19 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { GoldButton } from '@/components/primitives';
-import { Reveal } from '@/components/primitives';
-import { formatPrice, pickLocaleLabel } from '@/lib/cms';
+import { PatternEdge, PatternMotif } from '@/components/patterns';
 
 export function Hero({
   locale,
   settings,
-  menu,
 }: {
   locale: 'en' | 'bn';
   settings: { tagline: string };
-  menu: { groups: Record<string, unknown[]>; categories: Record<string, { en: string; bn: string }> };
+  menu?: { groups: Record<string, unknown[]>; categories: Record<string, { en: string; bn: string }> };
 }) {
   const reduced = useReducedMotion();
   const isBn = locale === 'bn';
@@ -49,7 +46,7 @@ export function Hero({
               isBn ? 'tracking-normal normal-case' : 'uppercase tracking-[0.28em]'
             }`}
           >
-            <span aria-hidden className="h-px w-10 shrink-0 bg-gold-deep/60" />
+            <PatternMotif name="diamond" size={14} className="shrink-0 opacity-90" />
             {tag}
           </motion.p>
 
@@ -81,14 +78,15 @@ export function Hero({
             animate={reduced ? undefined : { opacity: 1 }}
             transition={{ duration: 0.9, delay: 0.7 }}
           >
-            <span
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/patterns/rule-strip.png"
+              alt=""
               aria-hidden
-              className="mt-8 inline-flex items-center gap-2 text-gold-deep"
-            >
-              <span className="h-px w-8 bg-current opacity-50" />
-              <span className="h-1.5 w-1.5 rounded-full bg-current" />
-              <span className="h-px w-8 bg-current opacity-50" />
-            </span>
+              className="mt-8 block h-7 w-52 object-contain object-left mix-blend-screen"
+              loading="lazy"
+              decoding="async"
+            />
 
             <p className="mt-6 max-w-md text-[0.95rem] leading-[1.75] text-cream/90">
               {settings.tagline}
@@ -104,6 +102,10 @@ export function Hero({
             </div>
           </motion.div>
         </div>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0">
+        <PatternEdge name="leaf" height={42} opacity={0.75} />
       </div>
     </section>
   );

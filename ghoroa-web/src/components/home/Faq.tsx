@@ -104,14 +104,14 @@ export function FaqSection({
     >
       <div className="mx-auto max-w-3xl px-5 lg:px-10">
         <Reveal className="flex flex-col items-center text-center">
-          <Eyebrow>{locale === 'bn' ? 'জানুন' : 'Good to know'}</Eyebrow>
+          <Eyebrow tone="gold">{locale === 'bn' ? 'জানুন' : 'Good to know'}</Eyebrow>
           <h2
             id="faq-title"
             className="display mt-5 text-[clamp(1.9rem,3.6vw,2.8rem)] font-normal text-cream"
           >
             {locale === 'bn' ? 'প্রশ্ন, উত্তর।' : 'Questions, answered.'}
           </h2>
-          <Ornament className="mt-5" />
+          <Ornament tone="gold" className="mt-5" />
           <p className="mt-6 max-w-md text-[0.95rem] leading-[1.75] text-cream/85">
             {locale === 'bn'
               ? 'রিজার্ভেশন, অর্ডার, এবং টেবিল নিয়ে সাধারণ প্রশ্ন।'

@@ -3,21 +3,35 @@
 import type { ReactNode } from 'react';
 import { ArrowRight, Circle } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
+import { PatternRule } from '@/components/patterns';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-export function Ornament({ className = '', tone = 'gold' }: { className?: string; tone?: 'gold' | 'terracotta' }) {
-  const color = tone === 'gold' ? 'text-gold-deep' : 'text-terracotta';
-  return (
-    <span aria-hidden className={`inline-flex items-center gap-2 ${color} ${className}`}>
-      <span className="h-px w-8 bg-current opacity-50" />
-      <Circle className="h-1.5 w-1.5" strokeWidth={2.5} />
-      <span className="h-px w-8 bg-current opacity-50" />
-    </span>
-  );
+/** Under titles: folk rule on dark; repeated diamonds on parchment. */
+export function Ornament({
+  className = '',
+  tone = 'terracotta',
+  surface = 'dark',
+}: {
+  className?: string;
+  tone?: 'gold' | 'terracotta';
+  surface?: 'dark' | 'light';
+}) {
+  if (surface === 'light') {
+    const fill = tone === 'gold' ? 'bg-gold-deep' : 'bg-terracotta';
+    return (
+      <span aria-hidden className={cn('inline-flex items-center gap-3', className)}>
+        <span className={cn('h-1.5 w-1.5 rotate-45', fill)} />
+        <span className={cn('h-2.5 w-2.5 rotate-45', fill)} />
+        <span className={cn('h-1.5 w-1.5 rotate-45', fill)} />
+      </span>
+    );
+  }
+  return <PatternRule className={className} />;
 }
 
-export function Eyebrow({ children, tone = 'gold' }: { children: ReactNode; tone?: 'gold' | 'terracotta' }) {
+/** Terracotta on parchment (AA). On dark forest, pass tone="gold". */
+export function Eyebrow({ children, tone = 'terracotta' }: { children: ReactNode; tone?: 'gold' | 'terracotta' }) {
   const color = tone === 'gold' ? 'text-gold-deep' : 'text-terracotta';
   return (
     <p className={`flex items-center gap-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] ${color}`}>
@@ -29,29 +43,36 @@ export function Eyebrow({ children, tone = 'gold' }: { children: ReactNode; tone
 }
 
 /**
- * Rottering (`.display`) has no digit glyphs, and its personal-use build
- * maps `&` to a “PERSONAL USE ONLY” watermark. Latin title numerals and
- * ampersands use Cormorant Garamond; Bengali digits stay on Noto.
+ * Split display strings so digits / Latin punctuation use Cormorant Garamond
+ * and Bengali digits stay on Noto. Prefer this when mixing Rottering with
+ * numerals; `.display` also falls back via unicode-range on Rottering.
  */
 export function DisplayText({ text, className = '' }: { text: string; className?: string }) {
-  const parts = text.split(/(\d+|[০-৯]+|&)/);
+  const parts = text.split(/(\d+|[০-৯]+|[^\p{L}\p{M}\s]+)/u);
   return (
     <span className={className}>
-      {parts.map((part, i) =>
-        /^\d+$/.test(part) || part === '&' ? (
-          <span key={i} className="font-numeral tracking-normal">
-            {part}
-          </span>
-        ) : /^[০-৯]+$/.test(part) ? (
-          <span key={i} className="font-bn tracking-normal">
-            {part}
-          </span>
-        ) : (
+      {parts.map((part, i) => {
+        if (!part) return null;
+        if (/^[০-৯]+$/.test(part)) {
+          return (
+            <span key={i} className="font-bn tracking-normal">
+              {part}
+            </span>
+          );
+        }
+        if (/^\d+$/.test(part) || /^[^\p{L}\p{M}\s]+$/u.test(part)) {
+          return (
+            <span key={i} className="font-numeral tracking-normal">
+              {part}
+            </span>
+          );
+        }
+        return (
           <span key={i} className="display">
             {part}
           </span>
-        ),
-      )}
+        );
+      })}
     </span>
   );
 }
@@ -85,7 +106,7 @@ export function GoldButton({
       {children}
       <ArrowRight
         aria-hidden
-        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:scale-110"
+        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
         strokeWidth={1.75}
       />
     </a>

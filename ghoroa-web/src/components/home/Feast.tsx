@@ -1,3 +1,4 @@
+import { PatternEdge, PatternMotif, PatternSide, PatternWash } from '@/components/patterns';
 import { Eyebrow, GoldButton, Reveal } from '@/components/primitives';
 
 export function Feast({ locale }: { locale: 'en' | 'bn' }) {
@@ -16,9 +17,13 @@ export function Feast({ locale }: { locale: 'en' | 'bn' }) {
 
   return (
     <section id="feast" className="relative overflow-hidden bg-forest py-24 lg:py-32" aria-labelledby="feast-title">
+      <PatternWash opacity={0.06} size={280} />
+      <PatternSide side="left" width={32} />
+      <PatternSide side="right" width={32} />
+
       <div className="relative mx-auto grid max-w-[82rem] items-center gap-14 px-5 lg:grid-cols-2 lg:gap-20 lg:px-10">
         <Reveal className="order-2 lg:order-1">
-          <Eyebrow>{locale === 'bn' ? 'উপহার' : 'The feast'}</Eyebrow>
+          <Eyebrow tone="gold">{locale === 'bn' ? 'উপহার' : 'The feast'}</Eyebrow>
           <h2 id="feast-title" className="display mt-5 text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.08] text-cream">
             {locale === 'bn' ? 'এক জায়গায়, ঠিক ঐতিহ্যের খাঁটি খাবার।' : 'Cooked for a crowd,\nthe way Dhaka does it.'}
           </h2>
@@ -30,7 +35,7 @@ export function Feast({ locale }: { locale: 'en' | 'bn' }) {
           <ul className="mt-8 space-y-3">
             {bullets.map((line) => (
               <li key={line} className="flex items-start gap-3 text-[0.88rem] text-cream/80">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+                <PatternMotif name="leaf" size={18} className="mt-0.5 shrink-0 opacity-80" />
                 {line}
               </li>
             ))}
@@ -62,6 +67,10 @@ export function Feast({ locale }: { locale: 'en' | 'bn' }) {
             </figure>
           </div>
         </Reveal>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0">
+        <PatternEdge name="vine" height={28} opacity={0.75} />
       </div>
     </section>
   );

@@ -129,7 +129,7 @@ export function Stepper({
           onClick={() => step(1)}
           disabled={current >= max}
           aria-label={increaseLabel}
-          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center bg-terracotta text-cream disabled:opacity-40"
+          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center bg-gold text-forest disabled:opacity-40"
         >
           <HiPlus className="h-4 w-4" />
         </motion.button>

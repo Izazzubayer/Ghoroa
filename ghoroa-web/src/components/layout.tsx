@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { IconBrandInstagram, IconBrandFacebook } from '@tabler/icons-react';
 import { localePrefix, swapLocalePath, type Locale } from '@/lib/cms';
+import { PatternEdge, PatternMotif } from '@/components/patterns';
 import { LocaleBillingToggle } from '@/components/watermelon/locale-billing-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -84,7 +85,7 @@ export function Nav({
   const solid = open || onDark;
 
   const navLinkClass =
-    'relative py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 text-cream hover:text-gold';
+    'relative py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 text-gold hover:text-cream';
 
   const menuBtnClass = onDark
     ? 'flex h-10 w-10 items-center justify-center border border-gold-deep/70 text-gold lg:hidden'
@@ -129,7 +130,7 @@ export function Nav({
       <div className="mx-auto flex max-w-[82rem] items-center justify-between gap-6 px-5 py-4 lg:px-10">
         <Link href={prefix} aria-label="Ghoroa — home" className="shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/ghoroa-logo-with-wordmark-on-dark.svg" alt="Ghoroa" className="h-12 w-auto" width="180" height="48" />
+          <img src="/images/ghoroa-logo-with-wordmark-on-dark.svg?v=gold" alt="Ghoroa" className="h-12 w-auto" width="180" height="48" />
         </Link>
 
         <nav aria-label="Primary" className="hidden lg:block">
@@ -168,7 +169,7 @@ export function Nav({
                       <NavAnchor
                         link={l}
                         onClick={() => setOpen(false)}
-                        className="display block border-b border-cream/10 py-3 text-xl text-cream hover:text-gold"
+                        className="display block border-b border-cream/10 py-3 text-xl text-gold hover:text-cream"
                       />
                     </li>
                   ))}
@@ -234,16 +235,20 @@ export function SiteFooter({
   ];
 
   return (
-    <footer className="border-t border-gold-deep/20 bg-dark pt-16 pb-8" aria-labelledby="footer-title">
+    <footer className="relative overflow-hidden border-t border-gold-deep/20 bg-dark pt-16 pb-8" aria-labelledby="footer-title">
+      <div className="absolute inset-x-0 top-0">
+        <PatternEdge name="flower" height={32} opacity={0.65} />
+      </div>
       <h2 id="footer-title" className="sr-only">
         Site footer
       </h2>
-      <div className="mx-auto max-w-[82rem] px-5 lg:px-10">
+      <div className="relative mx-auto max-w-[82rem] px-5 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/ghoroa-logo-with-wordmark-on-dark.svg" alt="Ghoroa" className="h-14 w-auto" width="200" height="56" />
+            <img src="/images/ghoroa-logo-with-wordmark-on-dark.svg?v=gold" alt="Ghoroa" className="h-14 w-auto" width="200" height="56" />
             <p className="mt-5 max-w-xs text-[0.85rem] leading-[1.75] text-cream/85">{settings.tagline}</p>
+            <PatternMotif name="quatrefoil" size={36} className="mt-6 opacity-60" />
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3">

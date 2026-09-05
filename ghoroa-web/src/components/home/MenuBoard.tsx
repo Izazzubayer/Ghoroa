@@ -60,8 +60,8 @@ export function MenuBoard({
                 aria-label={label}
                 className={`rounded-none border px-4 py-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] transition-colors ${
                   pressed
-                    ? 'border-terracotta bg-terracotta text-cream hover:bg-terracotta-deep hover:text-cream'
-                    : 'border-gold-deep/40 bg-transparent text-cream/75 hover:border-gold hover:bg-transparent hover:text-gold'
+                    ? 'ghoroa-cta'
+                    : 'ghoroa-cta-outline border-gold-deep/40 text-cream/75'
                 }`}
               >
                 {label}

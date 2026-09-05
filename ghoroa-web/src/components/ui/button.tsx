@@ -7,26 +7,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Ghoroa primary — terracotta fill + cream (AA on solid red)
-        default:
-          "rounded-none border border-terracotta bg-terracotta text-cream hover:bg-terracotta-deep hover:text-cream",
-        // Ghoroa secondary — red outline, fill on hover
-        secondary:
-          "rounded-none border border-gold-deep/70 bg-transparent text-gold hover:bg-terracotta hover:text-cream",
-        outline:
-          "rounded-none border border-gold-deep/70 bg-transparent text-gold hover:bg-terracotta hover:text-cream",
+        // Colors + hover live on .ghoroa-cta / .ghoroa-cta-outline (globals.css)
+        default: "ghoroa-cta rounded-none",
+        secondary: "ghoroa-cta-outline rounded-none",
+        outline: "ghoroa-cta-outline rounded-none",
         ghost:
-          "rounded-none hover:bg-terracotta/15 hover:text-gold aria-expanded:bg-terracotta/15 aria-expanded:text-gold",
+          "rounded-none hover:bg-gold/15 hover:text-gold aria-expanded:bg-gold/15 aria-expanded:text-gold",
         destructive:
           "rounded-none bg-terracotta-deep/20 text-gold hover:bg-terracotta-deep/35 focus-visible:border-terracotta/40 focus-visible:ring-terracotta/20",
         link: "text-gold underline-offset-4 hover:underline",
-        // aliases kept for existing callers
-        primary:
-          "rounded-none border border-terracotta bg-terracotta text-cream hover:bg-terracotta-deep hover:text-cream",
-        gold:
-          "rounded-none border border-gold-deep/70 bg-transparent text-gold hover:bg-terracotta hover:text-cream",
-        goldSolid:
-          "rounded-none border border-terracotta bg-terracotta text-cream hover:bg-terracotta-deep hover:text-cream",
+        primary: "ghoroa-cta rounded-none",
+        gold: "ghoroa-cta-outline rounded-none",
+        goldSolid: "ghoroa-cta rounded-none",
       },
       size: {
         default:

@@ -18,7 +18,7 @@ import type { Locale } from '@/lib/cms';
 type CalendarClassNames = NonNullable<ComponentProps<typeof Calendar>['classNames']>;
 
 const calendarClassNames = {
-  today: 'rounded-none bg-gold/15! text-cream data-[selected=true]:bg-terracotta!',
+  today: 'rounded-none bg-gold/15! text-cream data-[selected=true]:bg-gold! data-[selected=true]:text-forest!',
   day: 'rounded-none',
 } satisfies CalendarClassNames;
 

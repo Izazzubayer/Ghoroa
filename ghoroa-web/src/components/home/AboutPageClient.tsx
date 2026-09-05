@@ -1,9 +1,9 @@
 'use client';
 
 import { BookOpen, ChefHat, Home, MapPin } from 'lucide-react';
+import { PatternEdge, PatternMotif, PatternWash } from '@/components/patterns';
 import {
   ArchFrame,
-  DisplayText,
   Eyebrow,
   GoldButton,
   Ornament,
@@ -79,29 +79,40 @@ export function AboutPageClient({
           className="absolute inset-0 h-full w-full object-cover opacity-45"
         />
         <div className="absolute inset-0 bg-linear-to-b from-dark/70 via-dark/55 to-dark" />
+        <PatternMotif
+          name="lotus"
+          size={72}
+          className="pointer-events-none absolute right-[10%] top-[28%] hidden opacity-45 lg:block"
+        />
         <div className="relative mx-auto flex min-h-[70vh] max-w-[82rem] flex-col justify-end px-5 pb-16 pt-32 lg:px-10 lg:pb-24">
           <Reveal>
-            <Eyebrow>{locale === 'bn' ? 'ঐতিহ্য' : 'Heritage'}</Eyebrow>
+            <Eyebrow tone="gold">{locale === 'bn' ? 'ঐতিহ্য' : 'Heritage'}</Eyebrow>
             <h1 className="display mt-5 max-w-3xl text-[clamp(2.6rem,6vw,4.8rem)] font-normal leading-[1.05] text-cream">
               {copy.title}
             </h1>
-            <Ornament className="mt-6" />
+            <Ornament tone="gold" className="mt-6" />
             <p className="mt-6 max-w-xl text-[1.05rem] leading-[1.8] text-cream/90">{copy.lead}</p>
           </Reveal>
+        </div>
+        <div className="absolute inset-x-0 bottom-0">
+          <PatternEdge name="scallop" height={36} opacity={0.7} />
         </div>
       </section>
 
       {/* Milestone poster strip */}
       <section
         data-nav-contrast="light"
-        className="grain border-y border-ink/10 bg-parchment py-12 text-ink lg:py-14"
+        className="grain relative overflow-hidden border-y border-ink/10 bg-parchment py-12 text-ink lg:py-14"
         aria-label={locale === 'bn' ? 'সময়রেখা' : 'Timeline'}
       >
-        <div className="mx-auto grid max-w-[82rem] grid-cols-2 gap-8 px-5 sm:grid-cols-4 lg:px-10">
+        <div className="absolute inset-x-0 top-0">
+          <PatternEdge name="diamond" surface="light" height={22} opacity={0.9} />
+        </div>
+        <div className="relative mx-auto grid max-w-[82rem] grid-cols-2 gap-8 px-5 pt-4 sm:grid-cols-4 lg:px-10">
           {milestones.map((m, i) => (
             <Reveal key={m.year} delay={i * 0.06}>
               <p className="font-numeral text-3xl text-forest md:text-4xl">{m.year}</p>
-              <p className="mt-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-muted">
+              <p className="mt-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-terracotta">
                 {m.label}
               </p>
             </Reveal>
@@ -110,13 +121,15 @@ export function AboutPageClient({
       </section>
 
       {/* Watermelon feature-tour adapted as story posters */}
-      <section className="bg-dark py-20 lg:py-28" aria-labelledby="chapters-title">
-        <div className="mx-auto max-w-[82rem] px-5 lg:px-10">
+      <section className="relative overflow-hidden bg-dark py-20 lg:py-28" aria-labelledby="chapters-title">
+        <PatternWash opacity={0.06} size={280} />
+        <div className="relative mx-auto max-w-[82rem] px-5 lg:px-10">
           <Reveal className="mb-12 max-w-2xl">
-            <Eyebrow>{locale === 'bn' ? 'অধ্যায়' : 'Chapters'}</Eyebrow>
+            <Eyebrow tone="gold">{locale === 'bn' ? 'অধ্যায়' : 'Chapters'}</Eyebrow>
             <h2 id="chapters-title" className="display mt-5 text-[clamp(1.9rem,3.5vw,2.8rem)] text-cream">
               {locale === 'bn' ? 'যে পথে ঘরোয়া এসেছে।' : 'The road from Motijheel.'}
             </h2>
+            <Ornament tone="gold" className="mt-5" />
           </Reveal>
           <Reveal delay={0.08}>
             <StoryPosterTour steps={posters} />
@@ -127,9 +140,12 @@ export function AboutPageClient({
       {/* Arch poster + pull quote */}
       <section
         data-nav-contrast="light"
-        className="grain bg-parchment py-24 text-ink lg:py-32"
+        className="grain relative overflow-hidden bg-parchment py-24 text-ink lg:py-32"
       >
-        <div className="mx-auto grid max-w-[82rem] items-center gap-14 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:px-10">
+        <div className="absolute inset-x-0 top-0">
+          <PatternEdge name="vine" surface="light" height={28} opacity={0.95} />
+        </div>
+        <div className="relative mx-auto grid max-w-[82rem] items-center gap-14 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:px-10">
           <Reveal>
             <ArchFrame
               src="/images/kitchen.jpg"
@@ -149,7 +165,7 @@ export function AboutPageClient({
                 </>
               )}
             </blockquote>
-            <Ornament tone="terracotta" className="mt-6" />
+            <Ornament tone="terracotta" surface="light" className="mt-6" />
             <p className="mt-6 max-w-md text-[0.95rem] leading-[1.8] text-muted">
               {locale === 'bn'
                 ? 'মতিঝিল থেকে শুরু — ভুনা খিচুড়ি, কাচ্চি, কাবাব। আজও একই ধরনের টেবিল।'
@@ -169,6 +185,7 @@ export function AboutPageClient({
 
       {/* Closing CTA band */}
       <section className="relative overflow-hidden bg-forest py-20 lg:py-24">
+        <PatternWash opacity={0.08} size={280} />
         <div className="relative mx-auto flex max-w-[82rem] flex-col items-start gap-8 px-5 lg:flex-row lg:items-end lg:justify-between lg:px-10">
           <Reveal>
             <p className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gold-deep">

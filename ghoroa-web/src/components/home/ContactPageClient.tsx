@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { Mail, MapPin, MessageCircle, Phone, UtensilsCrossed } from 'lucide-react';
 import { Eyebrow, GoldButton, Ornament, Reveal } from '@/components/primitives';
+import { PatternEdge, PatternMotif } from '@/components/patterns';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -60,7 +61,7 @@ function TimeSlots({
               aria-pressed={on}
               onClick={() => onChange(on ? '' : t)}
               className={`font-numeral h-10 min-w-16 border-2 px-3 text-[0.95rem] ${
-                on ? 'border-terracotta bg-terracotta text-cream' : 'border-forest bg-cream text-ink hover:border-terracotta'
+                on ? 'border-gold bg-gold text-forest' : 'border-forest bg-cream text-ink hover:border-gold'
               }`}
             >
               {t}
@@ -184,13 +185,18 @@ export function ContactPageClient({
   return (
     <main className="bg-forest">
       <section className="grain relative overflow-hidden bg-forest pt-28 pb-16 lg:pt-32 lg:pb-20">
+        <PatternMotif
+          name="rosette-2"
+          size={88}
+          className="pointer-events-none absolute -right-4 top-24 opacity-25 lg:right-12"
+        />
         <div className="relative mx-auto max-w-[82rem] px-5 lg:px-10">
           <Reveal>
-            <Eyebrow>{copy.eyebrow}</Eyebrow>
+            <Eyebrow tone="gold">{copy.eyebrow}</Eyebrow>
             <h1 className="display mt-5 max-w-2xl text-[clamp(2.4rem,5vw,4rem)] font-normal leading-[1.08] text-cream">
               {copy.title}
             </h1>
-            <Ornament className="mt-6" />
+            <Ornament tone="gold" className="mt-6" />
             <p className="mt-6 max-w-lg text-[1.05rem] leading-[1.8] text-cream">{copy.lead}</p>
           </Reveal>
 
@@ -203,7 +209,7 @@ export function ContactPageClient({
                     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     className="flex h-full flex-col gap-3 px-5 py-6 text-cream transition-colors hover:bg-forest"
                   >
-                    <Icon className="h-5 w-5 text-gold" strokeWidth={1.6} aria-hidden />
+                    <Icon className="h-5 w-5 text-terracotta" strokeWidth={1.6} aria-hidden />
                     <span className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold">{label}</span>
                     <span className="font-numeral text-[0.95rem] leading-snug">{value}</span>
                   </a>
@@ -215,7 +221,7 @@ export function ContactPageClient({
           <Reveal delay={0.1}>
             <div className="mt-10 grid gap-8 border-t border-gold-deep/40 pt-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
               <div>
-                <Eyebrow>{copy.visitEyebrow}</Eyebrow>
+                <Eyebrow tone="gold">{copy.visitEyebrow}</Eyebrow>
                 <h2 className="display mt-4 text-[clamp(1.6rem,3vw,2.2rem)] text-cream">{copy.visitTitle}</h2>
                 <dl className="mt-6 space-y-5">
                   <div>
@@ -262,8 +268,11 @@ export function ContactPageClient({
                 )}
               </div>
 
-              <form onSubmit={onSubmit} className="bg-parchment p-7 text-ink sm:p-9">
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-terracotta">
+              <form onSubmit={onSubmit} className="relative overflow-hidden bg-parchment p-7 text-ink sm:p-9">
+                <div className="absolute inset-x-0 top-0">
+                  <PatternEdge name="diamond" surface="light" height={18} opacity={0.9} />
+                </div>
+                <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-terracotta">
                   {copy.formEyebrow}
                 </p>
                 <h2 className="display mt-3 text-[clamp(1.7rem,3vw,2.3rem)] leading-[1.15]">{copy.formTitle}</h2>

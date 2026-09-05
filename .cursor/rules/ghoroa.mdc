@@ -53,15 +53,16 @@ elsewhere.**
   Noto Serif Bengali (BN). Numerals never use Rottering — use `.font-numeral` /
   `DisplayText` (Cormorant Garamond) in headers and titles.
 - The site is **dark forest-based** (`#080d09` / `#062e1b`), not sand/rust.
-- Accent is **terracotta red**: solid CTAs `terracotta #a13828` + cream text; on-dark
-  text/outline accents use lighter reds (`#e07a68` / `#d46050`, still named `gold` /
-  `gold-deep` in tokens for class compatibility). `parchment #F2E9DA` for light bands.
+- Accent is **gold / beige**: solid CTAs `gold #ecb174` + forest text; outlines use
+  `gold-deep #c5a059`. Terracotta `#a13828` for parchment eyebrows, ornaments, and
+  decorative accents (not small text on dark — fails AA). `parchment #F2E9DA` for light bands.
 - `docs/brand/Ghoroa_Brand_Guidelines.html` (rust/sand) is print collateral — **not**
   the web palette.
 
 ### Palette rules the contrast maths forces
 
-- Raw `terracotta #a13828` is **not** AA as small text on dark — fills only (cream on top).
+- Cream on gold fails AA — CTAs use **forest on gold**, never cream on gold.
+- Raw `terracotta #a13828` is **not** AA as small text on dark — parchment eyebrows only.
 - Menu price leader uses `cream/15` on dark — decorative, not text.
 - Parchment sections reset to `ink` / `muted` / `terracotta` via `.has-parchment-background-color`.
 - Run `node ghoroa-theme/tools/check-contrast.mjs` after token changes.

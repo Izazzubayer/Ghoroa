@@ -1,6 +1,7 @@
 'use client';
 
 import { CardSwipe, type ReviewCard } from '@/components/watermelon/card-swipe';
+import { PatternEdge, PatternMotif } from '@/components/patterns';
 import { Eyebrow, Ornament, Reveal } from '@/components/primitives';
 
 const REVIEWS_EN: ReviewCard[] = [
@@ -83,7 +84,17 @@ export function Reviews({ locale }: { locale: 'en' | 'bn' }) {
       className="grain relative overflow-hidden bg-parchment py-24 text-ink lg:py-28"
       aria-labelledby="reviews-title"
     >
-      <div className="mx-auto grid max-w-[82rem] items-center gap-12 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-10">
+      <div className="absolute inset-x-0 top-0">
+        <PatternEdge name="flower" surface="light" height={36} opacity={0.95} />
+      </div>
+      <PatternMotif
+        name="rosette-3"
+        size={64}
+        blend="normal"
+        className="pointer-events-none absolute bottom-10 left-4 opacity-[0.14] lg:left-10"
+      />
+
+      <div className="relative mx-auto grid max-w-[82rem] items-center gap-12 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-10">
         <Reveal>
           <Eyebrow tone="terracotta">{locale === 'bn' ? 'অতিথির কথা' : 'Guest words'}</Eyebrow>
           <h2
@@ -92,7 +103,7 @@ export function Reviews({ locale }: { locale: 'en' | 'bn' }) {
           >
             {locale === 'bn' ? 'যারা এসেছেন, তারা যা বলেন।' : 'What our tables say.'}
           </h2>
-          <Ornament tone="terracotta" className="mt-5" />
+          <Ornament tone="terracotta" surface="light" className="mt-5" />
           <p className="mt-6 max-w-md text-[0.95rem] leading-[1.8] text-muted">
             {locale === 'bn'
               ? 'স্লাইড করে পড়ুন — অতিথিদের সাম্প্রতিক মন্তব্য।'

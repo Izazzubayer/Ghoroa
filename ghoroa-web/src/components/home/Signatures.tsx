@@ -1,16 +1,29 @@
+import type { ComponentType } from 'react';
+import { Drumstick, Flame, UtensilsCrossed } from 'lucide-react';
 import { Eyebrow, GoldButton, Ornament, Reveal } from '@/components/primitives';
 import { formatPrice, type MenuItem } from '@/lib/cms';
 
 type Course = {
+  slug: string;
   heading: string;
   bn: string;
   items: Array<{ name: string; bn: string; note: string; price: string; id?: number }>;
 };
 
+const COURSE_ICONS: Record<
+  string,
+  ComponentType<{ className?: string; strokeWidth?: number; 'aria-hidden'?: boolean }>
+> = {
+  rice: UtensilsCrossed,
+  curry: Flame,
+  'kebab-grill': Drumstick,
+};
+
 const DEFAULT_COURSES: Course[] = [
   {
+    slug: 'rice',
     heading: 'From the rice pot',
-    bn: 'spo  &  বিরিয়ানি',
+    bn: 'ভাত  &  বিরিয়ানি',
     items: [
       { name: 'Kacchi Biryani', bn: 'কাচ্চি বিরিয়ানি', note: 'Mutton and aged rice, sealed and slow-baked', price: '300' },
     ],
@@ -23,7 +36,6 @@ function coursesFromMenu(
 ): Course[] {
   const groups = menu.groups;
   const categories = menu.categories || {};
-  // Home signatures: three headline categories, a few plates each
   const prefer = ['rice', 'curry', 'kebab-grill'];
   const result: Course[] = [];
 
@@ -37,6 +49,7 @@ function coursesFromMenu(
       ...items.filter((it) => !it.featured),
     ].slice(0, 4);
     result.push({
+      slug,
       heading,
       bn: locale === 'bn' ? name.en : name.bn,
       items: picks.map((it) => ({
@@ -65,11 +78,11 @@ export function Signatures({
     <section id="menu" className="relative bg-dark py-24 lg:py-32" aria-labelledby="sig-title">
       <div className="mx-auto max-w-[82rem] px-5 lg:px-10">
         <Reveal className="flex flex-col items-center text-center">
-          <Eyebrow>{locale === 'bn' ? 'আমাদের সিগনেচার' : 'Our signatures'}</Eyebrow>
+          <Eyebrow tone="gold">{locale === 'bn' ? 'আমাদের সিগনেচার' : 'Our signatures'}</Eyebrow>
           <h2 id="sig-title" className="display mt-5 text-[clamp(1.9rem,3.6vw,3rem)] font-normal text-cream">
             {locale === 'bn' ? 'ঐতিহ্য, যত্নে পরিবেশিত।' : 'Tradition, thoughtfully served.'}
           </h2>
-          <Ornament className="mt-5" />
+          <Ornament tone="gold" className="mt-5" />
           <p className="mt-6 max-w-md text-[0.9rem] leading-[1.75] text-cream/85">
             {locale === 'bn'
               ? 'আমরা লেখা খাঁটি খাবার।  দাম খাঁটি ৳  টেবিলে।'
@@ -78,41 +91,45 @@ export function Signatures({
         </Reveal>
 
         <div className="mt-16 grid gap-x-14 gap-y-14 lg:grid-cols-3">
-          {courses.map((course, ci) => (
-            <Reveal key={course.heading} delay={ci * 0.1}>
-              <section aria-labelledby={`course-${ci}`}>
-                <header className="flex items-baseline justify-between gap-3 border-b border-gold-deep/35 pb-3">
-                  <h3 id={`course-${ci}`} className="display text-[1.35rem] text-gold">
-                    {course.heading}
-                  </h3>
-                  <span lang="bn" className="font-bn text-cream/90">
-                    {course.bn}
-                  </span>
-                </header>
+          {courses.map((course, ci) => {
+            const Icon = COURSE_ICONS[course.slug] || UtensilsCrossed;
+            return (
+              <Reveal key={course.heading} delay={ci * 0.1}>
+                <section aria-labelledby={`course-${ci}`}>
+                  <header className="flex items-baseline justify-between gap-3 border-b border-terracotta/40 pb-3">
+                    <h3 id={`course-${ci}`} className="display flex items-center gap-2.5 text-[1.35rem] text-gold">
+                      <Icon aria-hidden className="h-5 w-5 shrink-0 text-gold" strokeWidth={1.5} />
+                      {course.heading}
+                    </h3>
+                    <span lang="bn" className="font-bn text-cream/90">
+                      {course.bn}
+                    </span>
+                  </header>
 
-                <ul className="mt-6 space-y-6">
-                  {course.items.map((item) => (
-                    <li key={item.name}>
-                      <div className="flex items-baseline gap-3">
-                        <h4 className="display text-[1.05rem] leading-snug text-cream">{item.name}</h4>
-                        <span aria-hidden className="h-px flex-1 translate-y-[-2px] bg-cream/15" />
-                        <span className="text-[0.85rem] tabular-nums text-gold-deep">{item.price}</span>
-                      </div>
-                      <p lang="bn" className="font-bn mt-1 text-gold">
-                        {item.bn}
-                      </p>
-                      <p className="mt-1.5 max-w-[26ch] text-[0.78rem] leading-[1.65] text-cream/85">{item.note}</p>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </Reveal>
-          ))}
+                  <ul className="mt-6 space-y-6">
+                    {course.items.map((item) => (
+                      <li key={item.name}>
+                        <div className="flex items-baseline gap-3">
+                          <h4 className="display text-[1.05rem] leading-snug text-cream">{item.name}</h4>
+                          <span aria-hidden className="h-px flex-1 translate-y-[-2px] bg-cream/15" />
+                          <span className="text-[0.85rem] tabular-nums text-gold-deep">{item.price}</span>
+                        </div>
+                        <p lang="bn" className="font-bn mt-1 text-gold">
+                          {item.bn}
+                        </p>
+                        <p className="mt-1.5 max-w-[26ch] text-[0.78rem] leading-[1.65] text-cream/85">{item.note}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </Reveal>
+            );
+          })}
         </div>
 
         <Reveal delay={0.1} className="mt-16 flex justify-center">
-          <GoldButton href={`${locale === 'bn' ? '/bn' : '/en'}/contact`}>
-            {locale === 'bn' ? 'রিজার্ভেশন' : 'See the full menu'}
+          <GoldButton href={`${locale === 'bn' ? '/bn' : '/en'}/menu`}>
+            {locale === 'bn' ? 'পুরো মেনু' : 'See the full menu'}
           </GoldButton>
         </Reveal>
       </div>

@@ -12,6 +12,12 @@
   src: url('/fonts/Rottering.otf') format('opentype');
   font-weight: 400;
   font-display: swap;
+  /*
+    Letters only. Digits, punctuation, and symbols (&, !?., etc.) fall through
+    to Cormorant Garamond in --font-display — Rottering has no usable glyphs
+    for them (and maps & to a watermark in the personal-use build).
+  */
+  unicode-range: U+0041-005A, U+0061-007A, U+00C0-00FF, U+0100-024F;
 }
 @font-face {
   font-family: 'Montserrat';
@@ -21,13 +27,13 @@
 }
 
 @theme {
-  --color-dark: #080d09;
+  --color-dark: #13291e;
   --color-forest: #062e1b;
-  --color-forest-deep: #0d2016;
+  --color-forest-deep: #13291e;
   --color-olive: #4c5030;
-  /* Accent = terracotta red. Light variants keep AA on dark; solid fill uses terracotta. */
-  --color-gold: #e07a68;
-  --color-gold-deep: #d46050;
+  /* Accent = gold / beige for CTAs. Terracotta (#a13828) for parchment eyebrows + decorative accents. */
+  --color-gold: #ecb174;
+  --color-gold-deep: #c5a059;
   --color-cream: #e8dac6;
   --color-parchment: #f2e9da;
   --color-terracotta: #a13828;
@@ -55,78 +61,46 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Link defaults — Tailwind may not apply instantly; keep them usable. */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 /* No global a:hover color — it sat after Tailwind and broke hover:text-forest on gold CTAs. */
 
-/* Force-apply the dark base so FOUC is less ugly while Tailwind loads. */
-.bg-dark {
-  background-color: var(--color-dark);
-}
-.text-cream {
-  color: var(--color-cream);
-}
-.text-forest {
-  color: var(--color-forest);
-}
+/*
+  Do NOT unlayer Tailwind color utilities (.bg-gold, .hover:bg-cream, …).
+  globals.css and Tailwind ship as one bundle; unlayered duplicates permanently
+  beat @layer utilities, so hover:bg-* / text-* never visibly apply on gold CTAs.
+*/
 .bg-parchment {
-  background-color: var(--color-parchment);
   color-scheme: light;
 }
-.bg-gold {
-  background-color: var(--color-gold);
+
+/*
+  CTA hover owned here (unlayered) so it always wins.
+  Palette: gold #ECB174 · forest #062E1B · cream #E8DAC6
+  Idle: gold + forest text → Hover: forest + cream text (clear invert, not gold↔gold).
+*/
+.ghoroa-cta {
+  border-color: var(--color-gold) !important;
+  background-color: var(--color-gold) !important;
+  color: var(--color-forest) !important;
 }
-.text-gold {
-  color: var(--color-gold);
+.ghoroa-cta:hover,
+.ghoroa-cta:focus-visible {
+  border-color: var(--color-forest) !important;
+  background-color: var(--color-forest) !important;
+  color: var(--color-cream) !important;
 }
-.hover\:bg-gold:hover {
-  background-color: var(--color-gold);
+.ghoroa-cta-outline {
+  border-color: color-mix(in srgb, var(--color-gold) 70%, transparent) !important;
+  background-color: transparent !important;
+  color: var(--color-gold) !important;
 }
-.hover\:bg-gold-deep:hover {
-  background-color: var(--color-gold-deep);
-}
-.hover\:text-forest:hover {
-  color: var(--color-forest);
-}
-.hover\:text-gold:hover {
-  color: var(--color-gold);
-}
-.hover\:bg-forest-deep:hover {
-  background-color: var(--color-forest-deep);
+.ghoroa-cta-outline:hover,
+.ghoroa-cta-outline:focus-visible {
+  border-color: var(--color-gold) !important;
+  background-color: var(--color-gold) !important;
+  color: var(--color-forest) !important;
 }
 
-/* Locale toggle sits on parchment — never inherit nav cream link colors. */
-[role='group'][aria-label='Language'] a,
-[role='group'][aria-label='ভাষা'] a {
-  color: var(--color-forest);
-}
-[role='group'][aria-label='Language'] a:hover,
-[role='group'][aria-label='ভাষা'] a:hover {
-  color: var(--color-forest);
-}
-[role='group'][aria-label='Language'] a[aria-current='true'],
-[role='group'][aria-label='ভাষা'] a[aria-current='true'] {
-  background-color: var(--color-terracotta);
-  color: var(--color-cream);
-}
-
-.bg-terracotta {
-  background-color: var(--color-terracotta);
-}
-.text-terracotta {
-  color: var(--color-terracotta);
-}
-.hover\:bg-terracotta:hover {
-  background-color: var(--color-terracotta);
-}
-.hover\:bg-terracotta-deep:hover {
-  background-color: var(--color-terracotta-deep);
-}
-
+/* Rottering letters + Cormorant Garamond for digits/punctuation (see @font-face unicode-range). */
 .display {
   font-family: var(--font-display);
   letter-spacing: -0.015em;
@@ -280,8 +254,8 @@ html.locale-bn [data-locale-latin='true'] * {
   left: 0.75rem;
   z-index: 100;
   padding: 0.65rem 1.1rem;
-  background: var(--color-terracotta);
-  color: var(--color-cream);
+  background: var(--color-gold);
+  color: var(--color-forest);
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -409,72 +383,72 @@ html.locale-bn [data-locale-latin='true'] * {
   }}
 
 :root {
-  --background: #080d09;
+  --background: #13291e;
   --foreground: #e8dac6;
-  --card: #0d2016;
+  --card: #13291e;
   --card-foreground: #e8dac6;
-  --popover: #0d2016;
+  --popover: #13291e;
   --popover-foreground: #e8dac6;
-  --primary: #a13828;
-  --primary-foreground: #e8dac6;
+  --primary: #ecb174;
+  --primary-foreground: #062e1b;
   --secondary: #062e1b;
   --secondary-foreground: #e8dac6;
-  --muted: #0d2016;
+  --muted: #13291e;
   --muted-foreground: #e8dac6;
   --accent: #f2e9da;
   --accent-foreground: #062e1b;
   --destructive: #7f2c20;
-  --border: rgb(212 96 80 / 0.35);
+  --border: rgb(197 160 89 / 0.35);
   --input: rgb(6 46 27 / 0.45);
-  --ring: #e07a68;
-  --chart-1: #e07a68;
-  --chart-2: #a13828;
+  --ring: #ecb174;
+  --chart-1: #ecb174;
+  --chart-2: #c5a059;
   --chart-3: #062e1b;
   --chart-4: #f2e9da;
   --chart-5: #4c5030;
   --radius: 0px;
-  --sidebar: #080d09;
+  --sidebar: #13291e;
   --sidebar-foreground: #e8dac6;
-  --sidebar-primary: #a13828;
-  --sidebar-primary-foreground: #e8dac6;
+  --sidebar-primary: #ecb174;
+  --sidebar-primary-foreground: #062e1b;
   --sidebar-accent: #062e1b;
   --sidebar-accent-foreground: #e8dac6;
-  --sidebar-border: rgb(212 96 80 / 0.35);
-  --sidebar-ring: #e07a68;
+  --sidebar-border: rgb(197 160 89 / 0.35);
+  --sidebar-ring: #ecb174;
 }
 
 .dark {
-  --background: #080d09;
+  --background: #13291e;
   --foreground: #e8dac6;
-  --card: #0d2016;
+  --card: #13291e;
   --card-foreground: #e8dac6;
-  --popover: #0d2016;
+  --popover: #13291e;
   --popover-foreground: #e8dac6;
-  --primary: #a13828;
-  --primary-foreground: #e8dac6;
+  --primary: #ecb174;
+  --primary-foreground: #062e1b;
   --secondary: #062e1b;
   --secondary-foreground: #e8dac6;
-  --muted: #0d2016;
+  --muted: #13291e;
   --muted-foreground: rgb(232 218 198 / 0.85);
   --accent: #f2e9da;
   --accent-foreground: #062e1b;
   --destructive: #7f2c20;
-  --border: rgb(212 96 80 / 0.35);
+  --border: rgb(197 160 89 / 0.35);
   --input: rgb(6 46 27 / 0.45);
-  --ring: #e07a68;
-  --chart-1: #e07a68;
-  --chart-2: #a13828;
+  --ring: #ecb174;
+  --chart-1: #ecb174;
+  --chart-2: #c5a059;
   --chart-3: #062e1b;
   --chart-4: #f2e9da;
   --chart-5: #4c5030;
-  --sidebar: #080d09;
+  --sidebar: #13291e;
   --sidebar-foreground: #e8dac6;
-  --sidebar-primary: #a13828;
-  --sidebar-primary-foreground: #e8dac6;
+  --sidebar-primary: #ecb174;
+  --sidebar-primary-foreground: #062e1b;
   --sidebar-accent: #062e1b;
   --sidebar-accent-foreground: #e8dac6;
-  --sidebar-border: rgb(212 96 80 / 0.35);
-  --sidebar-ring: #e07a68;
+  --sidebar-border: rgb(197 160 89 / 0.35);
+  --sidebar-ring: #ecb174;
 }
 
 @layer base {
@@ -483,6 +457,10 @@ html.locale-bn [data-locale-latin='true'] * {
   }
   html {
     @apply font-sans;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }
 
