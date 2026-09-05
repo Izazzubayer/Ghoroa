@@ -37,7 +37,7 @@ export function MenuPhotosToggle({
         aria-pressed={!checked}
         onClick={() => onCheckedChange(false)}
         className={`z-10 min-w-[4.5rem] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] transition-colors ${
-          !checked ? 'text-cream' : 'text-cream/55 hover:text-cream/80'
+          !checked ? 'text-cream' : 'text-cream/70 hover:text-cream'
         }`}
       >
         {listLabel}
@@ -47,7 +47,7 @@ export function MenuPhotosToggle({
         aria-pressed={checked}
         onClick={() => onCheckedChange(true)}
         className={`z-10 min-w-[4.5rem] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] transition-colors ${
-          checked ? 'text-cream' : 'text-cream/55 hover:text-cream/80'
+          checked ? 'text-cream' : 'text-cream/70 hover:text-cream'
         }`}
       >
         {photosLabel}

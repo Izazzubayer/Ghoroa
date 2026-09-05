@@ -44,6 +44,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  color-scheme: dark;
 }
 
 body {
@@ -74,6 +75,7 @@ a {
 }
 .bg-parchment {
   background-color: var(--color-parchment);
+  color-scheme: light;
 }
 .bg-gold {
   background-color: var(--color-gold);
@@ -359,7 +361,52 @@ html.locale-bn [data-locale-latin='true'] * {
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-}
+  --animate-shine: shine var(--duration) infinite linear;
+  --animate-rippling: rippling var(--duration) ease-out;
+  @keyframes shine {
+  0% {
+    background-position: 0% 0%;
+    }
+  50% {
+    background-position: 100% 100%;
+    }
+  to {
+    background-position: 0% 0%;
+    }
+  }
+  @keyframes rippling {
+  0% {
+    opacity: 1;
+    }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    }
+  }
+  --animate-aurora: aurora 8s ease-in-out infinite alternate
+;
+  @keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+    }
+  25% {
+    background-position: 50% 100%;
+    transform: rotate(5deg) scale(1.1);
+    }
+  50% {
+    background-position: 100% 50%;
+    transform: rotate(-3deg) scale(0.95);
+    }
+  75% {
+    background-position: 50% 0%;
+    transform: rotate(3deg) scale(1.05);
+    }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+    }
+  }}
 
 :root {
   --background: #080d09;
@@ -437,4 +484,66 @@ html.locale-bn [data-locale-latin='true'] * {
   html {
     @apply font-sans;
   }
+}
+
+/* Brand muted is parchment body (#55523f). shadcn --muted is a dark fill — do not steal text-muted. */
+@theme {
+  --color-muted: #55523f;
+}
+
+/* Native date/select: cream on forest, ink on parchment. */
+.bg-forest input[type='date'],
+.bg-forest input[type='time'],
+.bg-forest select,
+.bg-forest-deep input[type='date'],
+.bg-forest-deep select,
+.bg-dark input[type='date'],
+.bg-dark select {
+  color-scheme: dark;
+  color: var(--color-cream);
+}
+.bg-forest input[type='date']::-webkit-datetime-edit,
+.bg-forest input[type='date']::-webkit-datetime-edit-fields-wrapper,
+.bg-forest input[type='date']::-webkit-datetime-edit-text,
+.bg-forest input[type='date']::-webkit-datetime-edit-month-field,
+.bg-forest input[type='date']::-webkit-datetime-edit-day-field,
+.bg-forest input[type='date']::-webkit-datetime-edit-year-field,
+.bg-dark input[type='date']::-webkit-datetime-edit,
+.bg-dark input[type='date']::-webkit-datetime-edit-year-field {
+  color: var(--color-cream);
+}
+.bg-forest input[type='date']::-webkit-calendar-picker-indicator,
+.bg-dark input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.88);
+  opacity: 1;
+  cursor: pointer;
+}
+.bg-forest select option,
+.bg-forest-deep select option,
+.bg-dark select option {
+  background-color: var(--color-forest-deep);
+  color: var(--color-cream);
+}
+.bg-parchment input[type='date'],
+.bg-parchment input[type='time'],
+.bg-parchment select {
+  color-scheme: light;
+  color: var(--color-ink);
+}
+.bg-parchment input[type='date']::-webkit-datetime-edit,
+.bg-parchment input[type='date']::-webkit-datetime-edit-fields-wrapper,
+.bg-parchment input[type='date']::-webkit-datetime-edit-text,
+.bg-parchment input[type='date']::-webkit-datetime-edit-month-field,
+.bg-parchment input[type='date']::-webkit-datetime-edit-day-field,
+.bg-parchment input[type='date']::-webkit-datetime-edit-year-field {
+  color: var(--color-ink);
+}
+.bg-parchment input[type='date']::-webkit-calendar-picker-indicator {
+  filter: none;
+  opacity: 0.85;
+  cursor: pointer;
+}
+.bg-parchment select option {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
 }

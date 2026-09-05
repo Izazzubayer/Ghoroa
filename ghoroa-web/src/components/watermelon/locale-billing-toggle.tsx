@@ -36,7 +36,7 @@ export function LocaleBillingToggle({
         aria-pressed={value === 'en'}
         onClick={() => onChange('en')}
         className={`z-10 w-9 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] transition-colors ${
-          value === 'en' ? 'text-cream' : 'text-cream/55 hover:text-cream/80'
+          value === 'en' ? 'text-cream' : 'text-cream/70 hover:text-cream'
         }`}
       >
         EN
@@ -46,7 +46,7 @@ export function LocaleBillingToggle({
         aria-pressed={value === 'bn'}
         onClick={() => onChange('bn')}
         className={`z-10 w-9 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] transition-colors ${
-          value === 'bn' ? 'text-cream' : 'text-cream/55 hover:text-cream/80'
+          value === 'bn' ? 'text-cream' : 'text-cream/70 hover:text-cream'
         }`}
       >
         BN

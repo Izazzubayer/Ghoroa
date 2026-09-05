@@ -49,7 +49,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             ))}
           </div>
 
-          <p className="mt-14 border-t border-gold-deep/25 pt-8 text-[0.8rem] text-cream/55">
+          <p className="mt-14 border-t border-gold-deep/25 pt-8 text-[0.8rem] text-cream/70">
             {locale === 'bn'
               ? 'ইতিহাসের রূপরেখা প্রকাশিত প্রতিবেদন (যেমন The Business Standard) থেকে সংক্ষেপে তোলা; শাখা ও সময়সূচি নিশ্চিত করতে Locations দেখুন।'
               : 'Story drawn from published reporting (including The Business Standard). Confirm live addresses on Locations.'}
